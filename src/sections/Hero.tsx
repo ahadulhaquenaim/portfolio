@@ -100,9 +100,11 @@ export default function Hero() {
       {/* ---- Full-bleed background image (the cinematic monarch art) ---- */}
       {identity.heroBackground && (
         <div
-          className="hero-character absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          className="hero-character absolute inset-0 z-0 bg-no-repeat"
           style={{
             backgroundImage: `url(${import.meta.env.BASE_URL}${identity.heroBackground})`,
+            backgroundSize: "110%",
+            backgroundPosition: "0% 15%",
           }}
         />
       )}
@@ -111,11 +113,12 @@ export default function Hero() {
           - left→right dark gradient so the headline text stays readable
           - bottom fade so the hero blends into the next section
           - subtle mana tint */}
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(100deg,rgba(5,3,12,0.95)_0%,rgba(5,3,12,0.7)_35%,rgba(5,3,12,0.25)_60%,rgba(5,3,12,0.55)_100%)]" />
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(100deg,rgba(5,3,12,0.92)_0%,rgba(5,3,12,0.55)_30%,rgba(5,3,12,0.0)_50%,rgba(5,3,12,0.3)_100%)]" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(109,40,217,0.25),transparent_65%)]" />
       <div className="absolute inset-x-0 bottom-0 z-0 h-40 bg-linear-to-t from-abyss to-transparent" />
 
-      <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32">
+
+      <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-32 xl:pl-48">
         {/* ---- LEFT: headline text ---- */}
         <div className="hero-text">
           <p className="mb-3 text-sm tracking-[0.3em] text-mana-bright">
@@ -148,7 +151,7 @@ export default function Hero() {
         </div>
 
         {/* ---- RIGHT: HUD stat panel ---- */}
-        <div className="hero-hud hidden flex-col gap-6 lg:flex">
+        <div className="hero-hud hidden flex-col gap-6 lg:flex lg:pl-28 xl:pl-40">
           <div className="rounded-lg border border-mana/20 bg-abyss/50 p-5 backdrop-blur-sm">
             <p className="mb-3 text-xs tracking-[0.3em] text-system">EXPERIENCE</p>
             <div className="space-y-3">
