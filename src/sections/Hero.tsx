@@ -54,11 +54,11 @@ export default function Hero() {
           "<"
         )
         .to(".gate-crack", { opacity: 0, duration: 0.3 }, "<")
-        // 3. Character fades + rises in
+        // 3. Background art fades + zooms in (scale from >1 so no edges show)
         .fromTo(
           ".hero-character",
-          { opacity: 0, y: 60, scale: 0.94 },
-          { opacity: 1, y: 0, scale: 1, duration: 1 },
+          { opacity: 0, scale: 1.08 },
+          { opacity: 1, scale: 1, duration: 1.1 },
           "-=0.5"
         )
         // 4. Text + HUD slide in
@@ -97,22 +97,37 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Ambient radial glow */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(109,40,217,0.28),transparent_60%)]" />
+      {/* ---- Full-bleed background image (the cinematic monarch art) ---- */}
+      {identity.heroBackground && (
+        <div
+          className="hero-character absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url(${import.meta.env.BASE_URL}${identity.heroBackground})`,
+          }}
+        />
+      )}
 
-      <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-8 px-5 pt-24 pb-16 lg:grid-cols-[1.1fr_1fr_0.7fr]">
+      {/* Legibility overlays:
+          - left→right dark gradient so the headline text stays readable
+          - bottom fade so the hero blends into the next section
+          - subtle mana tint */}
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(100deg,rgba(5,3,12,0.95)_0%,rgba(5,3,12,0.7)_35%,rgba(5,3,12,0.25)_60%,rgba(5,3,12,0.55)_100%)]" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(109,40,217,0.25),transparent_65%)]" />
+      <div className="absolute inset-x-0 bottom-0 z-0 h-40 bg-linear-to-t from-abyss to-transparent" />
+
+      <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-8 px-5 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr]">
         {/* ---- LEFT: headline text ---- */}
-        <div className="hero-text order-2 lg:order-1">
+        <div className="hero-text">
           <p className="mb-3 text-sm tracking-[0.3em] text-mana-bright">
             {identity.tagline}
           </p>
           <h1 className="font-display text-7xl font-black leading-none text-glow md:text-8xl">
             {identity.name}
           </h1>
-          <p className="mt-4 text-lg tracking-[0.2em] text-slate-300">
+          <p className="mt-4 text-lg tracking-[0.2em] text-slate-200">
             {identity.roles.join("  |  ")}
           </p>
-          <p className="mt-5 max-w-md leading-relaxed text-slate-400">
+          <p className="mt-5 max-w-md leading-relaxed text-slate-300 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
             {identity.intro}
           </p>
 
@@ -125,30 +140,16 @@ export default function Hero() {
             </a>
             <a
               href="#about"
-              className="btn-ghost rounded-md px-7 py-3 font-semibold tracking-wider text-slate-200"
+              className="btn-ghost rounded-md bg-abyss/40 px-7 py-3 font-semibold tracking-wider text-slate-100 backdrop-blur-sm"
             >
               ABOUT ME
             </a>
           </div>
         </div>
 
-        {/* ---- CENTER: character ---- */}
-        <div className="hero-character order-1 flex justify-center lg:order-2">
-          <div className="relative">
-            <div className="absolute inset-0 -z-10 animate-pulse-glow rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.4),transparent_65%)]" />
-            <img
-              src={`${import.meta.env.BASE_URL}${identity.characterImage}`}
-              alt={identity.fullName}
-              className="max-h-[68vh] w-auto drop-shadow-[0_0_45px_rgba(139,92,246,0.55)]"
-            />
-            {/* magic circle under character */}
-            <div className="absolute -bottom-4 left-1/2 -z-10 h-10 w-3/4 -translate-x-1/2 rounded-[50%] bg-mana/40 blur-2xl" />
-          </div>
-        </div>
-
         {/* ---- RIGHT: HUD stat panel ---- */}
-        <div className="hero-hud order-3 hidden flex-col gap-6 lg:flex">
-          <div>
+        <div className="hero-hud hidden flex-col gap-6 lg:flex">
+          <div className="rounded-lg border border-mana/20 bg-abyss/50 p-5 backdrop-blur-sm">
             <p className="mb-3 text-xs tracking-[0.3em] text-system">EXPERIENCE</p>
             <div className="space-y-3">
               {hudStats.map((s) => (
@@ -157,13 +158,13 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 rounded-lg border border-mana/20 bg-abyss/50 p-5 backdrop-blur-sm">
             {headlineStats.map((s) => (
               <div key={s.label} className="flex items-baseline gap-3">
                 <span className="font-display text-3xl font-bold text-glow">
                   {s.value}
                 </span>
-                <span className="text-xs tracking-widest text-slate-400">
+                <span className="text-xs tracking-widest text-slate-300">
                   {s.label}
                 </span>
               </div>

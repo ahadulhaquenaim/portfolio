@@ -26,8 +26,9 @@ export const identity = {
   roles: ["DEVELOPER", "DESIGNER", "PROBLEM SOLVER"],
   intro:
     "I craft digital experiences with clean code and creative design. Turning ideas into reality, one project at a time.",
-  // Place your cutout PNG in /public and change this to "character.png".
-  characterImage: "character.svg",
+  // Full-bleed hero background image (the cinematic monarch art) in /public.
+  // Set to null to fall back to the plain particle/gradient background.
+  heroBackground: "character.png" as string | null,
   email: "ahadul.haque@cefalo.com",
 };
 
