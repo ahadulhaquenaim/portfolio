@@ -57,6 +57,11 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  cursor: none;
+}
+
+* {
+  cursor: none !important;
 }
 
 /* Faint mana grid overlay across the whole page */
