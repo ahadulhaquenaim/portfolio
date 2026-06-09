@@ -15,10 +15,28 @@ export default function Skills() {
           return (
             <motion.div
               key={s.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 24, boxShadow: "0 0 0px transparent" }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                boxShadow: [
+                  `0 0 10px ${c.glow}`,
+                  `0 0 22px ${c.glow}`,
+                  `0 0 12px ${c.glow}`,
+                ],
+              }}
               viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
+              transition={{
+                opacity: { duration: 0.5, delay: i * 0.06 },
+                y: { duration: 0.5, delay: i * 0.06 },
+                boxShadow: {
+                  duration: 1.8,
+                  delay: i * 0.06 + 0.4,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                  ease: "easeInOut",
+                },
+              }}
               className="gate-card rounded-lg p-4"
             >
               <div className="mb-3 flex items-center justify-between">
