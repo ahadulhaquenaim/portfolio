@@ -1,25 +1,19 @@
 # ✦ Ahad — Solo Leveling Animated Portfolio
 
-A cinematic, RPG-themed personal portfolio. Black-and-purple "Monarch's
-Awakening" aesthetic with a gate-crack hero entrance, floating mana particles,
-"System" notification pop-ups, XP skill bars, dungeon-raid project cards and a
-Hunter Records timeline.
+A cinematic, RPG-themed personal portfolio inspired by *Solo Leveling*. Features a "Monarch's Awakening" black-and-purple aesthetic with a gate-crack hero entrance, floating mana particles, System notification pop-ups, XP skill bars, dungeon-raid project cards, and a Hunter Records timeline.
 
-**Zero-cost stack:** React + Vite · Tailwind CSS v4 · Framer Motion · GSAP ·
-tsParticles · lucide-react · GitHub Pages.
+**Stack:** React 19 + Vite 7 · TypeScript 6 · Tailwind CSS v4 · Framer Motion · GSAP · tsParticles · lucide-react · GitHub Pages
 
 ---
 
-## 🚀 Quick start
+## Quick start
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173/portfolio/
 ```
 
-> Requires Node 20.19+ or 22.12+ (you have 20.17 — it runs, but upgrade when you can).
-
-Build & preview the production bundle:
+Build and preview the production bundle:
 
 ```bash
 npm run build
@@ -28,46 +22,49 @@ npm run preview
 
 ---
 
-## 📝 Editing your content
+## Editing your content
 
-**Everything lives in one file:** [`src/data/content.ts`](src/data/content.ts).
+**Everything lives in one file:** [src/data/content.ts](src/data/content.ts)
 
-Change your bio, skills, projects, experience, stats, social links and nav
-there — no other file needs touching for normal updates. Each block is
-commented.
+Change your bio, skills, projects, experience, stats, and social links there — no other file needs touching for normal updates.
 
-- **Skills / Projects / Experience** carry a `rank` (`E` → `S`). The rank drives
-  the badge color (S = gold, A = pink, B = purple, …) automatically.
-- **HUD stats** in the hero are `hudStats` and `headlineStats`.
+Key exports and what they control:
 
----
+| Export | Controls |
+|---|---|
+| `identity` | Name, tagline, roles, intro, hero background image, email |
+| `hudStats` | Floating skill readouts on the right side of the hero |
+| `headlineStats` | The three bold stat numbers in the hero |
+| `about` | Bio paragraphs and the class/rank/guild panel |
+| `skills` | XP skill bars with rank badges |
+| `projects` | Dungeon-raid project cards |
+| `experience` | Hunter Association Records timeline |
+| `socials` | GitHub, LinkedIn, Facebook, email links |
+| `navLinks` | Navigation bar items |
 
-## 🖼️ Adding your photo (the character)
-
-The site ships with a placeholder silhouette. To use your real cutout:
-
-1. Make a **transparent-background PNG** of yourself — free options:
-   [remove.bg](https://www.remove.bg) (5/month) or Canva.
-2. Drop it in `public/` named **`character.png`**.
-3. In [`src/data/content.ts`](src/data/content.ts), change:
-   ```ts
-   characterImage: "character.svg",   // → "character.png"
-   ```
-
-That's it — the hero picks it up with the glow + magic-circle treatment.
+**Rank system:** Skills, projects, and experience entries carry a `rank` (`E` → `S`). The rank drives the badge color automatically — S = gold, A = pink, B = purple, C = blue, D/E = grey.
 
 ---
 
-## 🌐 Deploy to GitHub Pages
+## Adding your photo
 
-The Vite `base` is set to `/portfolio/` (matching the repo name). If you rename
-the repo, update `base` in [`vite.config.ts`](vite.config.ts) **and** the
-`homepage` in `package.json`.
+The site ships with a placeholder silhouette. To use your own cutout:
 
-### Option A — automatic (recommended)
+1. Make a **transparent-background PNG** of yourself — [remove.bg](https://www.remove.bg) (5/month free) or Canva work well.
+2. Drop the file into `public/` named **`character.png`**.
+3. In [src/data/content.ts](src/data/content.ts), the `identity.heroBackground` field already points to `"character.png"` — no change needed if you use that filename.
 
-A GitHub Actions workflow ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml))
-builds and deploys on every push to `main`.
+The hero applies a glow and magic-circle treatment automatically.
+
+---
+
+## Deploy to GitHub Pages
+
+The Vite `base` is set to `/portfolio/` (matching the repo name). If you rename the repo, update `base` in [vite.config.ts](vite.config.ts) **and** `homepage` in [package.json](package.json).
+
+### Option A — automatic CI/CD (recommended)
+
+A GitHub Actions workflow ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) builds and deploys on every push to `main`.
 
 1. Create a repo named **`portfolio`** and push:
    ```bash
@@ -79,7 +76,7 @@ builds and deploys on every push to `main`.
 2. On GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 3. Live at **https://ahadulhaquenaim.github.io/portfolio/**
 
-### Option B — one command (gh-pages branch)
+### Option B — one-command deploy
 
 ```bash
 npm run deploy
@@ -89,18 +86,14 @@ Then set **Settings → Pages → Source: Deploy from a branch → `gh-pages` / 
 
 ---
 
-## 🎨 Theming
+## Theming
 
-Colors, fonts and effects are CSS variables in
-[`src/index.css`](src/index.css) under `@theme` (Tailwind v4). Tweak
-`--color-mana`, `--color-system`, etc. to reskin the whole site.
+Colors, fonts, and effects are CSS variables in [src/index.css](src/index.css) under `@theme` (Tailwind v4). Tweak `--color-mana`, `--color-system`, etc. to reskin the whole site.
 
-The reusable classes (`.system-panel`, `.gate-card`, `.btn-mana`, `.text-glow`,
-`.glitch`) are defined there too.
+Reusable utility classes defined there: `.system-panel`, `.gate-card`, `.btn-mana`, `.text-glow`, `.glitch`.
 
 ---
 
-## ♿ Accessibility
+## Accessibility
 
-The cinematic hero entrance respects `prefers-reduced-motion` — users with that
-setting skip straight to the revealed page.
+The cinematic hero entrance respects `prefers-reduced-motion` — users with that setting skip straight to the revealed page.
