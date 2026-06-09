@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+/* ============================================================
+   SOLO LEVELING THEME — design tokens (Tailwind v4 @theme)
+   Use as `text-mana`, `bg-abyss`, `border-rune`, `font-display`...
+   ============================================================ */
+@theme {
+  --color-abyss: #05030c; /* deepest background */
+  --color-void: #0a0716; /* panel background */
+  --color-shadow: #130c26; /* raised panel */
+  --color-mana: #8b5cf6; /* primary purple */
+  --color-mana-bright: #a855f7; /* glow purple */
+  --color-arcane: #6d28d9; /* deep purple */
+  --color-rune: #4c1d95; /* border purple */
+  --color-system: #38bdf8; /* system-window blue */
+  --color-system-deep: #0c4a6e; /* deep blue border */
+  --color-gold: #fbbf24; /* S-rank gold accent */
+
+  --font-display: "Cinzel", serif;
+  --font-body: "Rajdhani", sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulseGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.55;
+    filter: drop-shadow(0 0 8px var(--color-mana));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 22px var(--color-mana-bright));
+  }
+}
+
+/* ============================================================ BASE ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-abyss);
+  color: #e5e1f0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Faint mana grid overlay across the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-abyss);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-mana), var(--color-arcane));
+  border-radius: 6px;
+}
+
+/* ============================================================ THEME UTILITIES ============================================================ */
+.text-glow {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.8), 0 0 28px rgba(139, 92, 246, 0.45);
+}
+
+/* RPG "system window" panel — the blue/black notification box */
+.system-panel {
+  position: relative;
+  background: linear-gradient(145deg, rgba(8, 18, 36, 0.92), rgba(4, 8, 20, 0.96));
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.15), 0 0 24px rgba(56, 189, 248, 0.25),
+    inset 0 0 24px rgba(12, 74, 110, 0.35);
+  backdrop-filter: blur(4px);
+}
+.system-panel::before,
+.system-panel::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-system);
+}
+.system-panel::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+.system-panel::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Dungeon gate card */
+.gate-card {
+  background: linear-gradient(160deg, var(--color-shadow), var(--color-void));
+  border: 1px solid rgba(76, 29, 149, 0.5);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.gate-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-mana-bright);
+  box-shadow: 0 0 28px rgba(139, 92, 246, 0.45), inset 0 0 22px rgba(76, 29, 149, 0.3);
+}
+
+.btn-mana {
+  position: relative;
+  background: linear-gradient(135deg, var(--color-arcane), var(--color-mana));
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.5);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-mana:hover {
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.85);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  border: 1px solid rgba(139, 92, 246, 0.55);
+  transition: all 0.3s ease;
+}
+.btn-ghost:hover {
+  background: rgba(139, 92, 246, 0.12);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+}
+
+.rune-border {
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  box-shadow: inset 0 0 30px rgba(76, 29, 149, 0.18);
+}
+
+/* Scanline overlay */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 0, 0, 0.25) 3px,
+    transparent 4px
+  );
+  opacity: 0.25;
+  mix-blend-mode: overlay;
+}
+
+/* Glitch text used on the hero "ARISE" */
+.glitch {
+  position: relative;
+  color: #fff;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.glitch::before {
+  color: var(--color-system);
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  animation: glitchTop 2.2s infinite linear alternate;
+}
+.glitch::after {
+  color: var(--color-mana-bright);
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  animation: glitchBottom 2.6s infinite linear alternate;
+}
+@keyframes glitchTop {
+  0%,
+  100% {
+    transform: translate(-2px, 0);
+  }
+  50% {
+    transform: translate(2px, -1px);
+  }
+}
+@keyframes glitchBottom {
+  0%,
+  100% {
+    transform: translate(2px, 0);
+  }
+  50% {
+    transform: translate(-2px, 1px);
+  }
+}
