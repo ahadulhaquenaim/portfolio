@@ -149,7 +149,11 @@ body::before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: none;
-  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6)) drop-shadow(0 0 12px rgba(168, 85, 247, 0.3));
+  filter:
+    drop-shadow(0 0 2px rgba(56, 189, 248, 0.95))
+    drop-shadow(0 0 6px rgba(168, 85, 247, 0.4));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* RPG "system window" panel — the blue/black notification box */

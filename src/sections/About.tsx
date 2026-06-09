@@ -25,7 +25,7 @@ export default function About() {
         >
           <div className="sparkle-wrap relative">
             {about.paragraphs.map((p, i) => (
-              <p key={i} className="text-xl leading-relaxed text-glow-blue">
+              <p key={i} className="text-xl leading-relaxed text-glow-blue mb-6">
                 {p}
               </p>
             ))}
