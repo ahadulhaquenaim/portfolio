@@ -39,29 +39,56 @@ export default function Skills() {
               }}
               className="gate-card rounded-lg p-4"
             >
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-display text-lg text-slate-100">
-                  {s.name}
-                </span>
-                <RankBadge rank={s.rank} />
-              </div>
-
-              {/* XP bar */}
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-abyss">
-                <motion.div
-                  className="h-full rounded-full"
+              {/* Floating magic sparks */}
+              {[
+                { left: "15%", top: "70%", size: 4, dur: "2.6s", delay: "0s" },
+                { left: "40%", top: "80%", size: 3, dur: "3.2s", delay: "0.7s" },
+                { left: "65%", top: "65%", size: 5, dur: "2.9s", delay: "1.4s" },
+                { left: "80%", top: "75%", size: 3, dur: "3.6s", delay: "0.3s" },
+                { left: "55%", top: "85%", size: 4, dur: "2.4s", delay: "1.1s" },
+              ].map((sp, j) => (
+                <span
+                  key={j}
+                  className="spark"
                   style={{
-                    background: `linear-gradient(90deg, var(--color-arcane), ${c.text})`,
-                    boxShadow: `0 0 12px ${c.glow}`,
+                    left: sp.left,
+                    top: sp.top,
+                    width: sp.size,
+                    height: sp.size,
+                    background: c.glow,
+                    boxShadow: `0 0 6px 2px ${c.glow}`,
+                    ["--dur" as string]: sp.dur,
+                    ["--delay" as string]: sp.delay,
                   }}
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${s.value}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.1, ease: "easeOut", delay: 0.2 }}
                 />
-              </div>
-              <div className="mt-1 text-right text-xs text-slate-500">
-                XP {s.value}/100
+              ))}
+
+              {/* Card content above shimmer */}
+              <div className="relative z-10">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="font-display text-lg text-slate-100">
+                    {s.name}
+                  </span>
+                  <RankBadge rank={s.rank} />
+                </div>
+
+                {/* XP bar */}
+                <div className="h-2.5 w-full overflow-hidden rounded-full bg-abyss">
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{
+                      background: `linear-gradient(90deg, var(--color-arcane), ${c.text})`,
+                      boxShadow: `0 0 12px ${c.glow}`,
+                    }}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${s.value}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.1, ease: "easeOut", delay: 0.2 }}
+                  />
+                </div>
+                <div className="mt-1 text-right text-xs text-slate-500">
+                  XP {s.value}/100
+                </div>
               </div>
             </motion.div>
           );
