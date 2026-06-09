@@ -159,11 +159,22 @@ body::before {
 /* RPG "system window" panel — the blue/black notification box */
 .system-panel {
   position: relative;
-  background: linear-gradient(145deg, rgba(8, 18, 36, 0.92), rgba(4, 8, 20, 0.96));
-  border: 1px solid rgba(56, 189, 248, 0.55);
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.15), 0 0 24px rgba(56, 189, 248, 0.25),
-    inset 0 0 24px rgba(12, 74, 110, 0.35);
+  background: linear-gradient(145deg, rgba(10, 24, 48, 0.97), rgba(4, 10, 28, 0.99));
+  border: 1px solid rgba(56, 189, 248, 0.9);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4),
+    0 0 28px rgba(56, 189, 248, 0.55),
+    0 0 60px rgba(56, 189, 248, 0.25),
+    inset 0 0 32px rgba(12, 74, 110, 0.55);
   backdrop-filter: blur(4px);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  cursor: default;
+}
+.system-panel:hover {
+  border-color: rgba(56, 189, 248, 1);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6),
+    0 0 40px rgba(56, 189, 248, 0.75),
+    0 0 80px rgba(56, 189, 248, 0.35),
+    inset 0 0 40px rgba(12, 74, 110, 0.7);
 }
 .system-panel::before,
 .system-panel::after {
