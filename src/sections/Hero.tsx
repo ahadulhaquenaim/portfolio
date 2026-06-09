@@ -113,9 +113,25 @@ export default function Hero() {
           - left→right dark gradient so the headline text stays readable
           - bottom fade so the hero blends into the next section
           - subtle mana tint */}
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(100deg,rgba(5,3,12,0.92)_0%,rgba(5,3,12,0.55)_30%,rgba(5,3,12,0.0)_50%,rgba(5,3,12,0.3)_100%)]" />
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(100deg,rgba(5,3,12,0.92)_0%,rgba(5,3,12,0.6)_28%,rgba(5,3,12,0.0)_42%,rgba(5,3,12,0.0)_70%,rgba(5,3,12,0.4)_100%)]" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(109,40,217,0.25),transparent_65%)]" />
       <div className="absolute inset-x-0 bottom-0 z-0 h-40 bg-linear-to-t from-abyss to-transparent" />
+
+      {/* Left-to-right spotlight — soft beam across the character */}
+      <div
+        className="absolute inset-0 z-1 pointer-events-none"
+        style={{
+          background: "linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.04) 42%, rgba(220,180,255,0.06) 55%, transparent 70%)",
+        }}
+      />
+      {/* Aura glow — subtle purple halo around the body */}
+      <div
+        className="absolute inset-0 z-1 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 42% 68% at 57% 52%, rgba(168,85,247,0.12) 0%, rgba(109,40,217,0.06) 50%, transparent 75%)",
+          mixBlendMode: "screen",
+        }}
+      />
 
 
       <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-32 xl:pl-48">
