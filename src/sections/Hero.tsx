@@ -1,8 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { identity, hudStats, headlineStats } from "../data/content";
+
+// Deterministic pseudo-random based on index to avoid hydration drift
+function seededRandom(seed: number) {
+  const x = Math.sin(seed + 1) * 10000;
+  return x - Math.floor(x);
+}
+
+const PARTICLES = Array.from({ length: 28 }, (_, i) => ({
+  id: i,
+  x: 30 + seededRandom(i * 3) * 55,      // cluster around character (30–85%)
+  y: 5 + seededRandom(i * 3 + 1) * 90,
+  size: 2 + seededRandom(i * 3 + 2) * 4,
+  duration: 3 + seededRandom(i * 7) * 5,
+  delay: seededRandom(i * 11) * 4,
+  driftX: (seededRandom(i * 13) - 0.5) * 60,
+  driftY: -(30 + seededRandom(i * 17) * 60), // always float upward
+  opacity: 0.4 + seededRandom(i * 19) * 0.6,
+}));
 
 export default function Hero() {
   const root = useRef<HTMLDivElement>(null);
@@ -11,6 +29,12 @@ export default function Hero() {
   // MUST always be torn down — even if GSAP never runs. We unmount it from
   // React (not just display:none) once the intro is done or skipped.
   const [showGate, setShowGate] = useState(true);
+
+  // Mouse parallax — raw mouse position normalised to [-1, 1]
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 60, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 60, damping: 20 });
 
   useEffect(() => {
     const finish = () => {
@@ -82,6 +106,15 @@ export default function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      mouseX.set((e.clientX / window.innerWidth - 0.5) * 2);
+      mouseY.set((e.clientY / window.innerHeight - 0.5) * 2);
+    };
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, [mouseX, mouseY]);
+
   return (
     <section
       id="home"
@@ -97,17 +130,45 @@ export default function Hero() {
         </div>
       )}
 
-      {/* ---- Full-bleed background image (the cinematic monarch art) ---- */}
+      {/* ---- Full-bleed background image with mouse parallax ---- */}
       {identity.heroBackground && (
-        <div
-          className="hero-character absolute inset-0 z-0 bg-no-repeat"
-          style={{
-            backgroundImage: `url(${import.meta.env.BASE_URL}${identity.heroBackground})`,
-            backgroundSize: "110%",
-            backgroundPosition: "0% 15%",
-          }}
+        <CharacterLayer
+          src={`${import.meta.env.BASE_URL}${identity.heroBackground}`}
+          springX={springX}
+          springY={springY}
         />
       )}
+
+      {/* ---- Floating purple spark particles ---- */}
+      <div className="absolute inset-0 z-2 pointer-events-none overflow-hidden">
+        {PARTICLES.map((p) => (
+          <motion.span
+            key={p.id}
+            className="absolute rounded-full"
+            style={{
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+              width: p.size,
+              height: p.size,
+              background: `radial-gradient(circle, #e879f9 0%, #a855f7 60%, transparent 100%)`,
+              boxShadow: `0 0 ${p.size * 3}px ${p.size}px rgba(168,85,247,0.8)`,
+            }}
+            animate={{
+              x: [0, p.driftX * 0.5, p.driftX],
+              y: [0, p.driftY * 0.5, p.driftY],
+              opacity: [0, p.opacity, 0],
+              scale: [0.4, 1.2, 0.2],
+            }}
+            transition={{
+              duration: p.duration,
+              delay: p.delay,
+              repeat: Infinity,
+              repeatDelay: seededRandom(p.id * 23) * 2,
+              ease: "easeOut",
+            }}
+          />
+        ))}
+      </div>
 
       {/* Legibility overlays:
           - left→right dark gradient so the headline text stays readable
@@ -211,6 +272,31 @@ export default function Hero() {
   );
 }
 
+function CharacterLayer({
+  src,
+  springX,
+  springY,
+}: {
+  src: string;
+  springX: ReturnType<typeof useSpring>;
+  springY: ReturnType<typeof useSpring>;
+}) {
+  const x = useTransform(springX, [-1, 1], [-18, 18]);
+  const y = useTransform(springY, [-1, 1], [-10, 10]);
+  return (
+    <motion.div
+      className="hero-character absolute inset-0 z-0 bg-no-repeat"
+      style={{
+        backgroundImage: `url(${src})`,
+        backgroundSize: "110%",
+        backgroundPosition: "0% 15%",
+        x,
+        y,
+      }}
+    />
+  );
+}
+
 function HudBar({
   label,
   rank,
@@ -230,7 +316,7 @@ function HudBar({
       </div>
       <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-shadow">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-arcane to-mana-bright shadow-[0_0_10px_#a855f7]"
+          className="h-full rounded-full bg-linear-to-r from-arcane to-mana-bright shadow-[0_0_10px_#a855f7]"
           initial={{ width: 0 }}
           animate={{ width: go ? `${value}%` : 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
