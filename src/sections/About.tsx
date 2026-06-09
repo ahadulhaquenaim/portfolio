@@ -80,13 +80,13 @@ export default function About() {
                 </div>
                 <div className="sl-job-block">
                   <p className="sl-job-line">
-                    <span className="sl-job-key">JOB:</span>
-                    <span className="sl-job-val">Shadow Monarch</span>
+                    <span className="sl-job-key">NAME:</span>
+                    <span className="sl-job-val">Md Ahadul Haque</span>
                   </p>
                   <p className="sl-job-line">
                     <span className="sl-job-key">TITLE:</span>
                     <span className="sl-job-val sl-job-val--sm">
-                      The One Who Overcame Adversity
+                      Software Engineer
                     </span>
                   </p>
                 </div>

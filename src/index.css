@@ -370,19 +370,19 @@ body::before {
 }
 .sl-job-line {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.35rem;
   margin: 0;
 }
 .sl-job-key {
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   color: #ffffff;
   text-shadow: 0 0 10px rgba(216, 180, 254, 1), 0 0 22px rgba(168, 85, 247, 1);
 }
 .sl-job-val {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #ffffff;
   font-family: var(--font-display);
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);

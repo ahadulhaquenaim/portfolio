@@ -57,8 +57,8 @@ export const about = {
   ],
   panel: [
     { k: "Class", v: "Full-Stack Engineer" },
-    { k: "Rank", v: "S-Class Hunter" },
-    { k: "Guild", v: "Cefalo" },
+    { k: "Rank", v: "S-Class Developer" },
+    { k: "Guild", v: "Cefalo Bangladesh Ltd." },
     { k: "Specialty", v: "Web · React · Node" },
   ],
 };
