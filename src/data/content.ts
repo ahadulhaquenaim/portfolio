@@ -23,7 +23,7 @@ export const identity = {
   name: "AHAD",
   fullName: "Ahadul Haque Naim",
   tagline: "ARISE — THE MONARCH'S AWAKENING",
-  roles: ["DEVELOPER", "DESIGNER", "PROBLEM SOLVER"],
+  roles: ["FULLSTACK DEVELOPER", "PROBLEM SOLVER"],
   intro:
     "I craft digital experiences with clean code and creative design. Turning ideas into reality, one project at a time.",
   // Full-bleed hero background image (the cinematic monarch art) in /public.

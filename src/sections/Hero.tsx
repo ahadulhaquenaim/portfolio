@@ -197,16 +197,16 @@ export default function Hero() {
       <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-32 xl:pl-48">
         {/* ---- LEFT: headline text ---- */}
         <div className="hero-text">
-          <p className="mb-3 text-sm tracking-[0.3em] text-mana-bright">
+          <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-mana-bright [text-shadow:0_0_16px_rgba(168,85,247,1),0_0_32px_rgba(168,85,247,0.6)]">
             {identity.tagline}
           </p>
           <h1 className="font-display text-7xl font-black leading-none text-glow md:text-8xl">
             {identity.name}
           </h1>
-          <p className="mt-4 text-lg tracking-[0.2em] text-slate-200">
+          <p className="mt-4 text-xl tracking-[0.2em] text-white [text-shadow:0_0_12px_rgba(168,85,247,0.8)]">
             {identity.roles.join("  |  ")}
           </p>
-          <p className="mt-5 max-w-md leading-relaxed text-slate-300 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+          <p className="mt-5 max-w-md font-semibold leading-relaxed text-white/90 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
             {identity.intro}
           </p>
 
