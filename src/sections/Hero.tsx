@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { Download } from "lucide-react";
 import { identity, hudStats, headlineStats } from "../data/content";
 
 // Deterministic pseudo-random based on index to avoid hydration drift
@@ -248,6 +249,14 @@ export default function Hero() {
                 </span>
               </div>
             ))}
+            <a
+              href={identity.cvPath}
+              download
+              className="btn-mana mt-2 flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-sm font-semibold tracking-wider text-white"
+            >
+              <Download size={14} />
+              DOWNLOAD CV
+            </a>
           </div>
         </div>
       </div>

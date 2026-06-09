@@ -6,10 +6,10 @@ import { rankStyle } from "../lib/rank";
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative z-10 mx-auto max-w-5xl px-5 py-24">
+    <section id="skills" className="relative z-10 mx-auto max-w-7xl px-5 py-24">
       <SectionHeading kicker="ABILITIES" title="SKILL TREE" />
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {skills.map((s, i) => {
           const c = rankStyle[s.rank];
           return (
