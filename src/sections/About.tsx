@@ -23,11 +23,18 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className="space-y-5"
         >
-          {about.paragraphs.map((p, i) => (
-            <p key={i} className="leading-relaxed text-slate-300">
-              {p}
-            </p>
-          ))}
+          <div className="sparkle-wrap relative">
+            {about.paragraphs.map((p, i) => (
+              <p key={i} className="text-xl leading-relaxed text-glow-blue">
+                {p}
+              </p>
+            ))}
+            <span className="sparkle sparkle-1" />
+            <span className="sparkle sparkle-2" />
+            <span className="sparkle sparkle-3" />
+            <span className="sparkle sparkle-4" />
+            <span className="sparkle sparkle-5" />
+          </div>
           <div className="pt-2">
             <SystemNotification
               title="QUEST COMPLETED"
