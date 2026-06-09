@@ -3,12 +3,19 @@ import SectionHeading from "../components/SectionHeading";
 import SystemNotification from "../components/SystemNotification";
 import { about } from "../data/content";
 
+const panelIcons: Record<string, string> = {
+  Class: "⚔",
+  Rank: "★",
+  Guild: "⬡",
+  Specialty: "◈",
+};
+
 export default function About() {
   return (
-    <section id="about" className="relative z-10 mx-auto max-w-6xl px-5 py-24">
+    <section id="about" className="relative z-10 mx-auto max-w-screen-2xl px-10 py-24">
       <SectionHeading kicker="ABOUT ME" title={about.title} />
 
-      <div className="grid items-center gap-10 md:grid-cols-2">
+      <div className="grid items-center gap-10 md:grid-cols-[2fr_3fr]">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -30,30 +37,71 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* Stat sheet panel */}
+        {/* Solo Leveling STATUS window */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="rune-border relative overflow-hidden rounded-xl bg-void/70 p-7 scanlines"
+          className="sl-status-window relative"
         >
-          <p className="mb-5 font-display text-lg tracking-widest text-mana-bright">
-            HUNTER PROFILE
-          </p>
-          <ul className="space-y-4">
-            {about.panel.map((row) => (
-              <li
-                key={row.k}
-                className="flex items-center justify-between border-b border-mana/15 pb-3"
-              >
-                <span className="text-xs tracking-[0.25em] text-slate-400">
-                  {row.k.toUpperCase()}
-                </span>
-                <span className="font-display text-slate-100">{row.v}</span>
-              </li>
-            ))}
-          </ul>
+          {/* Outer glow frame */}
+          <div className="sl-frame-outer">
+            {/* Top-left corner bracket */}
+            <span className="sl-corner sl-corner-tl" />
+            {/* Top-right corner bracket */}
+            <span className="sl-corner sl-corner-tr" />
+            {/* Bottom-left corner bracket */}
+            <span className="sl-corner sl-corner-bl" />
+            {/* Bottom-right corner bracket */}
+            <span className="sl-corner sl-corner-br" />
+
+            {/* Inner panel */}
+            <div className="sl-inner-panel scanlines">
+              {/* Title bar */}
+              <div className="sl-title-bar">
+                <span className="sl-title-deco" />
+                <span className="sl-title-text">STATUS</span>
+                <span className="sl-title-deco" />
+              </div>
+
+              {/* Level + Job row */}
+              <div className="sl-level-row">
+                <div className="sl-level-block">
+                  <span className="sl-level-num">100</span>
+                  <span className="sl-level-label">LEVEL</span>
+                </div>
+                <div className="sl-job-block">
+                  <p className="sl-job-line">
+                    <span className="sl-job-key">JOB:</span>
+                    <span className="sl-job-val">Shadow Monarch</span>
+                  </p>
+                  <p className="sl-job-line">
+                    <span className="sl-job-key">TITLE:</span>
+                    <span className="sl-job-val sl-job-val--sm">
+                      The One Who Overcame Adversity
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="sl-divider" />
+
+              {/* Stats grid */}
+              <ul className="sl-stats-grid">
+                {about.panel.map((row) => (
+                  <li key={row.k} className="sl-stat-row">
+                    <span className="sl-stat-icon">
+                      {panelIcons[row.k] ?? "◆"}
+                    </span>
+                    <span className="sl-stat-key">{row.k.toUpperCase()}:</span>
+                    <span className="sl-stat-val">{row.v}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

@@ -176,6 +176,196 @@ body::before {
   mix-blend-mode: overlay;
 }
 
+/* ============================================================
+   SOLO LEVELING STATUS WINDOW
+   ============================================================ */
+
+/* Outer wrapper — adds the glowing purple border + animated shimmer */
+.sl-status-window {
+  padding: 6px;
+}
+
+.sl-frame-outer {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(120, 60, 220, 0.18) 0%,
+    rgba(10, 7, 22, 0.95) 40%,
+    rgba(10, 7, 22, 0.95) 60%,
+    rgba(120, 60, 220, 0.18) 100%
+  );
+  border: 2px solid rgba(168, 85, 247, 0.75);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.2),
+    0 0 30px rgba(139, 92, 246, 0.4),
+    0 0 80px rgba(109, 40, 217, 0.25),
+    inset 0 0 40px rgba(76, 29, 149, 0.2);
+  animation: sl-border-pulse 3s ease-in-out infinite;
+}
+
+@keyframes sl-border-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(168,85,247,0.2), 0 0 30px rgba(139,92,246,0.4), 0 0 80px rgba(109,40,217,0.25), inset 0 0 40px rgba(76,29,149,0.2); }
+  50%       { box-shadow: 0 0 0 1px rgba(168,85,247,0.4), 0 0 50px rgba(168,85,247,0.65), 0 0 110px rgba(139,92,246,0.4), inset 0 0 60px rgba(109,40,217,0.3); }
+}
+
+/* Corner bracket decorations */
+.sl-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--color-mana-bright);
+  border-style: solid;
+  z-index: 2;
+}
+.sl-corner-tl { top: -2px; left: -2px;  border-width: 3px 0 0 3px; }
+.sl-corner-tr { top: -2px; right: -2px; border-width: 3px 3px 0 0; }
+.sl-corner-bl { bottom: -2px; left: -2px;  border-width: 0 0 3px 3px; }
+.sl-corner-br { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; }
+
+/* Inner dark panel */
+.sl-inner-panel {
+  position: relative;
+  background: linear-gradient(160deg, rgba(14, 8, 30, 0.97), rgba(8, 5, 20, 0.99));
+  border-radius: 4px;
+  padding: 2rem 2.5rem 2.25rem;
+  overflow: hidden;
+}
+
+/* Title bar */
+.sl-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.sl-title-deco {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.6));
+}
+.sl-title-deco:last-child {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.6), transparent);
+}
+.sl-title-text {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.4em;
+  color: #fff;
+  border: 1px solid rgba(168, 85, 247, 0.55);
+  padding: 0.3rem 1.25rem;
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.9), 0 0 28px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.3), inset 0 0 10px rgba(76, 29, 149, 0.2);
+}
+
+/* Level + job row */
+.sl-level-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.1rem;
+}
+.sl-level-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.sl-level-num {
+  font-family: var(--font-display);
+  font-size: 3.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 18px rgba(168, 85, 247, 0.8), 0 0 40px rgba(139, 92, 246, 0.4);
+  letter-spacing: -0.02em;
+}
+.sl-level-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: rgba(168, 85, 247, 0.75);
+  margin-top: 0.15rem;
+}
+.sl-job-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.sl-job-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0;
+}
+.sl-job-key {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: rgba(168, 85, 247, 0.7);
+}
+.sl-job-val {
+  font-size: 1rem;
+  color: #e2d9f3;
+  font-family: var(--font-display);
+}
+.sl-job-val--sm {
+  font-size: 0.8rem;
+  color: rgba(210, 200, 235, 0.7);
+}
+
+/* Divider */
+.sl-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.4), rgba(139, 92, 246, 0.4), transparent);
+  margin-bottom: 1.1rem;
+}
+
+/* Stats grid */
+.sl-stats-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem 1.25rem;
+  align-items: stretch;
+}
+
+.sl-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: rgba(76, 29, 149, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+.sl-stat-row:hover {
+  border-color: rgba(168, 85, 247, 0.55);
+  background: rgba(109, 40, 217, 0.2);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
+}
+.sl-stat-icon {
+  font-size: 1.05rem;
+  color: var(--color-mana-bright);
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.7);
+}
+.sl-stat-key {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: rgba(168, 85, 247, 0.65);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sl-stat-val {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  color: #e5dff7;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
 /* Glitch text used on the hero "ARISE" */
 .glitch {
   position: relative;
