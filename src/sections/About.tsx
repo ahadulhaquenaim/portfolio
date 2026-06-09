@@ -15,7 +15,7 @@ export default function About() {
     <section id="about" className="relative z-10 mx-auto max-w-screen-2xl px-10 py-24">
       <SectionHeading kicker="ABOUT ME" title={about.title} />
 
-      <div className="grid items-center gap-10 md:grid-cols-[2fr_3fr]">
+      <div className="grid items-center gap-20 md:grid-cols-[5fr_6fr]">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
