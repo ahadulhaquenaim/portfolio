@@ -14,7 +14,7 @@ export default function SectionHeading({
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-system text-xs tracking-[0.4em] font-semibold mb-3"
+        className="text-system text-sm tracking-[0.4em] font-semibold mb-3"
       >
         ✦ {kicker} ✦
       </motion.p>
