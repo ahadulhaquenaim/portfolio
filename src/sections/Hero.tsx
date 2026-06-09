@@ -115,7 +115,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(109,40,217,0.25),transparent_65%)]" />
       <div className="absolute inset-x-0 bottom-0 z-0 h-40 bg-linear-to-t from-abyss to-transparent" />
 
-      <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl grid-cols-1 items-center gap-8 px-5 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32">
         {/* ---- LEFT: headline text ---- */}
         <div className="hero-text">
           <p className="mb-3 text-sm tracking-[0.3em] text-mana-bright">
