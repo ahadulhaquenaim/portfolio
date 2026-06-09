@@ -29,6 +29,7 @@ export const identity = {
   // Full-bleed hero background image (the cinematic monarch art) in /public.
   // Set to null to fall back to the plain particle/gradient background.
   heroBackground: "character.png" as string | null,
+  heroVideo: "hero-character.mp4" as string | null,
   email: "ahadul.haque@cefalo.com",
 };
 
