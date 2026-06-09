@@ -1,6 +1,5 @@
 import ParticleBg from "./components/ParticleBg";
 import Navbar from "./components/Navbar";
-import SwordCursor from "./components/SwordCursor";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
 import Skills from "./sections/Skills";
@@ -12,8 +11,7 @@ import Footer from "./sections/Footer";
 export default function App() {
   return (
     <>
-      <SwordCursor />
-      <ParticleBg />
+<ParticleBg />
       <Navbar />
       <main className="relative">
         <Hero />
