@@ -218,15 +218,10 @@ export default function Hero() {
               VIEW MY WORK ›
             </a>
             <a
-              href="#about"
-              className="btn-ghost rounded-md bg-abyss/40 px-7 py-3 font-semibold tracking-wider text-slate-100 backdrop-blur-sm"
-            >
-              ABOUT ME
-            </a>
-            <a
               href={identity.cvPath}
               download
-              className="btn-mana flex items-center gap-2 rounded-md px-7 py-3 font-semibold tracking-wider text-white"
+              className="flex items-center gap-2 rounded-md border-2 px-7 py-3 font-bold tracking-wider text-[#22d3ee] backdrop-blur-sm transition-all duration-300 hover:bg-[#22d3ee22]"
+              style={{ background: "#22d3ee18", borderColor: "#22d3ee90", boxShadow: "0 0 20px 4px #22d3ee40" }}
             >
               <Download size={14} />
               DOWNLOAD CV
