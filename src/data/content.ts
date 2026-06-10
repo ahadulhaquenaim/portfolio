@@ -222,7 +222,7 @@ export const navLinks = [
   { id: "about", label: "ABOUT" },
   { id: "skills", label: "SKILLS" },
   { id: "projects", label: "PROJECTS" },
-  { id: "games", label: "GAMES" },
   { id: "experience", label: "EXPERIENCE" },
   { id: "contact", label: "CONTACT" },
+  { id: "games", label: "GAMES" },
 ];
