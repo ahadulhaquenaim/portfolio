@@ -58,14 +58,14 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-abyss/80 p-5 backdrop-blur-sm"
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-abyss/80 p-8 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="system-panel w-full max-w-6xl rounded-xl max-h-[92vh] overflow-y-auto"
+              className="system-panel w-full max-w-6xl rounded-xl max-h-[92vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
             >
               {/* Header */}
               <div className="flex items-start justify-between p-8 pb-5">
