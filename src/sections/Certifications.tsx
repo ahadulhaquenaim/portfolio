@@ -312,7 +312,7 @@ function CertCarousel() {
       {/* stage */}
       <div
         className="relative flex items-center justify-center"
-        style={{ perspective: "1600px", minHeight: "520px" }}
+        style={{ perspective: "1600px", minHeight: "360px" }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerLeave={() => setDragging(false)}
@@ -481,7 +481,7 @@ function CertCarousel() {
       </div>
 
       {/* NAVIGATION ROW */}
-      <div className="mt-10 flex flex-col items-center gap-5">
+      <div className="mt-4 flex flex-col items-center gap-5">
         {/* counter + arrows */}
         <div className="flex items-center gap-6">
           {/* left arrow */}
