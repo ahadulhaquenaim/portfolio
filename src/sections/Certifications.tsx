@@ -384,13 +384,6 @@ function CertCarousel() {
                 {/* corner runes */}
                 <span className="absolute right-3 top-4 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚠᚱ</span>
                 <span className="absolute bottom-4 left-3 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚷᚹ</span>
-                {/* VERIFIED stamp */}
-                <div
-                  className="pointer-events-none absolute right-4 top-8 rotate-[-28deg] select-none rounded border-2 px-2 py-0.5 text-[9px] font-black tracking-[0.3em] opacity-[0.12] group-hover:opacity-[0.22] transition-opacity duration-300"
-                  style={{ borderColor: cert.categoryColor, color: cert.categoryColor }}
-                >
-                  VERIFIED
-                </div>
 
                 <div className="relative z-10 p-8 flex flex-col">
                   {/* header */}
