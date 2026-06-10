@@ -9,11 +9,11 @@ const LINE_GLOW = `0 0 6px ${GOLD_GLOW}, 0 0 14px rgba(251,191,36,0.35)`;
 
 const CATEGORIES = [
   { label: "Languages",     names: ["JavaScript", "TypeScript", "Python", "C / C++"] },
-  { label: "Frontend",      names: ["React / Next.js", "HTML / Bootstrap", "Tailwind / CSS", "Redux Toolkit", "React Query", "GraphQL"] },
-  { label: "Backend",       names: ["Node.js / Express", "FastAPI / Django", "REST APIs", "Microservices"] },
+  { label: "Frontend",      names: ["React / Next.js", "HTML / Bootstrap", "Tailwind / CSS", "Redux Toolkit", "React Query"] },
+  { label: "Backend",       names: ["Node.js / Nest.js", "FastAPI / Django", "REST APIs", "Microservices", "GraphQL", "Testing (Jest/pytest)"] },
   { label: "Database",      names: ["PostgreSQL / MySQL", "MongoDB", "Redis", "Prisma / SQLAlchemy"] },
-  { label: "DevOps & Cloud",names: ["Docker", "Git / CI-CD", "GCP / NGINX", "Testing (Jest/pytest)", "Prometheus / Grafana"] },
-  { label: "Data & AI",     names: ["Apache Airflow", "ETL Pipelines", "Pandas / BeautifulSoup4", "LLM / AI Automation", "n8n Workflow"] },
+  { label: "DevOps & Cloud",names: ["Docker", "Git / CI-CD", "GCP", "AWS", "NGINX", "Vercel / Netlify", "Hostinger", "Prometheus / Grafana"] },
+  { label: "Data & AI",     names: ["LLM / AI Automation", "n8n Workflow", "Apache Airflow", "ETL Pipelines", "Pandas / BeautifulSoup4"] },
 ];
 
 export default function Skills() {

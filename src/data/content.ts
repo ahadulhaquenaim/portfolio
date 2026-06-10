@@ -73,7 +73,7 @@ export const skills: { name: string; rank: Rank; value: number }[] = [
   { name: "Python", rank: "S", value: 92 },
   { name: "TypeScript", rank: "S", value: 90 },
   { name: "React / Next.js", rank: "S", value: 94 },
-  { name: "Node.js / Express", rank: "A", value: 86 },
+  { name: "Node.js / Nest.js", rank: "A", value: 86 },
   { name: "FastAPI / Django", rank: "A", value: 84 },
   { name: "C / C++", rank: "B", value: 75 },
   { name: "GraphQL", rank: "B", value: 78 },
@@ -89,7 +89,11 @@ export const skills: { name: string; rank: Rank; value: number }[] = [
   { name: "HTML / Bootstrap", rank: "S", value: 92 },
   // Cloud & DevOps
   { name: "Docker", rank: "A", value: 85 },
-  { name: "GCP / NGINX", rank: "B", value: 76 },
+  { name: "GCP", rank: "B", value: 76 },
+  { name: "AWS", rank: "B", value: 75 },
+  { name: "NGINX", rank: "B", value: 76 },
+  { name: "Vercel / Netlify", rank: "A", value: 88 },
+  { name: "Hostinger", rank: "A", value: 82 },
   { name: "Git / CI-CD", rank: "A", value: 84 },
   { name: "Testing (Jest/pytest)", rank: "A", value: 82 },
   // Data & AI
