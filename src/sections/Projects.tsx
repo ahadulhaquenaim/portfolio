@@ -125,14 +125,14 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 z-200 flex items-center justify-center bg-abyss/80 p-8 backdrop-blur-sm"
+            className="fixed inset-0 z-200 flex items-center justify-center bg-abyss/80 px-8 pt-20 pb-8 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="system-panel w-full max-w-7xl rounded-xl max-h-[94vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
+              className="system-panel w-full max-w-7xl rounded-xl max-h-[88vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
             >
               {/* Header */}
               <div className="flex items-start justify-between p-8 pb-5">
@@ -212,7 +212,7 @@ export default function Projects() {
                   </div>
                 </div>
               ) : "preview" in active && active.preview ? (
-                <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
+                <div className="flex flex-col gap-3 px-8 pb-8 lg:flex-row">
                   <div className="lg:w-[62%] flex flex-col gap-4">
                     <img
                       src={active.preview as string}
