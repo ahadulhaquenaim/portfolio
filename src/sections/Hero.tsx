@@ -531,10 +531,10 @@ function AchievementCard({
           >
             {achievement.rarity}
           </span>
-          <span className="text-[10px] tracking-widest text-slate-500">ACHIEVEMENT UNLOCKED</span>
+          <span className="text-[10px] tracking-widest text-slate-400">ACHIEVEMENT UNLOCKED</span>
         </div>
-        <p className="truncate text-sm font-bold text-white">{achievement.title}</p>
-        <p className="truncate text-xs text-slate-300">{achievement.desc}</p>
+        <p className="truncate text-sm font-extrabold text-white [text-shadow:0_0_12px_rgba(255,255,255,0.4)]">{achievement.title}</p>
+        <p className="truncate text-xs font-semibold text-white/80">{achievement.desc}</p>
       </div>
 
       {/* XP badge */}
