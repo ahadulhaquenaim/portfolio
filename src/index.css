@@ -486,7 +486,6 @@ body::before {
   color: #ffffff;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
   white-space: nowrap;
-  margin-left: auto;
 }
 
 /* Glitch text used on the hero "ARISE" */

@@ -60,7 +60,7 @@ export const about = {
     { k: "Class", v: "Full-Stack Engineer" },
     { k: "Rank", v: "S-Class Developer" },
     { k: "Guild", v: "Cefalo Bangladesh Ltd." },
-    { k: "Specialty", v: "Web · React · Node" },
+    { k: "Specialty", v: "Web · App" },
   ],
 };
 
