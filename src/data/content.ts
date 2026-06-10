@@ -14,6 +14,11 @@ import {
 import selftunePreview from "../../public/projects/selftune.png";
 import shikkhakoshPreview from "../../public/projects/shikkhakosh.png";
 import voluePreview from "../../public/projects/volue.png";
+import copai1 from "../../public/projects/copai1.png";
+import copai2 from "../../public/projects/copai2.png";
+import copai3 from "../../public/projects/copai3.png";
+import copai4 from "../../public/projects/copai4.png";
+import copai5 from "../../public/projects/copai5.png";
 
 /** Any icon that renders from a `size` prop (lucide + our brand icons). */
 export type IconComponent = (props: {
@@ -147,13 +152,13 @@ export const projects = [
     preview: voluePreview,
   },
   {
-    title: "Gate Analytics",
-    label: "Data Dashboard",
-    difficulty: "B" as Rank,
+    title: "Team Task Summarizer",
+    label: "AI-Driven Automation",
+    difficulty: "A" as Rank,
     blurb:
-      "Dashboard turning raw event data into interactive, filterable charts in real time.",
-    tech: ["TypeScript", "D3", "Express"],
-    link: "#",
+      "Developed a secure automation system to aggregate and summarize team updates from GitHub, Slack, and ClickUp using OAuth 2.0 integrations. Built a data processing pipeline leveraging local LLMs (Llama 3.2 and Gemma) with structured prompt engineering to generate high-accuracy summaries. Delivered consolidated AI-generated reports to Gmail with zero external API cost through secure local model execution.",
+    tech: ["Python", "OAuth 2.0", "GitHub API", "Slack API", "ClickUp API", "Llama 3.2", "Gemma", "n8n", "Gmail API"],
+    slides: [copai1, copai2, copai3, copai4, copai5],
   },
   {
     title: "Monarch Chat",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Swords } from "lucide-react";
+import { X, ExternalLink, Swords, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import RankBadge from "../components/RankBadge";
 import { projects } from "../data/content";
@@ -10,6 +10,20 @@ type Project = (typeof projects)[number];
 
 export default function Projects() {
   const [active, setActive] = useState<Project | null>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  function openProject(p: Project) {
+    setActive(p);
+    setSlideIndex(0);
+  }
+
+  function prevSlide(slides: string[]) {
+    setSlideIndex((i) => (i - 1 + slides.length) % slides.length);
+  }
+
+  function nextSlide(slides: string[]) {
+    setSlideIndex((i) => (i + 1) % slides.length);
+  }
 
   return (
     <section id="projects" className="relative z-10 w-full px-0 py-24">
@@ -40,7 +54,7 @@ export default function Projects() {
             {projects.map((p, i) => (
               <motion.button
                 key={p.title}
-                onClick={() => setActive(p)}
+                onClick={() => openProject(p)}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
@@ -143,8 +157,61 @@ export default function Projects() {
                 </button>
               </div>
 
-              {/* Body — two columns when preview exists, single column otherwise */}
-              {"preview" in active && active.preview ? (
+              {/* Body — two columns when preview/slides exists, single column otherwise */}
+              {"slides" in active && active.slides && active.slides.length > 0 ? (
+                <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
+                  <div className="lg:w-[62%] flex flex-col gap-4">
+                    <div className="relative w-[85%] group">
+                      <img
+                        src={active.slides[slideIndex] as string}
+                        alt={`${active.title} screenshot ${slideIndex + 1}`}
+                        className="w-full rounded-lg border border-mana/20"
+                      />
+                      {active.slides.length > 1 && (
+                        <>
+                          <button
+                            onClick={() => prevSlide(active.slides as string[])}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-abyss/70 p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-purple-500/40"
+                          >
+                            <ChevronLeft size={20} />
+                          </button>
+                          <button
+                            onClick={() => nextSlide(active.slides as string[])}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-abyss/70 p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-purple-500/40"
+                          >
+                            <ChevronRight size={20} />
+                          </button>
+                          <div className="mt-2 flex justify-center gap-1.5">
+                            {active.slides.map((_, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => setSlideIndex(idx)}
+                                className={`h-1.5 rounded-full transition-all ${idx === slideIndex ? "w-5 bg-purple-400" : "w-1.5 bg-slate-500"}`}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-between lg:w-[38%]">
+                    <div>
+                      <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {active.tech.map((t) => (
+                          <span
+                            key={t}
+                            className="rounded border border-purple-400 bg-purple-500/20 px-2.5 py-1 text-sm font-semibold text-white"
+                            style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : "preview" in active && active.preview ? (
                 <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
                   <div className="lg:w-[62%] flex flex-col gap-4">
                     <img
