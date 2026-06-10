@@ -19,9 +19,9 @@ export default function Projects() {
       {/* Full-width layout with side decorations */}
       <div className="relative flex items-start gap-0">
         {/* Left side decoration */}
-        <div className="hidden lg:flex flex-col items-center justify-center min-w-[140px] xl:min-w-[180px] pt-8 select-none pointer-events-none">
+        <div className="hidden lg:flex flex-col items-center justify-center min-w-35 xl:min-w-45 pt-8 select-none pointer-events-none">
           <div className="flex flex-col items-center gap-3">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent to-mana-bright/60" />
+            <div className="h-px w-16 bg-linear-to-r from-transparent to-mana-bright/60" />
             <div className="rotate-90 text-[10px] tracking-[0.4em] text-mana-bright/50 font-mono">GATE SYSTEM</div>
             <div className="flex flex-col gap-1.5 items-center">
               {[...Array(6)].map((_, i) => (
@@ -29,7 +29,7 @@ export default function Projects() {
               ))}
             </div>
             <div className="mt-2 text-[9px] tracking-[0.5em] text-system/60 font-mono">ACTIVE</div>
-            <div className="h-8 w-px bg-gradient-to-b from-mana-bright/40 to-transparent" />
+            <div className="h-8 w-px bg-linear-to-b from-mana-bright/40 to-transparent" />
           </div>
         </div>
 
@@ -44,17 +44,17 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="gate-card group flex flex-col rounded-xl p-7 text-left"
+                className="gate-card group flex flex-col rounded-xl p-7 text-left h-80"
               >
                 <div className="mb-5 flex items-center justify-between">
                   <Swords className="text-mana-bright" size={28} />
                   <RankBadge rank={p.difficulty} />
                 </div>
                 <h3 className="font-display text-2xl text-slate-100">{p.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-200" style={{ textShadow: "0 0 12px rgba(255,255,255,0.25)" }}>
+                <p className="mt-1 flex-1 text-sm leading-relaxed text-slate-200 line-clamp-4" style={{ textShadow: "0 0 12px rgba(255,255,255,0.25)" }}>
                   {p.blurb}
                 </p>
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-5 flex flex-wrap gap-2 min-h-7">
                   {p.tech.map((t) => (
                     <span
                       key={t}
@@ -65,21 +65,23 @@ export default function Projects() {
                     </span>
                   ))}
                 </div>
-                <span
-                  className="mt-5 text-xs tracking-widest opacity-0 transition-opacity group-hover:opacity-100 font-semibold text-blue-300"
-                  style={{ textShadow: "0 0 10px rgba(147,197,253,0.9), 0 0 20px rgba(59,130,246,0.7)" }}
-                >
-                  ▸ ENTER GATE
-                </span>
+                <div className="mt-auto pt-4 flex justify-center">
+                  <span
+                    className="text-xs tracking-widest opacity-0 transition-opacity group-hover:opacity-100 font-semibold text-blue-300"
+                    style={{ textShadow: "0 0 10px rgba(147,197,253,0.9), 0 0 20px rgba(59,130,246,0.7)" }}
+                  >
+                    ▸ ENTER GATE
+                  </span>
+                </div>
               </motion.button>
             ))}
           </div>
         </div>
 
         {/* Right side decoration */}
-        <div className="hidden lg:flex flex-col items-center justify-center min-w-[140px] xl:min-w-[180px] pt-8 select-none pointer-events-none">
+        <div className="hidden lg:flex flex-col items-center justify-center min-w-35 xl:min-w-45 pt-8 select-none pointer-events-none">
           <div className="flex flex-col items-center gap-3">
-            <div className="h-8 w-px bg-gradient-to-t from-mana-bright/40 to-transparent" />
+            <div className="h-8 w-px bg-linear-to-t from-mana-bright/40 to-transparent" />
             <div className="text-[9px] tracking-[0.5em] text-system/60 font-mono">ACTIVE</div>
             <div className="flex flex-col gap-1.5 items-center">
               {[...Array(6)].map((_, i) => (
@@ -87,7 +89,7 @@ export default function Projects() {
               ))}
             </div>
             <div className="rotate-90 text-[10px] tracking-[0.4em] text-mana-bright/50 font-mono">RAID LOG</div>
-            <div className="h-px w-16 bg-gradient-to-l from-transparent to-mana-bright/60" />
+            <div className="h-px w-16 bg-linear-to-l from-transparent to-mana-bright/60" />
           </div>
         </div>
       </div>
@@ -100,7 +102,7 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-abyss/80 p-8 backdrop-blur-sm"
+            className="fixed inset-0 z-70 flex items-center justify-center bg-abyss/80 p-8 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
