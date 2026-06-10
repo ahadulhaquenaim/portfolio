@@ -50,7 +50,7 @@ export default function Experience() {
                 <div className="mb-2 flex items-center gap-3">
                   <RankBadge rank={e.rank} />
                   <span
-                    className="text-xs tracking-widest"
+                    className="text-sm tracking-widest"
                     style={{ color: "#ffffff", textShadow: "0 0 8px #ffffff, 0 0 20px #ffffffcc" }}
                   >
                     {e.period}
