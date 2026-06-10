@@ -12,6 +12,8 @@ import {
   FacebookIcon,
 } from "../components/BrandIcons";
 import selftunePreview from "../../public/projects/selftune.png";
+import shikkhakoshPreview from "../../public/projects/shikkhakosh.png";
+import voluePreview from "../../public/projects/volue.png";
 
 /** Any icon that renders from a `size` prop (lucide + our brand icons). */
 export type IconComponent = (props: {
@@ -125,22 +127,24 @@ export const projects = [
     preview: selftunePreview,
   },
   {
-    title: "Shadow Commerce",
-    label: "Full-Stack Web",
-    difficulty: "A" as Rank,
+    title: "Shikkhakosh",
+    label: "Full-Stack E-Commerce",
+    difficulty: "S" as Rank,
     blurb:
-      "Full-stack e-commerce with cart, payments and an admin dashboard for inventory.",
-    tech: ["Next.js", "Stripe", "MongoDB"],
-    link: "#",
+      "Co-founded and architected a production-deployed e-commerce monorepo with a customer storefront, admin dashboard, and REST API. Features 20+ NestJS modules covering product variants, hierarchical categories, coupon/reward systems, push notifications, and custom invoice generation — deployed to Hostinger VPS via Coolify.",
+    tech: ["Next.js 14", "NestJS", "TypeScript", "Prisma", "MySQL", "Tailwind CSS", "Docker", "Turborepo", "Coolify", "Hostinger"],
+    link: "https://shikkhakosh.com",
+    preview: shikkhakoshPreview,
   },
   {
-    title: "The Rune Tracker",
-    label: "Productivity App",
+    title: "Volue ASA, Norway",
+    label: "Data Engineering",
     difficulty: "A" as Rank,
     blurb:
-      "Habit + goal tracker with streak analytics and animated progress visualizations.",
-    tech: ["React", "Framer Motion", "Firebase"],
-    link: "#",
+      "Engineered ETL pipelines and data workflows for power market analytics at a leading Norwegian energy tech company. Collected and preprocessed high-resolution power market data from diverse sources, designed and maintained scalable pipelines supporting forecasting models, and ensured data integrity across high-volume transformation processes.",
+    tech: ["Python", "Apache Airflow", "Pandas", "BeautifulSoup4", "Django", "REST APIs", "Docker", "GCP", "Grafana", "Prometheus"],
+    link: "https://www.volue.com/",
+    preview: voluePreview,
   },
   {
     title: "Gate Analytics",

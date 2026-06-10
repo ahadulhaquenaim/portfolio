@@ -111,7 +111,7 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 z-70 flex items-center justify-center bg-abyss/80 p-8 backdrop-blur-sm"
+            className="fixed inset-0 z-200 flex items-center justify-center bg-abyss/80 p-8 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
@@ -146,12 +146,23 @@ export default function Projects() {
               {/* Body — two columns when preview exists, single column otherwise */}
               {"preview" in active && active.preview ? (
                 <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
-                  <div className="lg:w-[62%]">
+                  <div className="lg:w-[62%] flex flex-col gap-4">
                     <img
                       src={active.preview as string}
                       alt={active.title}
-                      className="w-full rounded-lg border border-mana/20"
+                      className="w-[85%] rounded-lg border border-mana/20"
                     />
+                    {active.link && active.link !== "#" && (
+                      <a
+                        href={active.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 self-start rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
+                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                      >
+                        LIVE SERVER <ExternalLink size={16} />
+                      </a>
+                    )}
                   </div>
                   <div className="flex flex-col justify-between lg:w-[38%]">
                     <div>
@@ -168,17 +179,6 @@ export default function Projects() {
                       </div>
                     </div>
                     <div className="mt-7 flex flex-wrap gap-3">
-                      {active.link && active.link !== "#" && (
-                        <a
-                          href={active.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
-                          style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                        >
-                          VIEW PROJECT <ExternalLink size={16} />
-                        </a>
-                      )}
                       {"repoLink" in active && active.repoLink && (
                         <a
                           href={active.repoLink as string}
@@ -195,12 +195,13 @@ export default function Projects() {
                 </div>
               ) : (
                 <div className="px-7 pb-7">
-                  <p className="leading-relaxed text-slate-300">{active.blurb}</p>
+                  <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {active.tech.map((t) => (
                       <span
                         key={t}
-                        className="rounded border border-mana/30 bg-mana/5 px-2.5 py-1 text-xs text-mana-bright"
+                        className="rounded border border-purple-400 bg-purple-500/20 px-2.5 py-1 text-sm font-semibold text-white"
+                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                       >
                         {t}
                       </span>
@@ -215,7 +216,7 @@ export default function Projects() {
                         className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
                         style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                       >
-                        VIEW PROJECT <ExternalLink size={16} />
+                        LIVE SERVER <ExternalLink size={16} />
                       </a>
                     )}
                     {"repoLink" in active && active.repoLink && (
