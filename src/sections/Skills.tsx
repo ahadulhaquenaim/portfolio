@@ -20,7 +20,7 @@ export default function Skills() {
   const byName = Object.fromEntries(skills.map((s) => [s.name, s]));
 
   return (
-    <section id="skills" className="relative z-10 mx-auto max-w-400 px-16 py-12">
+    <section id="skills" className="relative z-10 w-full px-16 py-12 overflow-x-auto">
       <SectionHeading kicker="ABILITIES" title="SKILL TREE" />
 
       <div className="relative flex flex-col items-center">

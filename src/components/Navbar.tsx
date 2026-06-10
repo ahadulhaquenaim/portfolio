@@ -26,7 +26,7 @@ export default function Navbar() {
           if (e.isIntersecting) setActive(e.target.id);
         });
       },
-      { rootMargin: "-45% 0px -45% 0px" }
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
     );
     navLinks.forEach((l) => {
       const el = document.getElementById(l.id);
