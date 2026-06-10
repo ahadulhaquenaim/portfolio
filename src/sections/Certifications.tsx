@@ -360,10 +360,10 @@ function CertCarousel() {
                 className="group relative overflow-hidden rounded-xl h-full cursor-grab active:cursor-grabbing"
                 style={{
                   background: "linear-gradient(135deg, #0a0716ee 0%, #130c26ee 100%)",
-                  border: `1px solid ${isCenter ? cert.categoryColor + "40" : cert.categoryColor + "25"}`,
+                  border: `1px solid ${isCenter ? cert.categoryColor + "70" : cert.categoryColor + "35"}`,
                   boxShadow: isCenter
-                    ? `0 0 40px 0px ${cert.categoryColor}20`
-                    : "none",
+                    ? `0 0 32px 4px ${cert.categoryColor}45, 0 0 80px 8px ${cert.categoryColor}18, inset 0 0 24px 0px ${cert.categoryColor}10`
+                    : `0 0 16px 2px ${cert.categoryColor}20`,
                 }}
               >
                 {/* scanline */}
