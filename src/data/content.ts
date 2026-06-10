@@ -19,6 +19,7 @@ import copai2 from "../../public/projects/copai2.png";
 import copai3 from "../../public/projects/copai3.png";
 import copai4 from "../../public/projects/copai4.png";
 import copai5 from "../../public/projects/copai5.png";
+import atsPreview from "../../public/projects/ats.png";
 
 /** Any icon that renders from a `size` prop (lucide + our brand icons). */
 export type IconComponent = (props: {
@@ -154,20 +155,21 @@ export const projects = [
   {
     title: "Team Task Summarizer",
     label: "AI-Driven Automation",
-    difficulty: "A" as Rank,
+    difficulty: "S" as Rank,
     blurb:
       "Developed a secure automation system to aggregate and summarize team updates from GitHub, Slack, and ClickUp using OAuth 2.0 integrations. Built a data processing pipeline leveraging local LLMs (Llama 3.2 and Gemma) with structured prompt engineering to generate high-accuracy summaries. Delivered consolidated AI-generated reports to Gmail with zero external API cost through secure local model execution.",
     tech: ["Python", "OAuth 2.0", "GitHub API", "Slack API", "ClickUp API", "Llama 3.2", "Gemma", "n8n", "Gmail API"],
     slides: [copai1, copai2, copai3, copai4, copai5],
   },
   {
-    title: "Monarch Chat",
-    label: "Real-Time Messaging",
-    difficulty: "B" as Rank,
+    title: "Recruitment Portal",
+    label: "Applicant Tracking System",
+    difficulty: "S" as Rank,
     blurb:
-      "End-to-end messaging app with rooms, typing indicators and read receipts.",
-    tech: ["React", "Socket.io", "Node"],
-    link: "#",
+      "Developed a full-stack ATS with a public job portal and internal HR/admin dashboard, streamlining end-to-end recruitment workflows. Built and extended RESTful APIs across 17+ NestJS modules covering candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC. Integrated Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments. Implemented multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for HR/admin reporting. Maintained a Turborepo monorepo with shared component libraries reused across two Next.js applications.",
+    tech: ["TypeScript", "NestJS", "Next.js", "Prisma", "MySQL", "Zustand", "AWS S3", "Docker", "JWT"],
+    preview: atsPreview,
+    link: "https://career.cefalo.com/",
   },
   {
     title: "Arise Portfolio",
