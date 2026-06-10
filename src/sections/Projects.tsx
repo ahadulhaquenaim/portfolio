@@ -115,15 +115,17 @@ export default function Projects() {
                       </div>
                     </div>
                     <div className="mt-7 flex flex-wrap gap-3">
-                      <a
-                        href={active.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
-                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                      >
-                        VIEW PROJECT <ExternalLink size={16} />
-                      </a>
+                      {active.link && active.link !== "#" && (
+                        <a
+                          href={active.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
+                          style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        >
+                          VIEW PROJECT <ExternalLink size={16} />
+                        </a>
+                      )}
                       {"repoLink" in active && active.repoLink && (
                         <a
                           href={active.repoLink as string}
@@ -152,14 +154,28 @@ export default function Projects() {
                     ))}
                   </div>
                   <div className="mt-7 flex flex-wrap gap-3">
-                    <a
-                      href={active.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn-mana inline-flex items-center gap-2 rounded-md px-6 py-2.5 text-sm font-semibold tracking-wider text-white"
-                    >
-                      VIEW PROJECT <ExternalLink size={16} />
-                    </a>
+                    {active.link && active.link !== "#" && (
+                      <a
+                        href={active.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
+                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                      >
+                        VIEW PROJECT <ExternalLink size={16} />
+                      </a>
+                    )}
+                    {"repoLink" in active && active.repoLink && (
+                      <a
+                        href={active.repoLink as string}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
+                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                      >
+                        REPO <ExternalLink size={16} />
+                      </a>
+                    )}
                   </div>
                 </div>
               )}

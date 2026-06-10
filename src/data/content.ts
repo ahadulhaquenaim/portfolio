@@ -119,7 +119,7 @@ export const projects = [
     blurb:
       "A native desktop productivity app with a Plan → Do → Review workflow, backlog management, and a 7-day weekly report dashboard — all stored locally for full privacy.",
     tech: ["Electron.js", "React", "TypeScript", "Vite", "Node.js", "electron-builder", "CSS"],
-    link: "https://github.com/ahadulhaquenaim/self-tune",
+    link: "#",
     repoLink: "https://github.com/ahadulhaquenaim/self-tune",
     preview: selftunePreview,
   },
