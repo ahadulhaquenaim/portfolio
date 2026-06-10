@@ -45,7 +45,7 @@ export default function Contact() {
       )}
 
       {/* Content layered above video */}
-      <div className="relative z-10 mx-auto max-w-xl px-5">
+      <div className="relative z-10 mx-auto max-w-md px-5">
         <SectionHeading kicker="GET IN TOUCH" title="CONQUER TOGETHER" />
 
         <motion.form
