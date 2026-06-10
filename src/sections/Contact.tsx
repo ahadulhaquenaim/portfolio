@@ -1,9 +1,8 @@
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import { socials, identity } from "../data/content";
-import { useRef } from "react";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -76,22 +75,68 @@ export default function Contact() {
         </motion.form>
 
         {/* Socials */}
-        <div className="mt-10 flex justify-center gap-5">
+        <div className="mt-10 flex justify-center gap-8">
           {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={s.label}
-              className="grid h-12 w-12 place-items-center rounded-lg border border-mana/30 bg-abyss/40 backdrop-blur-sm text-slate-300 transition hover:border-mana-bright hover:text-mana-bright hover:shadow-[0_0_18px_rgba(168,85,247,0.5)]"
-            >
-              <s.icon size={20} />
-            </a>
+            <SocialIcon key={s.label} s={s} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+const SPARKLE_POSITIONS = [
+  { top: "-8px", left: "50%", delay: 0 },
+  { top: "50%", left: "-8px", delay: 0.2 },
+  { top: "50%", left: "calc(100% + 8px)", delay: 0.4 },
+  { top: "calc(100% + 8px)", left: "50%", delay: 0.6 },
+];
+
+function SocialIcon({ s }: { s: { label: string; href: string; icon: React.ElementType } }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <a
+      href={s.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={s.label}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="relative grid h-12 w-12 place-items-center rounded-lg border border-cyan-400/50 bg-abyss/40 backdrop-blur-sm text-cyan-300 transition-all duration-300 hover:border-cyan-300 hover:text-white shadow-[0_0_12px_rgba(34,211,238,0.4),0_4px_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.8),0_4px_30px_rgba(34,211,238,0.6)]"
+    >
+      <s.icon size={20} />
+
+      {/* Sparkles */}
+      {SPARKLE_POSITIONS.map((pos, i) => (
+        <motion.div
+          key={i}
+          className="pointer-events-none absolute h-1.5 w-1.5 rounded-full bg-cyan-300"
+          style={{ top: pos.top, left: pos.left, translateX: "-50%", translateY: "-50%" }}
+          animate={hovered ? {
+            scale: [0, 1.5, 0],
+            opacity: [0, 1, 0],
+            y: [0, -10, -18],
+          } : { scale: 0, opacity: 0 }}
+          transition={{ duration: 0.7, delay: pos.delay, ease: "easeOut" }}
+        />
+      ))}
+
+      {/* Corner sparkle dots */}
+      {hovered && [0, 1, 2, 3].map((i) => (
+        <motion.div
+          key={`corner-${i}`}
+          className="pointer-events-none absolute h-1 w-1 rounded-full bg-white"
+          style={{
+            top: i < 2 ? "-4px" : "calc(100% + 4px)",
+            left: i % 2 === 0 ? "20%" : "80%",
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: [0, 1, 0], opacity: [0, 1, 0], y: i < 2 ? -8 : 8 }}
+          transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+        />
+      ))}
+    </a>
   );
 }
 
