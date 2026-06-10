@@ -11,18 +11,16 @@ import {
   LinkedinIcon,
   FacebookIcon,
 } from "../components/BrandIcons";
-const CDN = "https://res.cloudinary.com/dumsdgz85/image/upload/f_auto,q_auto,w_800/portfolio/projects";
-
-const selftunePreview = `${CDN}/selftune.png`;
-const shikkhakoshPreview = `${CDN}/shikkhakosh.png`;
-const voluePreview = `${CDN}/volue.png`;
-const copai1 = `${CDN}/copai1.png`;
-const copai2 = `${CDN}/copai2.png`;
-const copai3 = `${CDN}/copai3.png`;
-const copai4 = `${CDN}/copai4.png`;
-const copai5 = `${CDN}/copai5.png`;
-const atsPreview = `${CDN}/ats.png`;
-const thaiCraftPreview = `${CDN}/thai-craft.png`;
+const selftunePreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118408/selftune_mroosj.png";
+const shikkhakoshPreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118411/shikkhakosh_hpzngg.png";
+const voluePreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118410/volue_vq5m8j.png";
+const copai1 = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118406/copai1_uow8k6.png";
+const copai2 = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118406/copai2_ap89da.png";
+const copai3 = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118407/copai3_drowl9.png";
+const copai4 = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118407/copai4_qq4jfk.png";
+const copai5 = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118406/copai5_jbznpl.png";
+const atsPreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118407/ats_sakcph.png";
+const thaiCraftPreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118412/thai-craft_ljtwqy.png";
 
 /** Any icon that renders from a `size` prop (lucide + our brand icons). */
 export type IconComponent = (props: {
