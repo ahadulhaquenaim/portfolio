@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { Download } from "lucide-react";
-import { identity, hudStats, headlineStats } from "../data/content";
+import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Star, Cpu } from "lucide-react";
+import { identity } from "../data/content";
 
 // Deterministic pseudo-random based on index to avoid hydration drift
 function seededRandom(seed: number) {
@@ -227,37 +226,20 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ---- RIGHT: HUD stat panel ---- */}
-        <div className="hero-hud hidden flex-col gap-6 lg:flex lg:pl-28 xl:pl-40">
-          <div className="rounded-lg border border-mana/20 bg-abyss/50 p-5 backdrop-blur-sm">
-            <p className="mb-3 text-xs tracking-[0.3em] text-system">EXPERIENCE</p>
-            <div className="space-y-3">
-              {hudStats.map((s) => (
-                <HudBar key={s.label} {...s} go={revealed} />
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4 rounded-lg border border-mana/20 bg-abyss/50 p-5 backdrop-blur-sm">
-            {headlineStats.map((s) => (
-              <div key={s.label} className="flex items-baseline gap-3">
-                <span className="font-display text-3xl font-bold text-glow">
-                  {s.value}
-                </span>
-                <span className="text-xs tracking-widest text-slate-300">
-                  {s.label}
-                </span>
-              </div>
-            ))}
-            <a
-              href={identity.cvPath}
-              download
-              className="btn-mana mt-2 flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-sm font-semibold tracking-wider text-white"
-            >
-              <Download size={14} />
-              DOWNLOAD CV
-            </a>
-          </div>
+        {/* ---- RIGHT: Achievement Unlocked Cards ---- */}
+        <div className="hero-hud hidden flex-col gap-3 lg:flex lg:pl-28 xl:pl-40">
+          <p className="mb-1 text-xs tracking-[0.3em] text-system">[ ACHIEVEMENTS UNLOCKED ]</p>
+          {ACHIEVEMENTS.map((a, i) => (
+            <AchievementCard key={a.title} achievement={a} index={i} go={revealed} />
+          ))}
+          <a
+            href={identity.cvPath}
+            download
+            className="btn-mana mt-2 flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-sm font-semibold tracking-wider text-white"
+          >
+            <Download size={14} />
+            DOWNLOAD CV
+          </a>
         </div>
       </div>
 
@@ -421,31 +403,150 @@ function CharacterLayer({
   );
 }
 
-function HudBar({
-  label,
-  rank,
-  value,
+type Achievement = {
+  icon: React.ReactNode;
+  rarity: string;
+  rarityColor: string;
+  title: string;
+  desc: string;
+  xp: string;
+  isAI?: boolean;
+};
+
+const ACHIEVEMENTS: Achievement[] = [
+  {
+    icon: <Cpu size={18} />,
+    rarity: "S-RANK · AI",
+    rarityColor: "#22d3ee",
+    title: "AI Integration Specialist",
+    desc: "LLM · Claude · Prompt Eng · N8N",
+    xp: "+3000 XP",
+    isAI: true,
+  },
+  {
+    icon: <Trophy size={18} />,
+    rarity: "LEGENDARY",
+    rarityColor: "#f59e0b",
+    title: "Full-Stack Architect",
+    desc: "Shipped 15+ production apps end-to-end",
+    xp: "+2500 XP",
+  },
+  {
+    icon: <Code2 size={18} />,
+    rarity: "EPIC",
+    rarityColor: "#a855f7",
+    title: "JavaScript Sovereign",
+    desc: "React · Node.js · TypeScript mastery",
+    xp: "+1800 XP",
+  },
+  {
+    icon: <Brain size={18} />,
+    rarity: "EPIC",
+    rarityColor: "#a855f7",
+    title: "Problem Solver S-Rank",
+    desc: "Turns complex bugs into clean solutions",
+    xp: "+1600 XP",
+  },
+  {
+    icon: <Layers size={18} />,
+    rarity: "RARE",
+    rarityColor: "#38bdf8",
+    title: "UI Craftsman",
+    desc: "Pixel-perfect, animated interfaces",
+    xp: "+1200 XP",
+  },
+  {
+    icon: <Zap size={18} />,
+    rarity: "RARE",
+    rarityColor: "#38bdf8",
+    title: "3+ Years On The Grind",
+    desc: "Consistent growth, zero days wasted",
+    xp: "+1000 XP",
+  },
+  {
+    icon: <Star size={18} />,
+    rarity: "UNCOMMON",
+    rarityColor: "#4ade80",
+    title: "100% Dedication",
+    desc: "Ships with quality, every single time",
+    xp: "+800 XP",
+  },
+];
+
+function AchievementCard({
+  achievement,
+  index,
   go,
 }: {
-  label: string;
-  rank: string;
-  value: number;
+  achievement: Achievement;
+  index: number;
   go: boolean;
 }) {
+  const { isAI, rarityColor } = achievement;
+
   return (
-    <div className="w-56 max-w-full">
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-200">{label}</span>
-        <span className="text-mana-bright">{rank}</span>
-      </div>
-      <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-shadow">
+    <motion.div
+      initial={{ opacity: 0, x: 48, scale: 0.92 }}
+      animate={go ? { opacity: 1, x: 0, scale: 1 } : {}}
+      transition={{ duration: 0.5, delay: 0.15 * index, ease: "easeOut" }}
+      className="group relative flex items-center gap-4 overflow-hidden rounded-lg border bg-abyss/60 px-5 py-4 backdrop-blur-sm"
+      style={{
+        borderColor: `${rarityColor}${isAI ? "70" : "40"}`,
+        boxShadow: isAI ? `0 0 18px 2px ${rarityColor}25, inset 0 0 24px 0px ${rarityColor}08` : undefined,
+      }}
+    >
+      {/* AI card: animated scan line */}
+      {isAI && (
         <motion.div
-          className="h-full rounded-full bg-linear-to-r from-arcane to-mana-bright shadow-[0_0_10px_#a855f7]"
-          initial={{ width: 0 }}
-          animate={{ width: go ? `${value}%` : 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          className="pointer-events-none absolute inset-x-0 h-[2px] opacity-40"
+          style={{ background: `linear-gradient(90deg, transparent, ${rarityColor}, transparent)` }}
+          animate={{ top: ["0%", "100%", "0%"] }}
+          transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
         />
+      )}
+      {/* left accent bar */}
+      <motion.div
+        className="absolute left-0 top-0 h-full w-1 rounded-l-lg"
+        style={{ background: rarityColor }}
+        animate={isAI ? { boxShadow: [`0 0 8px 2px ${rarityColor}50`, `0 0 20px 6px ${rarityColor}90`, `0 0 8px 2px ${rarityColor}50`] } : { boxShadow: `0 0 12px 3px ${rarityColor}70` }}
+        transition={isAI ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
+      />
+
+      {/* icon bubble */}
+      <motion.div
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md"
+        style={{ background: `${rarityColor}22`, color: rarityColor }}
+        animate={isAI ? { boxShadow: [`0 0 0px 0px ${rarityColor}00`, `0 0 12px 4px ${rarityColor}50`, `0 0 0px 0px ${rarityColor}00`] } : {}}
+        transition={isAI ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
+      >
+        {achievement.icon}
+      </motion.div>
+
+      {/* text */}
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <span
+            className="text-[10px] font-bold tracking-[0.18em]"
+            style={{ color: rarityColor }}
+          >
+            {achievement.rarity}
+          </span>
+          <span className="text-[10px] tracking-widest text-slate-500">ACHIEVEMENT UNLOCKED</span>
+        </div>
+        <p className="truncate text-sm font-bold text-white">{achievement.title}</p>
+        <p className="truncate text-xs text-slate-300">{achievement.desc}</p>
       </div>
-    </div>
+
+      {/* XP badge */}
+      <span
+        className="shrink-0 rounded px-2 py-1 text-[10px] font-bold tracking-wider"
+        style={{ background: `${rarityColor}22`, color: rarityColor }}
+      >
+        {achievement.xp}
+      </span>
+
+      {/* shimmer on hover */}
+      <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+    </motion.div>
   );
 }
