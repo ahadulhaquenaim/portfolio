@@ -233,7 +233,7 @@ function CertCarousel() {
    *
    *  hidden-left / hidden-right = off-screen entry/exit points
    */
-  const SLOT: Record<string, object> = {
+  const SLOT: Record<string, Record<string, string | number>> = {
     center: {
       x: "0%",
       scale: 1,
@@ -292,7 +292,7 @@ function CertCarousel() {
     },
   };
 
-  const SPRING = { type: "spring", stiffness: 280, damping: 30, mass: 0.85 };
+  const SPRING = { type: "spring" as const, stiffness: 280, damping: 30, mass: 0.85 };
 
   const getSlot = (idx: number) => {
     if (idx === active) return "center";
