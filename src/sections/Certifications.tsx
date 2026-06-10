@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { ExternalLink, Calendar, ShieldCheck, Cpu, Lock, Code2, Server, Sparkles } from "lucide-react";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { ExternalLink, Calendar, ShieldCheck, Cpu, Lock, Code2, Server, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 
 type Certification = {
@@ -90,15 +90,6 @@ const RANK_COLORS: Record<string, string> = {
   B: "#38bdf8",
 };
 
-const ENTRANCE_DIRECTIONS = [
-  { x: -60, y: -30 },
-  { x: 0, y: -60 },
-  { x: 60, y: -30 },
-  { x: -60, y: 30 },
-  { x: 0, y: 60 },
-  { x: 60, y: 30 },
-];
-
 /* ── floating rune particles ── */
 const RUNES = ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "ᚲ", "ᚷ", "ᚹ", "ᚺ", "ᚾ", "ᛁ", "ᛃ", "ᛇ", "ᛈ", "ᛉ", "ᛊ"];
 
@@ -146,7 +137,6 @@ function CredentialCounter() {
       transition={{ duration: 0.6, ease: "backOut" }}
       className="mx-auto mb-16 flex w-fit flex-col items-center gap-5"
     >
-      {/* outer ring */}
       <div className="relative flex items-center justify-center">
         <motion.div
           className="absolute h-28 w-28 rounded-full"
@@ -183,31 +173,24 @@ function CredentialCounter() {
         </span>
         <div className="h-px w-12" style={{ background: "linear-gradient(90deg, #fbbf24, transparent)" }} />
       </div>
-
     </motion.div>
   );
 }
 
-/* ── individual cert card ── */
+/* ── individual cert card (carousel version) ── */
 function CertCard({ cert, index }: { cert: Certification; index: number }) {
-  const dir = ENTRANCE_DIRECTIONS[index];
   const rankColor = RANK_COLORS[cert.rank] ?? "#8b5cf6";
 
   return (
-    <motion.article
-      initial={{ opacity: 0, x: dir.x, y: dir.y, scale: 0.9 }}
-      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.65, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      className="group relative overflow-hidden rounded-xl"
+    <div
+      className="group relative overflow-hidden rounded-xl h-full"
       style={{
-        background: "linear-gradient(135deg, #0a071699 0%, #130c2699 100%)",
-        border: `1px solid ${cert.categoryColor}30`,
+        background: "linear-gradient(135deg, #0a0716ee 0%, #130c26ee 100%)",
+        border: `1px solid ${cert.categoryColor}35`,
       }}
     >
       {/* animated border glow on hover */}
-      <motion.div
+      <div
         className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           boxShadow: `0 0 30px 4px ${cert.categoryColor}25, inset 0 0 30px 0px ${cert.categoryColor}08`,
@@ -248,7 +231,7 @@ function CertCard({ cert, index }: { cert: Certification; index: number }) {
       </div>
 
       {/* card body */}
-      <div className="relative z-10 p-6">
+      <div className="relative z-10 p-6 flex flex-col h-full">
         {/* header row: category badge + rank badge + icon */}
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -280,7 +263,6 @@ function CertCard({ cert, index }: { cert: Certification; index: number }) {
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.35 }}
           >
             <cert.CategoryIcon size={18} style={{ color: cert.categoryColor }} />
-            {/* inner shimmer ring */}
             <motion.div
               className="absolute inset-0 rounded-lg"
               style={{ border: `1px solid ${cert.categoryColor}` }}
@@ -292,7 +274,7 @@ function CertCard({ cert, index }: { cert: Certification; index: number }) {
 
         {/* title */}
         <h3
-          className="mb-3 font-display text-[13px] font-bold leading-snug text-white"
+          className="mb-3 font-display text-[14px] font-bold leading-snug text-white flex-1"
           style={{ textShadow: `0 0 16px ${cert.categoryColor}40` }}
         >
           {cert.title}
@@ -341,14 +323,269 @@ function CertCard({ cert, index }: { cert: Certification; index: number }) {
             }}
             whileTap={{ scale: 0.96 }}
           >
-            {/* button shimmer */}
             <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover/btn:translate-x-full" />
             <span>VIEW</span>
             <ExternalLink size={9} />
           </motion.a>
         </div>
       </div>
-    </motion.article>
+    </div>
+  );
+}
+
+/* ── carousel ── */
+function CertCarousel() {
+  const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState(0); // -1 left, 1 right
+  const [paused, setPaused] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const dragStart = useRef(0);
+  const total = CERTIFICATIONS.length;
+
+  const go = useCallback(
+    (dir: number) => {
+      setDirection(dir);
+      setActive((prev) => (prev + dir + total) % total);
+    },
+    [total]
+  );
+
+  /* auto-advance */
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => go(1), 4000);
+    return () => clearInterval(id);
+  }, [paused, go]);
+
+  /* keyboard */
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "ArrowRight") go(1);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [go]);
+
+  /* drag handlers */
+  const onPointerDown = (e: React.PointerEvent) => {
+    dragStart.current = e.clientX;
+    setDragging(true);
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (!dragging) return;
+    setDragging(false);
+    const delta = dragStart.current - e.clientX;
+    if (Math.abs(delta) > 40) go(delta > 0 ? 1 : -1);
+  };
+
+  /* positions: prev, active, next */
+  const prev = (active - 1 + total) % total;
+  const next = (active + 1) % total;
+
+  const variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.85,
+      rotateY: dir > 0 ? 25 : -25,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      rotateY: 0,
+      zIndex: 10,
+    },
+    exit: (dir: number) => ({
+      x: dir > 0 ? -300 : 300,
+      opacity: 0,
+      scale: 0.85,
+      rotateY: dir > 0 ? -25 : 25,
+    }),
+  };
+
+  return (
+    <div
+      className="relative w-full"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* 3-card stage */}
+      <div
+        className="relative flex items-center justify-center"
+        style={{ perspective: "1200px", minHeight: "380px" }}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerLeave={() => setDragging(false)}
+      >
+        {/* LEFT ghost card */}
+        <div
+          className="absolute hidden md:block"
+          style={{
+            left: "0%",
+            width: "30%",
+            maxWidth: "320px",
+            transform: "translateX(8%) rotateY(22deg) scale(0.82)",
+            transformOrigin: "right center",
+            opacity: 0.35,
+            filter: "blur(1px)",
+            zIndex: 2,
+            pointerEvents: "none",
+          }}
+        >
+          <CertCard cert={CERTIFICATIONS[prev]} index={prev} />
+        </div>
+
+        {/* RIGHT ghost card */}
+        <div
+          className="absolute hidden md:block"
+          style={{
+            right: "0%",
+            width: "30%",
+            maxWidth: "320px",
+            transform: "translateX(-8%) rotateY(-22deg) scale(0.82)",
+            transformOrigin: "left center",
+            opacity: 0.35,
+            filter: "blur(1px)",
+            zIndex: 2,
+            pointerEvents: "none",
+          }}
+        >
+          <CertCard cert={CERTIFICATIONS[next]} index={next} />
+        </div>
+
+        {/* CENTER active card with AnimatePresence */}
+        <div
+          className="relative w-full md:w-[42%] max-w-110 mx-auto"
+          style={{ zIndex: 10 }}
+        >
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={active}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                duration: 0.5,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              style={{ transformStyle: "preserve-3d" }}
+              className="cursor-grab active:cursor-grabbing"
+            >
+              {/* glow ring behind active card */}
+              <div
+                className="absolute -inset-3 rounded-2xl opacity-30 blur-xl pointer-events-none"
+                style={{
+                  background: `radial-gradient(ellipse, ${CERTIFICATIONS[active].categoryColor}60, transparent 70%)`,
+                }}
+              />
+              <CertCard cert={CERTIFICATIONS[active]} index={active} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* NAVIGATION ROW */}
+      <div className="mt-10 flex flex-col items-center gap-5">
+        {/* counter + arrows */}
+        <div className="flex items-center gap-6">
+          {/* left arrow */}
+          <motion.button
+            onClick={() => go(-1)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.92 }}
+            className="relative flex h-10 w-10 items-center justify-center rounded-full"
+            style={{
+              background: "linear-gradient(135deg, #130c26, #0a0716)",
+              border: "1px solid #8b5cf640",
+              boxShadow: "0 0 12px #8b5cf615",
+            }}
+          >
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              style={{ border: "1px solid #8b5cf6" }}
+              animate={{ opacity: [0.1, 0.4, 0.1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <ChevronLeft size={16} className="text-white/70" />
+          </motion.button>
+
+          {/* card counter */}
+          <div className="flex items-center gap-2">
+            <span className="font-display text-lg font-black" style={{ color: CERTIFICATIONS[active].categoryColor, textShadow: `0 0 16px ${CERTIFICATIONS[active].categoryColor}60` }}>
+              {String(active + 1).padStart(2, "0")}
+            </span>
+            <span className="font-display text-xs text-white/30">/</span>
+            <span className="font-display text-sm text-white/30">
+              {String(total).padStart(2, "0")}
+            </span>
+          </div>
+
+          {/* right arrow */}
+          <motion.button
+            onClick={() => go(1)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.92 }}
+            className="relative flex h-10 w-10 items-center justify-center rounded-full"
+            style={{
+              background: "linear-gradient(135deg, #130c26, #0a0716)",
+              border: "1px solid #8b5cf640",
+              boxShadow: "0 0 12px #8b5cf615",
+            }}
+          >
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              style={{ border: "1px solid #8b5cf6" }}
+              animate={{ opacity: [0.1, 0.4, 0.1] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+            />
+            <ChevronRight size={16} className="text-white/70" />
+          </motion.button>
+        </div>
+
+        {/* dot indicators */}
+        <div className="flex items-center gap-2">
+          {CERTIFICATIONS.map((cert, i) => (
+            <motion.button
+              key={i}
+              onClick={() => {
+                setDirection(i > active ? 1 : -1);
+                setActive(i);
+              }}
+              whileHover={{ scale: 1.4 }}
+              whileTap={{ scale: 0.9 }}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: i === active ? "24px" : "6px",
+                height: "6px",
+                background:
+                  i === active
+                    ? cert.categoryColor
+                    : "#ffffff20",
+                boxShadow: i === active ? `0 0 8px ${cert.categoryColor}` : "none",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* auto-play progress bar */}
+        {!paused && (
+          <div className="w-32 h-0.5 rounded-full overflow-hidden" style={{ background: "#ffffff10" }}>
+            <motion.div
+              className="h-full rounded-full"
+              style={{ background: CERTIFICATIONS[active].categoryColor }}
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              key={active}
+              transition={{ duration: 4, ease: "linear" }}
+            />
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -372,12 +609,7 @@ export default function Certifications() {
 
       <CredentialCounter />
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {CERTIFICATIONS.map((cert, i) => (
-          <CertCard key={cert.title} cert={cert} index={i} />
-        ))}
-      </div>
-
+      <CertCarousel />
     </section>
   );
 }
