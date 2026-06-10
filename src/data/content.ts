@@ -188,32 +188,31 @@ export const projects = [
 export const experience = [
   {
     role: "Software Engineer",
-    org: "Cefalo",
-    period: "2024 — Present",
+    org: "Cefalo Bangladesh LTD",
+    period: "March 2026 — Present",
     rank: "A" as Rank,
-    points: [
-      "Build and maintain production web applications used by thousands of users.",
-      "Collaborate across teams to ship features end-to-end with clean, tested code.",
-    ],
+    points: [],
   },
   {
-    role: "Junior Developer",
-    org: "Freelance / Open Source",
-    period: "2023 — 2024",
+    role: "Data Engineer",
+    org: "Volue ASA, Norway (via Cefalo Bangladesh LTD)",
+    period: "August 2024 — February 2026",
     rank: "B" as Rank,
-    points: [
-      "Delivered client web projects from design to deployment.",
-      "Contributed to open-source repos and grew core React/Node skills.",
-    ],
+    points: [],
   },
   {
-    role: "Awakening — Began Coding",
-    org: "Self-taught Journey",
-    period: "2022",
-    rank: "E" as Rank,
-    points: [
-      "Started the path: HTML, CSS, JavaScript and the fundamentals of the web.",
-    ],
+    role: "Associate Software Engineer",
+    org: "Cefalo Bangladesh LTD",
+    period: "September 2023 — July 2024",
+    rank: "C" as Rank,
+    points: [],
+  },
+  {
+    role: "Trainee Software Engineer",
+    org: "Cefalo Bangladesh LTD",
+    period: "July 2023 — September 2023",
+    rank: "D" as Rank,
+    points: [],
   },
 ];
 

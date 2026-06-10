@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import SectionHeading from "../components/SectionHeading";
 import RankBadge from "../components/RankBadge";
 import { experience } from "../data/content";
+import { rankStyle } from "../lib/rank";
 
 export default function Experience() {
   return (
@@ -25,7 +26,7 @@ export default function Experience() {
               transition={{ duration: 0.5 }}
               className={`relative pl-12 md:w-1/2 md:pl-0 ${
                 i % 2 === 0
-                  ? "md:pr-10 md:text-right"
+                  ? "md:pr-10"
                   : "md:ml-auto md:pl-10"
               }`}
             >
@@ -38,24 +39,21 @@ export default function Experience() {
                 }`}
               />
 
-              <div className="gate-card rounded-xl p-5">
-                <div
-                  className={`mb-2 flex items-center gap-3 ${
-                    i % 2 === 0 ? "md:flex-row-reverse" : ""
-                  }`}
-                >
+              <div className="gate-card rounded-xl p-7 text-left">
+                <div className="mb-2 flex items-center gap-3">
                   <RankBadge rank={e.rank} />
                   <span className="text-xs tracking-widest text-system">
                     {e.period}
                   </span>
                 </div>
-                <h3 className="font-display text-xl text-slate-100">{e.role}</h3>
-                <p className="text-sm text-mana-bright">{e.org}</p>
-                <ul
-                  className={`mt-3 space-y-1.5 text-sm text-slate-400 ${
-                    i % 2 === 0 ? "md:text-right" : ""
-                  }`}
+                <h3
+                  className="font-display text-xl"
+                  style={{ color: rankStyle[e.rank].text, textShadow: `0 0 10px ${rankStyle[e.rank].glow}` }}
                 >
+                  {e.role}
+                </h3>
+                <p className="text-sm text-mana-bright">{e.org}</p>
+                <ul className="mt-3 space-y-1.5 text-sm text-slate-400">
                   {e.points.map((pt, j) => (
                     <li key={j}>• {pt}</li>
                   ))}
