@@ -11,43 +11,85 @@ export default function Projects() {
   const [active, setActive] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="relative z-10 mx-auto max-w-6xl px-5 py-24">
-      <SectionHeading kicker="MY WORK" title="DUNGEON RAIDS" />
+    <section id="projects" className="relative z-10 w-full px-0 py-24">
+      <div className="mx-auto max-w-7xl px-5">
+        <SectionHeading kicker="MY WORK" title="DUNGEON RAIDS" />
+      </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p, i) => (
-          <motion.button
-            key={p.title}
-            onClick={() => setActive(p)}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-8%" }}
-            transition={{ duration: 0.5, delay: i * 0.07 }}
-            className="gate-card group flex flex-col rounded-xl p-6 text-left"
-          >
-            <div className="mb-4 flex items-center justify-between">
-              <Swords className="text-mana-bright" size={26} />
-              <RankBadge rank={p.difficulty} />
-            </div>
-            <h3 className="font-display text-xl text-slate-100">{p.title}</h3>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
-              {p.blurb}
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {p.tech.map((t) => (
-                <span
-                  key={t}
-                  className="rounded border border-mana/30 bg-mana/5 px-2 py-0.5 text-[11px] tracking-wide text-mana-bright"
-                >
-                  {t}
-                </span>
+      {/* Full-width layout with side decorations */}
+      <div className="relative flex items-start gap-0">
+        {/* Left side decoration */}
+        <div className="hidden lg:flex flex-col items-center justify-center min-w-[140px] xl:min-w-[180px] pt-8 select-none pointer-events-none">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-px w-16 bg-gradient-to-r from-transparent to-mana-bright/60" />
+            <div className="rotate-90 text-[10px] tracking-[0.4em] text-mana-bright/50 font-mono">GATE SYSTEM</div>
+            <div className="flex flex-col gap-1.5 items-center">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-1 w-1 rounded-full bg-mana-bright/30" style={{ opacity: 1 - i * 0.12 }} />
               ))}
             </div>
-            <span className="mt-4 text-xs tracking-widest text-system opacity-0 transition-opacity group-hover:opacity-100">
-              ▸ ENTER GATE
-            </span>
-          </motion.button>
-        ))}
+            <div className="mt-2 text-[9px] tracking-[0.5em] text-system/60 font-mono">ACTIVE</div>
+            <div className="h-8 w-px bg-gradient-to-b from-mana-bright/40 to-transparent" />
+          </div>
+        </div>
+
+        {/* Grid */}
+        <div className="flex-1 px-4 xl:px-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((p, i) => (
+              <motion.button
+                key={p.title}
+                onClick={() => setActive(p)}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-8%" }}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="gate-card group flex flex-col rounded-xl p-7 text-left"
+              >
+                <div className="mb-5 flex items-center justify-between">
+                  <Swords className="text-mana-bright" size={28} />
+                  <RankBadge rank={p.difficulty} />
+                </div>
+                <h3 className="font-display text-2xl text-slate-100">{p.title}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-200" style={{ textShadow: "0 0 12px rgba(255,255,255,0.25)" }}>
+                  {p.blurb}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {p.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded border border-purple-400/70 bg-purple-500/15 px-2.5 py-0.5 text-[11px] tracking-wide text-purple-200 font-medium"
+                      style={{ boxShadow: "0 0 8px rgba(192,132,252,0.5), inset 0 0 6px rgba(168,85,247,0.1)", textShadow: "0 0 8px rgba(216,180,254,0.8)" }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <span
+                  className="mt-5 text-xs tracking-widest opacity-0 transition-opacity group-hover:opacity-100 font-semibold text-blue-300"
+                  style={{ textShadow: "0 0 10px rgba(147,197,253,0.9), 0 0 20px rgba(59,130,246,0.7)" }}
+                >
+                  ▸ ENTER GATE
+                </span>
+              </motion.button>
+            ))}
+          </div>
+        </div>
+
+        {/* Right side decoration */}
+        <div className="hidden lg:flex flex-col items-center justify-center min-w-[140px] xl:min-w-[180px] pt-8 select-none pointer-events-none">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-px bg-gradient-to-t from-mana-bright/40 to-transparent" />
+            <div className="text-[9px] tracking-[0.5em] text-system/60 font-mono">ACTIVE</div>
+            <div className="flex flex-col gap-1.5 items-center">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="h-1 w-1 rounded-full bg-mana-bright/30" style={{ opacity: 0.3 + i * 0.12 }} />
+              ))}
+            </div>
+            <div className="rotate-90 text-[10px] tracking-[0.4em] text-mana-bright/50 font-mono">RAID LOG</div>
+            <div className="h-px w-16 bg-gradient-to-l from-transparent to-mana-bright/60" />
+          </div>
+        </div>
       </div>
 
       {/* Dungeon briefing modal */}
