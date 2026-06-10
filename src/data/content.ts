@@ -31,7 +31,7 @@ export const identity = {
   heroBackground: "character.png" as string | null,
   heroVideo: "hero-character.mp4" as string | null,
   email: "ahadul.haque@cefalo.com",
-  cvPath: "/cv/Md Ahadul Haque.pdf",
+  cvPath: "/cv/ahad-cv.pdf",
 };
 
 /* --------------------------- HERO HUD STATS ------------------------------ */

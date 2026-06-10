@@ -218,8 +218,8 @@ export default function Hero() {
               VIEW MY WORK ›
             </a>
             <a
-              href={identity.cvPath}
-              download
+              href={`${import.meta.env.BASE_URL}cv/ahad-cv.pdf`}
+              download="ahad-cv.pdf"
               className="flex items-center gap-2 rounded-md border-2 px-7 py-3 font-bold tracking-wider text-[#22d3ee] backdrop-blur-sm transition-all duration-300 hover:bg-[#22d3ee22]"
               style={{ background: "#22d3ee18", borderColor: "#22d3ee90", boxShadow: "0 0 20px 4px #22d3ee40" }}
             >
