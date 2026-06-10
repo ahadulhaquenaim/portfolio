@@ -39,7 +39,13 @@ export default function Experience() {
                 }`}
               />
 
-              <div className="gate-card rounded-xl p-7 text-left">
+              <div
+                className="gate-card rounded-xl p-7 text-left transition-shadow duration-300"
+                style={{
+                  boxShadow: `0 0 24px ${rankStyle[e.rank].glow}, 0 0 60px ${rankStyle[e.rank].glow}, inset 0 0 30px ${rankStyle[e.rank].glow}22`,
+                  border: `1px solid ${rankStyle[e.rank].text}99`,
+                }}
+              >
                 <div className="mb-2 flex items-center gap-3">
                   <RankBadge rank={e.rank} />
                   <span className="text-xs tracking-widest text-system">
