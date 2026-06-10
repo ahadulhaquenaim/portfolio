@@ -177,166 +177,47 @@ function CredentialCounter() {
   );
 }
 
-/* ── individual cert card (carousel version) ── */
-function CertCard({ cert, index }: { cert: Certification; index: number }) {
-  const rankColor = RANK_COLORS[cert.rank] ?? "#8b5cf6";
 
+/* ── ripple burst on transition ── */
+function RippleBurst({ color, trigger }: { color: string; trigger: number }) {
   return (
-    <div
-      className="group relative overflow-hidden rounded-xl h-full"
-      style={{
-        background: "linear-gradient(135deg, #0a0716ee 0%, #130c26ee 100%)",
-        border: `1px solid ${cert.categoryColor}35`,
-      }}
-    >
-      {/* animated border glow on hover */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          boxShadow: `0 0 30px 4px ${cert.categoryColor}25, inset 0 0 30px 0px ${cert.categoryColor}08`,
-        }}
-      />
-
-      {/* scanline texture */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-xl"
-        style={{
-          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px)`,
-          zIndex: 1,
-        }}
-      />
-
-      {/* top gradient bar */}
-      <div
-        className="absolute left-0 right-0 top-0 h-[3px]"
-        style={{
-          background: `linear-gradient(90deg, transparent 0%, ${cert.categoryColor} 35%, ${rankColor} 65%, transparent 100%)`,
-        }}
-      />
-
-      {/* corner rune marks */}
-      <span className="absolute right-3 top-4 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>
-        ᚠᚱ
-      </span>
-      <span className="absolute bottom-4 left-3 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>
-        ᚷᚹ
-      </span>
-
-      {/* VERIFIED holographic stamp */}
-      <div
-        className="pointer-events-none absolute right-4 top-8 rotate-[-28deg] select-none rounded border-2 px-2 py-0.5 text-[9px] font-black tracking-[0.3em] opacity-[0.12] group-hover:opacity-[0.22] transition-opacity duration-300"
-        style={{ borderColor: cert.categoryColor, color: cert.categoryColor }}
+    <AnimatePresence>
+      <motion.div
+        key={trigger}
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        style={{ zIndex: 20 }}
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.7 }}
       >
-        VERIFIED
-      </div>
-
-      {/* card body */}
-      <div className="relative z-10 p-6 flex flex-col h-full">
-        {/* header row: category badge + rank badge + icon */}
-        <div className="mb-5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span
-              className="rounded px-2 py-[3px] font-display text-[9px] font-bold tracking-[0.2em]"
-              style={{ background: `${cert.categoryColor}18`, color: cert.categoryColor, border: `1px solid ${cert.categoryColor}35` }}
-            >
-              {cert.category}
-            </span>
-            <span
-              className="rounded px-1.5 py-[3px] font-display text-[9px] font-black tracking-[0.15em]"
-              style={{ background: `${rankColor}18`, color: rankColor, border: `1px solid ${rankColor}40` }}
-            >
-              {cert.rank}-RANK
-            </span>
-          </div>
-
-          {/* pulsing icon orb */}
+        {[0, 1, 2].map((i) => (
           <motion.div
-            className="relative flex h-11 w-11 items-center justify-center rounded-lg"
-            style={{ background: `radial-gradient(circle, ${cert.categoryColor}22, ${cert.categoryColor}08)`, border: `1px solid ${cert.categoryColor}35` }}
-            animate={{
-              boxShadow: [
-                `0 0 0px 0px ${cert.categoryColor}00`,
-                `0 0 16px 4px ${cert.categoryColor}50`,
-                `0 0 0px 0px ${cert.categoryColor}00`,
-              ],
-            }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.35 }}
-          >
-            <cert.CategoryIcon size={18} style={{ color: cert.categoryColor }} />
-            <motion.div
-              className="absolute inset-0 rounded-lg"
-              style={{ border: `1px solid ${cert.categoryColor}` }}
-              animate={{ opacity: [0, 0.5, 0] }}
-              transition={{ duration: 2, repeat: Infinity, delay: index * 0.35 }}
-            />
-          </motion.div>
-        </div>
-
-        {/* title */}
-        <h3
-          className="mb-3 font-display text-[14px] font-bold leading-snug text-white flex-1"
-          style={{ textShadow: `0 0 16px ${cert.categoryColor}40` }}
-        >
-          {cert.title}
-        </h3>
-
-        {/* issuer pill */}
-        <div className="mb-5 flex items-center gap-2">
-          <div
-            className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-black"
-            style={{ background: `${cert.issuerColor}25`, color: cert.issuerColor, border: `1px solid ${cert.issuerColor}50` }}
-          >
-            {cert.issuer[0]}
-          </div>
-          <span className="text-xs font-semibold" style={{ color: cert.issuerColor }}>
-            {cert.issuer}
-          </span>
-          <Cpu size={10} style={{ color: cert.issuerColor, opacity: 0.6 }} />
-        </div>
-
-        {/* divider */}
-        <div
-          className="mb-4 h-px"
-          style={{ background: `linear-gradient(90deg, ${cert.categoryColor}40, transparent)` }}
+            key={i}
+            className="absolute rounded-full"
+            style={{ border: `1.5px solid ${color}`, zIndex: 20 }}
+            initial={{ width: 60, height: 60, opacity: 0.8 }}
+            animate={{ width: 500, height: 500, opacity: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.1 }}
+          />
+        ))}
+        <motion.div
+          className="absolute rounded-full"
+          style={{ background: `radial-gradient(circle, ${color}70, transparent 70%)` }}
+          initial={{ width: 100, height: 100, opacity: 0.6 }}
+          animate={{ width: 0, height: 0, opacity: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
         />
-
-        {/* footer: date + view button */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <Calendar size={11} className="text-white/40" />
-            <span className="font-body text-[11px] tracking-widest text-white/40">{cert.date}</span>
-          </div>
-
-          <motion.a
-            href={cert.credentialUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group/btn relative flex items-center gap-1.5 overflow-hidden rounded-md px-3 py-1.5 font-display text-[10px] font-bold tracking-[0.18em] transition-colors duration-300"
-            style={{
-              background: `${cert.categoryColor}15`,
-              color: cert.categoryColor,
-              border: `1px solid ${cert.categoryColor}40`,
-            }}
-            whileHover={{
-              background: `${cert.categoryColor}30`,
-              boxShadow: `0 0 16px 2px ${cert.categoryColor}40`,
-            }}
-            whileTap={{ scale: 0.96 }}
-          >
-            <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover/btn:translate-x-full" />
-            <span>VIEW</span>
-            <ExternalLink size={9} />
-          </motion.a>
-        </div>
-      </div>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
 /* ── carousel ── */
 function CertCarousel() {
   const [active, setActive] = useState(0);
-  const [direction, setDirection] = useState(0); // -1 left, 1 right
+  const [direction, setDirection] = useState(1);
+  const [rippleTrigger, setRippleTrigger] = useState(0);
   const [paused, setPaused] = useState(false);
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef(0);
@@ -346,18 +227,17 @@ function CertCarousel() {
     (dir: number) => {
       setDirection(dir);
       setActive((prev) => (prev + dir + total) % total);
+      setRippleTrigger((t) => t + 1);
     },
     [total]
   );
 
-  /* auto-advance */
   useEffect(() => {
     if (paused) return;
     const id = setInterval(() => go(1), 4000);
     return () => clearInterval(id);
   }, [paused, go]);
 
-  /* keyboard */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") go(-1);
@@ -367,7 +247,6 @@ function CertCarousel() {
     return () => window.removeEventListener("keydown", handler);
   }, [go]);
 
-  /* drag handlers */
   const onPointerDown = (e: React.PointerEvent) => {
     dragStart.current = e.clientX;
     setDragging(true);
@@ -379,30 +258,78 @@ function CertCarousel() {
     if (Math.abs(delta) > 40) go(delta > 0 ? 1 : -1);
   };
 
-  /* positions: prev, active, next */
   const prev = (active - 1 + total) % total;
   const next = (active + 1) % total;
+  const activeCert = CERTIFICATIONS[active];
 
-  const variants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.85,
-      rotateY: dir > 0 ? 25 : -25,
-    }),
+  /*
+   * Each card slot has a defined visual state.
+   * We render ALL 3 visible cards as absolute positioned motion.divs
+   * and animate them between slot states using `animate` — no AnimatePresence needed.
+   * This makes the right card visibly travel from its edge position into center.
+   *
+   * Slot states:
+   *   center      → large, front, full opacity
+   *   left        → left edge, rotated, small, dim
+   *   right       → right edge, rotated, small, dim
+   *   hidden-left → off-screen left (enter/exit point for left side)
+   *   hidden-right→ off-screen right (enter/exit point for right side)
+   */
+  const SLOT: Record<string, object> = {
     center: {
-      x: 0,
-      opacity: 1,
+      x: "0%",
       scale: 1,
       rotateY: 0,
+      opacity: 1,
+      filter: "blur(0px)",
       zIndex: 10,
     },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -300 : 300,
+    left: {
+      x: "-68%",
+      scale: 0.78,
+      rotateY: 28,
+      opacity: 0.38,
+      filter: "blur(1.5px)",
+      zIndex: 3,
+    },
+    right: {
+      x: "68%",
+      scale: 0.78,
+      rotateY: -28,
+      opacity: 0.38,
+      filter: "blur(1.5px)",
+      zIndex: 3,
+    },
+    "hidden-left": {
+      x: "-140%",
+      scale: 0.65,
+      rotateY: 45,
       opacity: 0,
-      scale: 0.85,
-      rotateY: dir > 0 ? -25 : 25,
-    }),
+      filter: "blur(6px)",
+      zIndex: 1,
+    },
+    "hidden-right": {
+      x: "140%",
+      scale: 0.65,
+      rotateY: -45,
+      opacity: 0,
+      filter: "blur(6px)",
+      zIndex: 1,
+    },
+  };
+
+  const SPRING = { type: "spring", stiffness: 260, damping: 28, mass: 0.9 };
+
+  /*
+   * For each cert index we calculate which slot it occupies.
+   * Only prev, active, next are visible — everything else is hidden off-screen.
+   */
+  const getSlot = (idx: number) => {
+    if (idx === active) return "center";
+    if (idx === prev) return "left";
+    if (idx === next) return "right";
+    // all others go off to the side the direction is pointing
+    return direction > 0 ? "hidden-left" : "hidden-right";
   };
 
   return (
@@ -411,81 +338,185 @@ function CertCarousel() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* 3-card stage */}
+      {/* stage */}
       <div
         className="relative flex items-center justify-center"
-        style={{ perspective: "1200px", minHeight: "380px" }}
+        style={{ perspective: "1400px", minHeight: "420px" }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerLeave={() => setDragging(false)}
       >
-        {/* LEFT ghost card */}
-        <div
-          className="absolute hidden md:block"
-          style={{
-            left: "0%",
-            width: "30%",
-            maxWidth: "320px",
-            transform: "translateX(8%) rotateY(22deg) scale(0.82)",
-            transformOrigin: "right center",
-            opacity: 0.35,
-            filter: "blur(1px)",
-            zIndex: 2,
-            pointerEvents: "none",
-          }}
-        >
-          <CertCard cert={CERTIFICATIONS[prev]} index={prev} />
-        </div>
+        {/* ripple burst centered on stage */}
+        <RippleBurst color={activeCert.categoryColor} trigger={rippleTrigger} />
 
-        {/* RIGHT ghost card */}
-        <div
-          className="absolute hidden md:block"
-          style={{
-            right: "0%",
-            width: "30%",
-            maxWidth: "320px",
-            transform: "translateX(-8%) rotateY(-22deg) scale(0.82)",
-            transformOrigin: "left center",
-            opacity: 0.35,
-            filter: "blur(1px)",
-            zIndex: 2,
-            pointerEvents: "none",
-          }}
-        >
-          <CertCard cert={CERTIFICATIONS[next]} index={next} />
-        </div>
+        {/* render every cert as a persistent positioned card that animates between slots */}
+        {CERTIFICATIONS.map((cert, idx) => {
+          const slot = getSlot(idx);
+          const isCenter = slot === "center";
+          const rankColor = RANK_COLORS[cert.rank] ?? "#8b5cf6";
 
-        {/* CENTER active card with AnimatePresence */}
-        <div
-          className="relative w-full md:w-[42%] max-w-110 mx-auto"
-          style={{ zIndex: 10 }}
-        >
-          <AnimatePresence mode="wait" custom={direction}>
+          return (
             <motion.div
-              key={active}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                duration: 0.5,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              style={{ transformStyle: "preserve-3d" }}
-              className="cursor-grab active:cursor-grabbing"
+              key={cert.title}
+              className="absolute w-full md:w-[42%] max-w-110"
+              animate={SLOT[slot]}
+              transition={SPRING}
+              style={{ transformStyle: "preserve-3d", pointerEvents: isCenter ? "auto" : "none" }}
             >
-              {/* glow ring behind active card */}
+              {/* breathing glow — only on center */}
+              {isCenter && (
+                <motion.div
+                  className="absolute -inset-4 rounded-2xl pointer-events-none"
+                  animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.05, 1] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  style={{
+                    background: `radial-gradient(ellipse, ${cert.categoryColor}55, transparent 70%)`,
+                    filter: "blur(18px)",
+                    zIndex: -1,
+                  }}
+                />
+              )}
+
+              {/* trail streak when leaving center — fades in direction of travel */}
+              {!isCenter && (
+                <motion.div
+                  className="absolute inset-0 rounded-xl pointer-events-none"
+                  style={{
+                    background: `linear-gradient(${slot === "left" ? "90deg" : "270deg"}, ${cert.categoryColor}18, transparent)`,
+                    zIndex: -1,
+                  }}
+                />
+              )}
+
               <div
-                className="absolute -inset-3 rounded-2xl opacity-30 blur-xl pointer-events-none"
+                className="group relative overflow-hidden rounded-xl h-full cursor-grab active:cursor-grabbing"
                 style={{
-                  background: `radial-gradient(ellipse, ${CERTIFICATIONS[active].categoryColor}60, transparent 70%)`,
+                  background: "linear-gradient(135deg, #0a0716ee 0%, #130c26ee 100%)",
+                  border: `1px solid ${isCenter ? cert.categoryColor + "40" : cert.categoryColor + "25"}`,
+                  boxShadow: isCenter
+                    ? `0 0 40px 0px ${cert.categoryColor}20`
+                    : "none",
                 }}
-              />
-              <CertCard cert={CERTIFICATIONS[active]} index={active} />
+              >
+                {/* scanline */}
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-xl"
+                  style={{
+                    backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px)`,
+                    zIndex: 1,
+                  }}
+                />
+                {/* top bar */}
+                <div
+                  className="absolute left-0 right-0 top-0 h-0.75"
+                  style={{
+                    background: `linear-gradient(90deg, transparent 0%, ${cert.categoryColor} 35%, ${rankColor} 65%, transparent 100%)`,
+                  }}
+                />
+                {/* corner runes */}
+                <span className="absolute right-3 top-4 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚠᚱ</span>
+                <span className="absolute bottom-4 left-3 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚷᚹ</span>
+                {/* VERIFIED stamp */}
+                <div
+                  className="pointer-events-none absolute right-4 top-8 rotate-[-28deg] select-none rounded border-2 px-2 py-0.5 text-[9px] font-black tracking-[0.3em] opacity-[0.12] group-hover:opacity-[0.22] transition-opacity duration-300"
+                  style={{ borderColor: cert.categoryColor, color: cert.categoryColor }}
+                >
+                  VERIFIED
+                </div>
+
+                <div className="relative z-10 p-6 flex flex-col">
+                  {/* header */}
+                  <div className="mb-5 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="rounded px-2 py-0.75 font-display text-[9px] font-bold tracking-[0.2em]"
+                        style={{ background: `${cert.categoryColor}18`, color: cert.categoryColor, border: `1px solid ${cert.categoryColor}35` }}
+                      >
+                        {cert.category}
+                      </span>
+                      <span
+                        className="rounded px-1.5 py-0.75 font-display text-[9px] font-black tracking-[0.15em]"
+                        style={{ background: `${rankColor}18`, color: rankColor, border: `1px solid ${rankColor}40` }}
+                      >
+                        {cert.rank}-RANK
+                      </span>
+                    </div>
+                    <motion.div
+                      className="relative flex h-11 w-11 items-center justify-center rounded-lg"
+                      style={{ background: `radial-gradient(circle, ${cert.categoryColor}22, ${cert.categoryColor}08)`, border: `1px solid ${cert.categoryColor}35` }}
+                      animate={isCenter ? {
+                        boxShadow: [
+                          `0 0 0px 0px ${cert.categoryColor}00`,
+                          `0 0 16px 4px ${cert.categoryColor}50`,
+                          `0 0 0px 0px ${cert.categoryColor}00`,
+                        ],
+                      } : {}}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <cert.CategoryIcon size={18} style={{ color: cert.categoryColor }} />
+                      {isCenter && (
+                        <motion.div
+                          className="absolute inset-0 rounded-lg"
+                          style={{ border: `1px solid ${cert.categoryColor}` }}
+                          animate={{ opacity: [0, 0.5, 0] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                      )}
+                    </motion.div>
+                  </div>
+
+                  {/* title */}
+                  <h3
+                    className="mb-3 font-display text-[14px] font-bold leading-snug text-white"
+                    style={{ textShadow: isCenter ? `0 0 16px ${cert.categoryColor}40` : "none" }}
+                  >
+                    {cert.title}
+                  </h3>
+
+                  {/* issuer */}
+                  <div className="mb-5 flex items-center gap-2">
+                    <div
+                      className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-black"
+                      style={{ background: `${cert.issuerColor}25`, color: cert.issuerColor, border: `1px solid ${cert.issuerColor}50` }}
+                    >
+                      {cert.issuer[0]}
+                    </div>
+                    <span className="text-xs font-semibold" style={{ color: cert.issuerColor }}>{cert.issuer}</span>
+                    <Cpu size={10} style={{ color: cert.issuerColor, opacity: 0.6 }} />
+                  </div>
+
+                  {/* divider */}
+                  <div className="mb-4 h-px" style={{ background: `linear-gradient(90deg, ${cert.categoryColor}40, transparent)` }} />
+
+                  {/* footer */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar size={11} className="text-white/40" />
+                      <span className="font-body text-[11px] tracking-widest text-white/40">{cert.date}</span>
+                    </div>
+                    <motion.a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/btn relative flex items-center gap-1.5 overflow-hidden rounded-md px-3 py-1.5 font-display text-[10px] font-bold tracking-[0.18em]"
+                      style={{
+                        background: `${cert.categoryColor}15`,
+                        color: cert.categoryColor,
+                        border: `1px solid ${cert.categoryColor}40`,
+                      }}
+                      whileHover={{ background: `${cert.categoryColor}30`, boxShadow: `0 0 16px 2px ${cert.categoryColor}40` }}
+                      whileTap={{ scale: 0.96 }}
+                    >
+                      <div className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover/btn:translate-x-full" />
+                      <span>VIEW</span>
+                      <ExternalLink size={9} />
+                    </motion.a>
+                  </div>
+                </div>
+              </div>
             </motion.div>
-          </AnimatePresence>
-        </div>
+          );
+        })}
       </div>
 
       {/* NAVIGATION ROW */}
