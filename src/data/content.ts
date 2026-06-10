@@ -20,6 +20,7 @@ import copai3 from "../../public/projects/copai3.png";
 import copai4 from "../../public/projects/copai4.png";
 import copai5 from "../../public/projects/copai5.png";
 import atsPreview from "../../public/projects/ats.png";
+import thaiCraftPreview from "../../public/projects/thai-craft.png";
 
 /** Any icon that renders from a `size` prop (lucide + our brand icons). */
 export type IconComponent = (props: {
@@ -172,13 +173,13 @@ export const projects = [
     link: "https://career.cefalo.com/",
   },
   {
-    title: "Arise Portfolio",
-    label: "Animated Portfolio",
-    difficulty: "C" as Rank,
+    title: "Thai Craft Learning",
+    label: "Full-Stack CMS Platform",
+    difficulty: "A" as Rank,
     blurb:
-      "This very site — a Solo Leveling themed animated portfolio built with React + GSAP.",
-    tech: ["React", "GSAP", "Tailwind"],
-    link: "#",
+      "A full-stack content management and learning platform for Thai arts and crafts. Supports user authentication, article creation with rich-text editing, revision/publication workflows, file/image uploads with processing, collections, tags, homepage management, reporting, and daily usage statistics — served through a React frontend with an Express/Node.js REST API.",
+    tech: ["Node.js", "Express.js", "TypeScript", "React 18", "Material UI", "MariaDB", "Knex.js", "JWT", "Docker", "Nginx"],
+    preview: thaiCraftPreview,
   },
 ];
 
