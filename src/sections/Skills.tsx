@@ -20,7 +20,7 @@ export default function Skills() {
   const byName = Object.fromEntries(skills.map((s) => [s.name, s]));
 
   return (
-    <section id="skills" className="relative z-10 mx-auto max-w-7xl px-5 py-24">
+    <section id="skills" className="relative z-10 mx-auto max-w-400 px-16 py-12">
       <SectionHeading kicker="ABILITIES" title="SKILL TREE" />
 
       <div className="relative flex flex-col items-center">
@@ -28,7 +28,7 @@ export default function Skills() {
         {/* Root trunk down to root node */}
         <motion.div
           className="w-px"
-          style={{ background: TRUNK_COLOR, height: 40, boxShadow: LINE_GLOW }}
+          style={{ background: TRUNK_COLOR, height: 16, boxShadow: LINE_GLOW }}
           initial={{ scaleY: 0, originY: 0 }}
           whileInView={{ scaleY: 1 }}
           viewport={{ once: true }}
@@ -132,7 +132,7 @@ export default function Skills() {
                   />
 
                   {/* Skill cards */}
-                  <div className="flex flex-col items-center gap-0 pb-4">
+                  <div className="flex flex-col items-center gap-0 pb-4 px-2">
                     {catSkills.map((s, si) => {
                       const skillDelay = delay + 0.25 + si * 0.07;
                       return (
