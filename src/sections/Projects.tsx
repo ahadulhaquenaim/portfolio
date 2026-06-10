@@ -212,12 +212,12 @@ export default function Projects() {
                   </div>
                 </div>
               ) : "preview" in active && active.preview ? (
-                <div className="flex flex-col gap-3 px-8 pb-8 lg:flex-row">
-                  <div className="lg:w-[62%] flex flex-col gap-4">
+                <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
+                  <div className="lg:w-[55%] flex flex-col gap-4">
                     <img
                       src={active.preview as string}
                       alt={active.title}
-                      className="w-[85%] rounded-lg border border-mana/20"
+                      className="w-full rounded-lg border border-mana/20"
                     />
                     {active.link && active.link !== "#" && (
                       <a
@@ -231,7 +231,7 @@ export default function Projects() {
                       </a>
                     )}
                   </div>
-                  <div className="flex flex-col justify-between lg:w-[38%]">
+                  <div className="flex flex-col justify-between lg:w-[45%]">
                     <div>
                       <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
                       <div className="mt-5 flex flex-wrap gap-2">
