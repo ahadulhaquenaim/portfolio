@@ -117,6 +117,50 @@ export default function Projects() {
         </div>
       </div>
 
+      {/* Click hint */}
+      <div className="flex flex-col items-center gap-2 mt-6 select-none pointer-events-none">
+        {/* Glowing animated line + arrow */}
+        <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow-line">
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+            {/* Arrowhead pointing up */}
+          <motion.polyline
+            points="12,14 20,4 28,14"
+            stroke="#38bdf8"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            filter="url(#glow-line)"
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* Vertical line */}
+          <motion.line
+            x1="20" y1="14" x2="20" y2="32"
+            stroke="#38bdf8"
+            strokeWidth="2"
+            strokeLinecap="round"
+            filter="url(#glow-line)"
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
+          />
+        </svg>
+        <span
+          className="text-xs tracking-[0.3em] font-mono uppercase"
+          style={{
+            color: "#38bdf8",
+            textShadow: "0 0 8px #38bdf8, 0 0 20px #38bdf8, 0 0 40px #a855f7",
+          }}
+        >
+          Click card
+        </span>
+      </div>
+
       {/* Dungeon briefing modal */}
       <AnimatePresence>
         {active && (
