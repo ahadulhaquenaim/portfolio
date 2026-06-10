@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import { socials, identity } from "../data/content";
+import { useRef } from "react";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,6 +24,28 @@ export default function Contact() {
   return (
     <section id="contact" className="relative z-10 mx-auto max-w-3xl px-5 py-24">
       <SectionHeading kicker="GET IN TOUCH" title="CONQUER TOGETHER" />
+
+      {identity.contactVideo && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 overflow-hidden rounded-xl border border-mana/30 shadow-[0_0_30px_rgba(168,85,247,0.15)]"
+        >
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className="w-full object-cover"
+          >
+            <source src={identity.contactVideo} type="video/mp4" />
+          </video>
+        </motion.div>
+      )}
 
       <motion.form
         onSubmit={onSubmit}

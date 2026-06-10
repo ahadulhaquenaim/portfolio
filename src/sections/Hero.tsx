@@ -132,8 +132,8 @@ export default function Hero() {
 
       {/* ---- Full-bleed character (video if available, else image) ---- */}
       <CharacterLayer
-        imageSrc={identity.heroBackground ? `${import.meta.env.BASE_URL}${identity.heroBackground}` : null}
-        videoSrc={identity.heroVideo ? `${import.meta.env.BASE_URL}${identity.heroVideo}` : null}
+        imageSrc={identity.heroBackground ?? null}
+        videoSrc={identity.heroVideo ?? null}
         springX={springX}
         springY={springY}
       />
@@ -297,6 +297,7 @@ function CharacterLayer({
             loop
             muted
             playsInline
+            preload="metadata"
             style={{
               position: "absolute",
               top: "10%",

@@ -11,16 +11,18 @@ import {
   LinkedinIcon,
   FacebookIcon,
 } from "../components/BrandIcons";
-import selftunePreview from "../../public/projects/selftune.png";
-import shikkhakoshPreview from "../../public/projects/shikkhakosh.png";
-import voluePreview from "../../public/projects/volue.png";
-import copai1 from "../../public/projects/copai1.png";
-import copai2 from "../../public/projects/copai2.png";
-import copai3 from "../../public/projects/copai3.png";
-import copai4 from "../../public/projects/copai4.png";
-import copai5 from "../../public/projects/copai5.png";
-import atsPreview from "../../public/projects/ats.png";
-import thaiCraftPreview from "../../public/projects/thai-craft.png";
+const CDN = "https://res.cloudinary.com/dumsdgz85/image/upload/f_auto,q_auto,w_800/portfolio/projects";
+
+const selftunePreview = `${CDN}/selftune.png`;
+const shikkhakoshPreview = `${CDN}/shikkhakosh.png`;
+const voluePreview = `${CDN}/volue.png`;
+const copai1 = `${CDN}/copai1.png`;
+const copai2 = `${CDN}/copai2.png`;
+const copai3 = `${CDN}/copai3.png`;
+const copai4 = `${CDN}/copai4.png`;
+const copai5 = `${CDN}/copai5.png`;
+const atsPreview = `${CDN}/ats.png`;
+const thaiCraftPreview = `${CDN}/thai-craft.png`;
 
 /** Any icon that renders from a `size` prop (lucide + our brand icons). */
 export type IconComponent = (props: {
@@ -38,8 +40,9 @@ export const identity = {
     "I craft digital experiences with clean code and creative design. Turning ideas into reality, one project at a time.",
   // Full-bleed hero background image (the cinematic monarch art) in /public.
   // Set to null to fall back to the plain particle/gradient background.
-  heroBackground: "character.png" as string | null,
-  heroVideo: "hero-character.mp4" as string | null,
+  heroBackground: null as string | null,
+  heroVideo: "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101679/hero-character_xacc6j.mp4" as string | null,
+  contactVideo: "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101707/meet_exwzv8.mp4" as string | null,
   email: "ahadul.haque@cefalo.com",
   cvPath: "/cv/ahad-cv.pdf",
 };
