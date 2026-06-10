@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { ExternalLink, Calendar, ShieldCheck, Cpu, Lock, Code2, Server, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 
@@ -178,46 +178,11 @@ function CredentialCounter() {
 }
 
 
-/* ── ripple burst on transition ── */
-function RippleBurst({ color, trigger }: { color: string; trigger: number }) {
-  return (
-    <AnimatePresence>
-      <motion.div
-        key={trigger}
-        className="pointer-events-none absolute inset-0 flex items-center justify-center"
-        style={{ zIndex: 20 }}
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.7 }}
-      >
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full"
-            style={{ border: `1.5px solid ${color}`, zIndex: 20 }}
-            initial={{ width: 60, height: 60, opacity: 0.8 }}
-            animate={{ width: 500, height: 500, opacity: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.1 }}
-          />
-        ))}
-        <motion.div
-          className="absolute rounded-full"
-          style={{ background: `radial-gradient(circle, ${color}70, transparent 70%)` }}
-          initial={{ width: 100, height: 100, opacity: 0.6 }}
-          animate={{ width: 0, height: 0, opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-        />
-      </motion.div>
-    </AnimatePresence>
-  );
-}
 
 /* ── carousel ── */
 function CertCarousel() {
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [rippleTrigger, setRippleTrigger] = useState(0);
   const [paused, setPaused] = useState(false);
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef(0);
@@ -227,7 +192,6 @@ function CertCarousel() {
     (dir: number) => {
       setDirection(dir);
       setActive((prev) => (prev + dir + total) % total);
-      setRippleTrigger((t) => t + 1);
     },
     [total]
   );
@@ -262,8 +226,6 @@ function CertCarousel() {
   const prev2  = (active - 2 + total) % total;
   const next1  = (active + 1) % total;
   const next2  = (active + 2) % total;
-  const activeCert = CERTIFICATIONS[active];
-
   /*
    * 5-slot system — every card is always rendered and spring-animates between slots.
    *
@@ -355,9 +317,6 @@ function CertCarousel() {
         onPointerUp={onPointerUp}
         onPointerLeave={() => setDragging(false)}
       >
-        {/* ripple burst centered on stage */}
-        <RippleBurst color={activeCert.categoryColor} trigger={rippleTrigger} />
-
         {/* render every cert as a persistent positioned card that animates between slots */}
         {CERTIFICATIONS.map((cert, idx) => {
           const slot = getSlot(idx);
