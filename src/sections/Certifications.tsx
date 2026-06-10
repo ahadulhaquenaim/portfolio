@@ -144,7 +144,7 @@ function CredentialCounter() {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.6, ease: "backOut" }}
-      className="mx-auto mb-16 flex w-fit flex-col items-center gap-2"
+      className="mx-auto mb-16 flex w-fit flex-col items-center gap-5"
     >
       {/* outer ring */}
       <div className="relative flex items-center justify-center">
@@ -183,6 +183,7 @@ function CredentialCounter() {
         </span>
         <div className="h-px w-12" style={{ background: "linear-gradient(90deg, #fbbf24, transparent)" }} />
       </div>
+
     </motion.div>
   );
 }
