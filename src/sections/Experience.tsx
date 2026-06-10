@@ -42,13 +42,17 @@ export default function Experience() {
               <div
                 className="gate-card rounded-xl p-7 text-left transition-shadow duration-300"
                 style={{
-                  boxShadow: `0 0 24px ${rankStyle[e.rank].glow}, 0 0 60px ${rankStyle[e.rank].glow}, inset 0 0 30px ${rankStyle[e.rank].glow}22`,
-                  border: `1px solid ${rankStyle[e.rank].text}99`,
+                  boxShadow: `0 0 30px ${rankStyle[e.rank].glow}, 0 0 80px ${rankStyle[e.rank].glow}, 0 0 120px ${rankStyle[e.rank].glow}88`,
+                  border: `1.5px solid ${rankStyle[e.rank].text}cc`,
+                  background: `linear-gradient(135deg, ${rankStyle[e.rank].bg} 0%, rgba(10,5,20,0.85) 100%)`,
                 }}
               >
                 <div className="mb-2 flex items-center gap-3">
                   <RankBadge rank={e.rank} />
-                  <span className="text-xs tracking-widest text-system">
+                  <span
+                    className="text-xs tracking-widest"
+                    style={{ color: "#ffffff", textShadow: "0 0 8px #ffffff, 0 0 20px #ffffffcc" }}
+                  >
                     {e.period}
                   </span>
                 </div>
