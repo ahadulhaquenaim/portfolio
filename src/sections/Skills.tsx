@@ -180,6 +180,23 @@ export default function Skills() {
                               }}
                             />
 
+                            {/* sparkles */}
+                            {[
+                              { left: "10%", top: "20%", dur: 1.8, delay: 0.0 },
+                              { left: "80%", top: "15%", dur: 2.2, delay: 0.5 },
+                              { left: "55%", top: "70%", dur: 1.6, delay: 1.0 },
+                              { left: "25%", top: "75%", dur: 2.0, delay: 0.8 },
+                              { left: "90%", top: "55%", dur: 1.9, delay: 0.3 },
+                            ].map((sp, j) => (
+                              <motion.div
+                                key={j}
+                                className="pointer-events-none absolute rounded-full"
+                                style={{ left: sp.left, top: sp.top, width: 3, height: 3, background: GOLD, boxShadow: `0 0 4px 2px ${GOLD_GLOW}` }}
+                                animate={{ opacity: [0, 1, 0], scale: [0.5, 1.4, 0.5] }}
+                                transition={{ duration: sp.dur, delay: skillDelay + sp.delay, repeat: Infinity, ease: "easeInOut" }}
+                              />
+                            ))}
+
                             {/* hover glow */}
                             <div
                               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
