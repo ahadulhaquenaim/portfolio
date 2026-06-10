@@ -65,11 +65,11 @@ export default function Contact() {
             required
             rows={5}
             placeholder="Your message..."
-            className="mt-4 w-full resize-none rounded-md border border-mana/30 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-mana-bright focus:shadow-[0_0_14px_rgba(168,85,247,0.4)]"
+            className="mt-4 w-full resize-none rounded-md border border-white/50 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-white focus:shadow-[0_0_14px_rgba(255,255,255,0.4)] placeholder:text-white/80 placeholder:[text-shadow:0_0_10px_rgba(255,255,255,0.6)]"
           />
           <button
             type="submit"
-            className="btn-mana mt-5 inline-flex items-center gap-2 rounded-md px-7 py-3 font-semibold tracking-wider text-white"
+            className="btn-mana mt-5 flex w-full items-center justify-center gap-2 rounded-md px-7 py-3 font-semibold tracking-wider text-white"
           >
             {sent ? "OPENING MAIL…" : "CONQUER TOGETHER"} <Send size={16} />
           </button>
@@ -110,7 +110,7 @@ function Field({
       type={type}
       required
       placeholder={placeholder}
-      className="w-full rounded-md border border-mana/30 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-mana-bright focus:shadow-[0_0_14px_rgba(168,85,247,0.4)]"
+      className="w-full rounded-md border border-white/50 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-white focus:shadow-[0_0_14px_rgba(255,255,255,0.4)] placeholder:text-white/80 placeholder:[text-shadow:0_0_10px_rgba(255,255,255,0.6)]"
     />
   );
 }
