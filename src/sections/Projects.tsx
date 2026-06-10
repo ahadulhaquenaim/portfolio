@@ -132,7 +132,7 @@ export default function Projects() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="system-panel w-full max-w-6xl rounded-xl max-h-[92vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
+              className="system-panel w-full max-w-7xl rounded-xl max-h-[94vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
             >
               {/* Header */}
               <div className="flex items-start justify-between p-8 pb-5">
@@ -159,9 +159,9 @@ export default function Projects() {
 
               {/* Body — two columns when preview/slides exists, single column otherwise */}
               {"slides" in active && active.slides && active.slides.length > 0 ? (
-                <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
-                  <div className="lg:w-[62%] flex flex-col gap-4">
-                    <div className="relative w-[85%] group">
+                <div className="flex flex-col gap-6 px-8 pb-8 lg:flex-row lg:items-start">
+                  <div className="lg:w-[63%] flex flex-col gap-4">
+                    <div className="relative w-full group">
                       <img
                         src={active.slides[slideIndex] as string}
                         alt={`${active.title} screenshot ${slideIndex + 1}`}
@@ -194,7 +194,7 @@ export default function Projects() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col justify-between lg:w-[38%]">
+                  <div className="flex flex-col justify-between lg:w-[37%]">
                     <div>
                       <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
                       <div className="mt-5 flex flex-wrap gap-2">
