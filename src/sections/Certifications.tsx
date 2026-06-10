@@ -135,7 +135,7 @@ function CredentialCounter() {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.6, ease: "backOut" }}
-      className="mx-auto mb-16 flex w-fit flex-col items-center gap-5"
+      className="mx-auto mb-1 flex w-fit flex-col items-center gap-5"
     >
       <div className="relative flex items-center justify-center">
         <motion.div
