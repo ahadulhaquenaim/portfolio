@@ -62,7 +62,7 @@ export default function Experience() {
                 >
                   {e.role}
                 </h3>
-                <p className="mt-2 text-sm text-mana-bright">{e.org}</p>
+                <p className="mt-2 text-sm" style={{ color: "#fbbf24", textShadow: "0 0 8px #fbbf24, 0 0 20px #f59e0bcc" }}>{e.org}</p>
                 <ul className="mt-3 space-y-1.5 text-sm text-slate-400">
                   {e.points.map((pt, j) => (
                     <li key={j}>• {pt}</li>
