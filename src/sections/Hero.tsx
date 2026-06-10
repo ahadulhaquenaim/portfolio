@@ -410,7 +410,7 @@ const ACHIEVEMENTS: Achievement[] = [
     rarity: "RARE",
     rarityColor: "#38bdf8",
     title: "3+ Years On The Grind",
-    desc: "Consistent growth, zero days wasted",
+    desc: "Consistent growth, minimum stale time",
     xp: "+1000 XP",
   },
   {
