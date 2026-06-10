@@ -103,6 +103,8 @@ export const skills: { name: string; rank: Rank; value: number }[] = [
   { name: "LLM / AI Automation", rank: "B", value: 80 },
   { name: "n8n Workflow", rank: "B", value: 78 },
   { name: "Prometheus / Grafana", rank: "B", value: 76 },
+  { name: "Zustand", rank: "A", value: 85 },
+  { name: "Ant / Shadcn UI", rank: "A", value: 84 },
   { name: "Microservices", rank: "A", value: 83 },
   { name: "REST APIs", rank: "S", value: 91 },
 ];

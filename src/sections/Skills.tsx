@@ -9,7 +9,7 @@ const LINE_GLOW = `0 0 6px ${GOLD_GLOW}, 0 0 14px rgba(251,191,36,0.35)`;
 
 const CATEGORIES = [
   { label: "Languages",     names: ["JavaScript", "TypeScript", "Python", "C / C++"] },
-  { label: "Frontend",      names: ["React / Next.js", "HTML / Bootstrap", "Tailwind / CSS", "Redux Toolkit", "React Query"] },
+  { label: "Frontend",      names: ["React / Next.js", "HTML / Bootstrap", "Tailwind / CSS", "Redux Toolkit", "React Query", "Zustand", "Ant / Shadcn UI"] },
   { label: "Backend",       names: ["Node.js / Nest.js", "FastAPI / Django", "REST APIs", "Microservices", "GraphQL", "Testing (Jest/pytest)"] },
   { label: "Database",      names: ["PostgreSQL / MySQL", "MongoDB", "Redis", "Prisma / SQLAlchemy"] },
   { label: "DevOps & Cloud",names: ["Docker", "Git / CI-CD", "GCP", "AWS", "NGINX", "Vercel / Netlify", "Hostinger", "Prometheus / Grafana"] },
@@ -160,8 +160,26 @@ export default function Skills() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.3, delay: skillDelay }}
-                            whileHover={{ scale: 1.04, boxShadow: `0 0 14px ${GOLD_GLOW}` }}
+                            whileHover={{ scale: 1.04, boxShadow: `0 0 24px ${GOLD_GLOW}, 0 0 48px rgba(251,191,36,0.4)` }}
                           >
+                            {/* top-to-bottom scan glow */}
+                            <motion.div
+                              className="pointer-events-none absolute left-0 right-0"
+                              style={{
+                                height: "40%",
+                                background: "linear-gradient(180deg, rgba(251,191,36,0.18) 0%, rgba(251,191,36,0.06) 60%, transparent 100%)",
+                                borderRadius: 4,
+                              }}
+                              animate={{ top: ["-40%", "140%"] }}
+                              transition={{
+                                duration: 2.0,
+                                delay: skillDelay,
+                                repeat: Infinity,
+                                repeatDelay: 1.2,
+                                ease: "easeInOut",
+                              }}
+                            />
+
                             {/* hover glow */}
                             <div
                               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
