@@ -258,22 +258,18 @@ function CertCarousel() {
     if (Math.abs(delta) > 40) go(delta > 0 ? 1 : -1);
   };
 
-  const prev = (active - 1 + total) % total;
-  const next = (active + 1) % total;
+  const prev1  = (active - 1 + total) % total;
+  const prev2  = (active - 2 + total) % total;
+  const next1  = (active + 1) % total;
+  const next2  = (active + 2) % total;
   const activeCert = CERTIFICATIONS[active];
 
   /*
-   * Each card slot has a defined visual state.
-   * We render ALL 3 visible cards as absolute positioned motion.divs
-   * and animate them between slot states using `animate` — no AnimatePresence needed.
-   * This makes the right card visibly travel from its edge position into center.
+   * 5-slot system — every card is always rendered and spring-animates between slots.
    *
-   * Slot states:
-   *   center      → large, front, full opacity
-   *   left        → left edge, rotated, small, dim
-   *   right       → right edge, rotated, small, dim
-   *   hidden-left → off-screen left (enter/exit point for left side)
-   *   hidden-right→ off-screen right (enter/exit point for right side)
+   *  far-left  ·  left  ·  CENTER  ·  right  ·  far-right
+   *
+   *  hidden-left / hidden-right = off-screen entry/exit points
    */
   const SLOT: Record<string, object> = {
     center: {
@@ -285,50 +281,63 @@ function CertCarousel() {
       zIndex: 10,
     },
     left: {
-      x: "-68%",
-      scale: 0.78,
-      rotateY: 28,
-      opacity: 0.38,
-      filter: "blur(1.5px)",
-      zIndex: 3,
+      x: "-62%",
+      scale: 0.82,
+      rotateY: 22,
+      opacity: 0.55,
+      filter: "blur(0.8px)",
+      zIndex: 6,
     },
     right: {
-      x: "68%",
-      scale: 0.78,
-      rotateY: -28,
-      opacity: 0.38,
-      filter: "blur(1.5px)",
-      zIndex: 3,
+      x: "62%",
+      scale: 0.82,
+      rotateY: -22,
+      opacity: 0.55,
+      filter: "blur(0.8px)",
+      zIndex: 6,
+    },
+    "far-left": {
+      x: "-112%",
+      scale: 0.65,
+      rotateY: 38,
+      opacity: 0.22,
+      filter: "blur(2.5px)",
+      zIndex: 2,
+    },
+    "far-right": {
+      x: "112%",
+      scale: 0.65,
+      rotateY: -38,
+      opacity: 0.22,
+      filter: "blur(2.5px)",
+      zIndex: 2,
     },
     "hidden-left": {
-      x: "-140%",
-      scale: 0.65,
-      rotateY: 45,
+      x: "-160%",
+      scale: 0.55,
+      rotateY: 55,
       opacity: 0,
-      filter: "blur(6px)",
-      zIndex: 1,
+      filter: "blur(8px)",
+      zIndex: 0,
     },
     "hidden-right": {
-      x: "140%",
-      scale: 0.65,
-      rotateY: -45,
+      x: "160%",
+      scale: 0.55,
+      rotateY: -55,
       opacity: 0,
-      filter: "blur(6px)",
-      zIndex: 1,
+      filter: "blur(8px)",
+      zIndex: 0,
     },
   };
 
-  const SPRING = { type: "spring", stiffness: 260, damping: 28, mass: 0.9 };
+  const SPRING = { type: "spring", stiffness: 280, damping: 30, mass: 0.85 };
 
-  /*
-   * For each cert index we calculate which slot it occupies.
-   * Only prev, active, next are visible — everything else is hidden off-screen.
-   */
   const getSlot = (idx: number) => {
     if (idx === active) return "center";
-    if (idx === prev) return "left";
-    if (idx === next) return "right";
-    // all others go off to the side the direction is pointing
+    if (idx === prev1)  return "left";
+    if (idx === next1)  return "right";
+    if (idx === prev2)  return "far-left";
+    if (idx === next2)  return "far-right";
     return direction > 0 ? "hidden-left" : "hidden-right";
   };
 
@@ -341,7 +350,7 @@ function CertCarousel() {
       {/* stage */}
       <div
         className="relative flex items-center justify-center"
-        style={{ perspective: "1400px", minHeight: "420px" }}
+        style={{ perspective: "1600px", minHeight: "440px" }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerLeave={() => setDragging(false)}
@@ -377,12 +386,12 @@ function CertCarousel() {
                 />
               )}
 
-              {/* trail streak when leaving center — fades in direction of travel */}
+              {/* trail streak on side cards */}
               {!isCenter && (
                 <motion.div
                   className="absolute inset-0 rounded-xl pointer-events-none"
                   style={{
-                    background: `linear-gradient(${slot === "left" ? "90deg" : "270deg"}, ${cert.categoryColor}18, transparent)`,
+                    background: `linear-gradient(${slot === "left" || slot === "far-left" ? "90deg" : "270deg"}, ${cert.categoryColor}12, transparent)`,
                     zIndex: -1,
                   }}
                 />
