@@ -312,7 +312,7 @@ function CertCarousel() {
       {/* stage */}
       <div
         className="relative flex items-center justify-center"
-        style={{ perspective: "1600px", minHeight: "440px" }}
+        style={{ perspective: "1600px", minHeight: "520px" }}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerLeave={() => setDragging(false)}
@@ -326,7 +326,7 @@ function CertCarousel() {
           return (
             <motion.div
               key={cert.title}
-              className="absolute w-full md:w-[42%] max-w-110"
+              className="absolute w-full md:w-[52%] max-w-140"
               animate={SLOT[slot]}
               transition={SPRING}
               style={{ transformStyle: "preserve-3d", pointerEvents: isCenter ? "auto" : "none" }}
@@ -392,25 +392,25 @@ function CertCarousel() {
                   VERIFIED
                 </div>
 
-                <div className="relative z-10 p-6 flex flex-col">
+                <div className="relative z-10 p-8 flex flex-col">
                   {/* header */}
                   <div className="mb-5 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span
-                        className="rounded px-2 py-0.75 font-display text-[9px] font-bold tracking-[0.2em]"
+                        className="rounded px-2.5 py-1 font-display text-[11px] font-bold tracking-[0.2em]"
                         style={{ background: `${cert.categoryColor}18`, color: cert.categoryColor, border: `1px solid ${cert.categoryColor}35` }}
                       >
                         {cert.category}
                       </span>
                       <span
-                        className="rounded px-1.5 py-0.75 font-display text-[9px] font-black tracking-[0.15em]"
+                        className="rounded px-2 py-1 font-display text-[11px] font-black tracking-[0.15em]"
                         style={{ background: `${rankColor}18`, color: rankColor, border: `1px solid ${rankColor}40` }}
                       >
                         {cert.rank}-RANK
                       </span>
                     </div>
                     <motion.div
-                      className="relative flex h-11 w-11 items-center justify-center rounded-lg"
+                      className="relative flex h-13 w-13 items-center justify-center rounded-lg"
                       style={{ background: `radial-gradient(circle, ${cert.categoryColor}22, ${cert.categoryColor}08)`, border: `1px solid ${cert.categoryColor}35` }}
                       animate={isCenter ? {
                         boxShadow: [
@@ -421,7 +421,7 @@ function CertCarousel() {
                       } : {}}
                       transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <cert.CategoryIcon size={18} style={{ color: cert.categoryColor }} />
+                      <cert.CategoryIcon size={22} style={{ color: cert.categoryColor }} />
                       {isCenter && (
                         <motion.div
                           className="absolute inset-0 rounded-lg"
@@ -435,7 +435,7 @@ function CertCarousel() {
 
                   {/* title */}
                   <h3
-                    className="mb-3 font-display text-[14px] font-bold leading-snug text-white"
+                    className="mb-4 font-display text-[18px] font-bold leading-snug text-white"
                     style={{ textShadow: isCenter ? `0 0 16px ${cert.categoryColor}40` : "none" }}
                   >
                     {cert.title}
@@ -444,13 +444,13 @@ function CertCarousel() {
                   {/* issuer */}
                   <div className="mb-5 flex items-center gap-2">
                     <div
-                      className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-black"
+                      className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-black"
                       style={{ background: `${cert.issuerColor}25`, color: cert.issuerColor, border: `1px solid ${cert.issuerColor}50` }}
                     >
                       {cert.issuer[0]}
                     </div>
-                    <span className="text-xs font-semibold" style={{ color: cert.issuerColor }}>{cert.issuer}</span>
-                    <Cpu size={10} style={{ color: cert.issuerColor, opacity: 0.6 }} />
+                    <span className="text-sm font-semibold" style={{ color: cert.issuerColor }}>{cert.issuer}</span>
+                    <Cpu size={12} style={{ color: cert.issuerColor, opacity: 0.6 }} />
                   </div>
 
                   {/* divider */}
@@ -459,14 +459,14 @@ function CertCarousel() {
                   {/* footer */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
-                      <Calendar size={11} className="text-white/40" />
-                      <span className="font-body text-[11px] tracking-widest text-white/40">{cert.date}</span>
+                      <Calendar size={13} className="text-white" />
+                      <span className="font-body text-[13px] tracking-widest text-white">{cert.date}</span>
                     </div>
                     <motion.a
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/btn relative flex items-center gap-1.5 overflow-hidden rounded-md px-3 py-1.5 font-display text-[10px] font-bold tracking-[0.18em]"
+                      className="group/btn relative flex items-center gap-1.5 overflow-hidden rounded-md px-4 py-2 font-display text-[12px] font-bold tracking-[0.18em]"
                       style={{
                         background: `${cert.categoryColor}15`,
                         color: cert.categoryColor,
@@ -477,7 +477,7 @@ function CertCarousel() {
                     >
                       <div className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover/btn:translate-x-full" />
                       <span>VIEW</span>
-                      <ExternalLink size={9} />
+                      <ExternalLink size={11} />
                     </motion.a>
                   </div>
                 </div>
