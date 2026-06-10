@@ -14,7 +14,7 @@ export default function Experience() {
 
       <div className="relative">
         {/* vertical mana line */}
-        <span className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-mana via-arcane to-transparent md:left-1/2" />
+        <span className="absolute left-5 top-0 h-full w-px bg-gradient-to-b from-mana via-arcane to-transparent md:left-1/2" />
 
         <div className="space-y-10">
           {experience.map((e, i) => (
@@ -24,20 +24,29 @@ export default function Experience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.5 }}
-              className={`relative pl-12 md:w-1/2 md:pl-0 ${
+              className={`relative pl-14 md:w-1/2 md:pl-0 ${
                 i % 2 === 0
-                  ? "md:pr-10"
-                  : "md:ml-auto md:pl-10"
+                  ? "md:pr-12"
+                  : "md:ml-auto md:pl-12"
               }`}
             >
-              {/* node */}
+              {/* node mobile */}
               <span
-                className={`absolute left-[9px] top-2 h-3.5 w-3.5 rotate-45 bg-mana-bright shadow-[0_0_12px_#a855f7] md:left-auto ${
-                  i % 2 === 0
-                    ? "md:-right-[7px]"
-                    : "md:-left-[7px]"
-                }`}
+                className="absolute left-3.5 top-8 h-3.5 w-3.5 rotate-45 md:hidden"
+                style={{ background: rankStyle[e.rank].text, boxShadow: `0 0 12px ${rankStyle[e.rank].glow}` }}
               />
+              {/* node desktop — right edge for even, left edge for odd */}
+              {i % 2 === 0 ? (
+                <span
+                  className="absolute hidden top-8 h-3.5 w-3.5 rotate-45 md:block"
+                  style={{ right: "-8px", background: rankStyle[e.rank].text, boxShadow: `0 0 12px ${rankStyle[e.rank].glow}` }}
+                />
+              ) : (
+                <span
+                  className="absolute hidden top-8 h-3.5 w-3.5 rotate-45 md:block"
+                  style={{ left: "-8px", background: rankStyle[e.rank].text, boxShadow: `0 0 12px ${rankStyle[e.rank].glow}` }}
+                />
+              )}
 
               <div
                 className="gate-card rounded-xl p-7 text-left transition-shadow duration-300"
