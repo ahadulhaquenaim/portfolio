@@ -244,6 +244,7 @@ export const navLinks = [
   { id: "skills", label: "SKILLS" },
   { id: "projects", label: "PROJECTS" },
   { id: "experience", label: "EXPERIENCE" },
+  { id: "certifications", label: "CERTIFICATIONS" },
   { id: "contact", label: "CONTACT" },
   { id: "games", label: "GAMES" },
 ];

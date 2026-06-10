@@ -152,7 +152,7 @@ export default function Hero() {
       />
 
 
-      <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-32 xl:pl-48">
+      <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-16 xl:pl-24">
         {/* ---- LEFT: headline text ---- */}
         <div className="hero-text">
           <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-mana-bright [text-shadow:0_0_16px_rgba(168,85,247,1),0_0_32px_rgba(168,85,247,0.6)]">
