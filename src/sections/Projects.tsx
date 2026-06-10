@@ -122,16 +122,21 @@ export default function Projects() {
         {/* Glowing animated line + arrow */}
         <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <filter id="glow-line">
-              <feGaussianBlur stdDeviation="2.5" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            <filter id="glow-line" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="blur1" />
+              <feGaussianBlur stdDeviation="6" result="blur2" />
+              <feMerge>
+                <feMergeNode in="blur2" />
+                <feMergeNode in="blur1" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
             </filter>
           </defs>
             {/* Arrowhead pointing up */}
           <motion.polyline
             points="12,14 20,4 28,14"
             stroke="#38bdf8"
-            strokeWidth="2"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
@@ -143,7 +148,7 @@ export default function Projects() {
           <motion.line
             x1="20" y1="14" x2="20" y2="32"
             stroke="#38bdf8"
-            strokeWidth="2"
+            strokeWidth="2.5"
             strokeLinecap="round"
             filter="url(#glow-line)"
             animate={{ opacity: [0.4, 1, 0.4] }}
@@ -151,10 +156,10 @@ export default function Projects() {
           />
         </svg>
         <span
-          className="text-xs tracking-[0.3em] font-mono uppercase"
+          className="text-xs tracking-[0.3em] font-mono uppercase font-semibold"
           style={{
             color: "#38bdf8",
-            textShadow: "0 0 8px #38bdf8, 0 0 20px #38bdf8, 0 0 40px #a855f7",
+            textShadow: "0 0 6px #38bdf8, 0 0 14px #38bdf8, 0 0 30px #38bdf8, 0 0 60px #a855f7, 0 0 90px #a855f7",
           }}
         >
           Click card
