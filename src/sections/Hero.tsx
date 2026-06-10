@@ -223,23 +223,23 @@ export default function Hero() {
             >
               ABOUT ME
             </a>
+            <a
+              href={identity.cvPath}
+              download
+              className="btn-mana flex items-center gap-2 rounded-md px-7 py-3 font-semibold tracking-wider text-white"
+            >
+              <Download size={14} />
+              DOWNLOAD CV
+            </a>
           </div>
         </div>
 
         {/* ---- RIGHT: Achievement Unlocked Cards ---- */}
         <div className="hero-hud hidden flex-col gap-3 lg:flex lg:pl-28 xl:pl-40">
-          <p className="mb-1 text-xs tracking-[0.3em] text-system">[ ACHIEVEMENTS UNLOCKED ]</p>
+          <p className="mb-2 text-sm font-bold tracking-[0.3em] text-white/90">[ ACHIEVEMENTS UNLOCKED ]</p>
           {ACHIEVEMENTS.map((a, i) => (
             <AchievementCard key={a.title} achievement={a} index={i} go={revealed} />
           ))}
-          <a
-            href={identity.cvPath}
-            download
-            className="btn-mana mt-2 flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-sm font-semibold tracking-wider text-white"
-          >
-            <Download size={14} />
-            DOWNLOAD CV
-          </a>
         </div>
       </div>
 
@@ -531,7 +531,7 @@ function AchievementCard({
           >
             {achievement.rarity}
           </span>
-          <span className="text-[10px] tracking-widest text-slate-400">ACHIEVEMENT UNLOCKED</span>
+          <span className="text-[10px] font-semibold tracking-widest text-white/70">ACHIEVEMENT UNLOCKED</span>
         </div>
         <p className="truncate text-sm font-extrabold text-white [text-shadow:0_0_12px_rgba(255,255,255,0.4)]">{achievement.title}</p>
         <p className="truncate text-xs font-semibold text-white/80">{achievement.desc}</p>
