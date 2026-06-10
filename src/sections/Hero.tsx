@@ -4,23 +4,10 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Star, Cpu } from "lucide-react";
 import { identity } from "../data/content";
 
-// Deterministic pseudo-random based on index to avoid hydration drift
 function seededRandom(seed: number) {
   const x = Math.sin(seed + 1) * 10000;
   return x - Math.floor(x);
 }
-
-const PARTICLES = Array.from({ length: 28 }, (_, i) => ({
-  id: i,
-  x: 30 + seededRandom(i * 3) * 55,      // cluster around character (30–85%)
-  y: 5 + seededRandom(i * 3 + 1) * 90,
-  size: 2 + seededRandom(i * 3 + 2) * 4,
-  duration: 3 + seededRandom(i * 7) * 5,
-  delay: seededRandom(i * 11) * 4,
-  driftX: (seededRandom(i * 13) - 0.5) * 60,
-  driftY: -(30 + seededRandom(i * 17) * 60), // always float upward
-  opacity: 0.4 + seededRandom(i * 19) * 0.6,
-}));
 
 export default function Hero() {
   const root = useRef<HTMLDivElement>(null);
@@ -33,8 +20,8 @@ export default function Hero() {
   // Mouse parallax — raw mouse position normalised to [-1, 1]
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 60, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 60, damping: 20 });
+  const springX = useSpring(mouseX, { stiffness: 30, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 30, damping: 30 });
 
   useEffect(() => {
     const finish = () => {
@@ -138,36 +125,7 @@ export default function Hero() {
         springY={springY}
       />
 
-      {/* ---- Floating purple spark particles ---- */}
-      <div className="absolute inset-0 z-2 pointer-events-none overflow-hidden">
-        {PARTICLES.map((p) => (
-          <motion.span
-            key={p.id}
-            className="absolute rounded-full"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: p.size,
-              height: p.size,
-              background: `radial-gradient(circle, #e879f9 0%, #a855f7 60%, transparent 100%)`,
-              boxShadow: `0 0 ${p.size * 3}px ${p.size}px rgba(168,85,247,0.8)`,
-            }}
-            animate={{
-              x: [0, p.driftX * 0.5, p.driftX],
-              y: [0, p.driftY * 0.5, p.driftY],
-              opacity: [0, p.opacity, 0],
-              scale: [0.4, 1.2, 0.2],
-            }}
-            transition={{
-              duration: p.duration,
-              delay: p.delay,
-              repeat: Infinity,
-              repeatDelay: seededRandom(p.id * 23) * 2,
-              ease: "easeOut",
-            }}
-          />
-        ))}
-      </div>
+      {/* tsParticles (ParticleBg) handles ambient particles globally — no second system needed */}
 
       {/* Legibility overlays:
           - left→right dark gradient so the headline text stays readable
@@ -279,19 +237,14 @@ function CharacterLayer({
   springX: ReturnType<typeof useSpring>;
   springY: ReturnType<typeof useSpring>;
 }) {
-  const x = useTransform(springX, [-1, 1], [-18, 18]);
-  const y = useTransform(springY, [-1, 1], [-10, 10]);
+  const x = useTransform(springX, [-1, 1], [-8, 8]);
+  const y = useTransform(springY, [-1, 1], [-5, 5]);
 
   return (
     <motion.div className="absolute inset-0 z-0" style={{ x, y }}>
       {/* Video takes priority over static image */}
       {videoSrc ? (
-        <motion.div
-          className="hero-character absolute inset-0 overflow-hidden"
-          style={{ transformOrigin: "50% 75%" }}
-          animate={{ scale: [1, 1.012, 1, 1.008, 1], y: [0, -6, 0, -4, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", times: [0, 0.25, 0.5, 0.75, 1] }}
-        >
+        <div className="hero-character absolute inset-0 overflow-hidden">
           <video
             autoPlay
             loop
@@ -306,11 +259,12 @@ function CharacterLayer({
               height: "100%",
               width: "auto",
               minWidth: "60%",
+              willChange: "transform",
             }}
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
-        </motion.div>
+        </div>
       ) : imageSrc ? (
         <motion.div
           className="hero-character absolute inset-0 bg-no-repeat"

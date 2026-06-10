@@ -25,32 +25,25 @@ export default function ParticleBg() {
           fpsLimit: 60,
           detectRetina: true,
           particles: {
-            number: { value: 55, density: { enable: true } },
+            number: { value: 30, density: { enable: true } },
             color: { value: ["#8b5cf6", "#a855f7", "#38bdf8"] },
             opacity: {
-              value: { min: 0.15, max: 0.7 },
-              animation: { enable: true, speed: 0.6, sync: false },
+              value: { min: 0.1, max: 0.5 },
+              animation: { enable: true, speed: 0.4, sync: false },
             },
-            size: { value: { min: 1, max: 3.5 } },
+            size: { value: { min: 1, max: 2.5 } },
             move: {
               enable: true,
-              speed: 0.6,
+              speed: 0.4,
               direction: "top",
               outModes: { default: "out" },
               random: true,
             },
-            shadow: { enable: true, color: "#a855f7", blur: 6 },
-            links: {
-              enable: true,
-              distance: 130,
-              color: "#6d28d9",
-              opacity: 0.12,
-              width: 1,
-            },
+            shadow: { enable: false },
+            links: { enable: false },
           },
           interactivity: {
-            events: { onHover: { enable: true, mode: "grab" } },
-            modes: { grab: { distance: 160, links: { opacity: 0.3 } } },
+            events: { onHover: { enable: false } },
           },
         }}
       />
