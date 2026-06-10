@@ -115,6 +115,7 @@ export const skills: { name: string; rank: Rank; value: number }[] = [
 export const projects = [
   {
     title: "Self Tune Desktop App",
+    label: "Linux Desktop App",
     difficulty: "S" as Rank,
     blurb:
       "A native desktop productivity app with a Plan → Do → Review workflow, backlog management, and a 7-day weekly report dashboard — all stored locally for full privacy.",
@@ -125,6 +126,7 @@ export const projects = [
   },
   {
     title: "Shadow Commerce",
+    label: "Full-Stack Web",
     difficulty: "A" as Rank,
     blurb:
       "Full-stack e-commerce with cart, payments and an admin dashboard for inventory.",
@@ -133,6 +135,7 @@ export const projects = [
   },
   {
     title: "The Rune Tracker",
+    label: "Productivity App",
     difficulty: "A" as Rank,
     blurb:
       "Habit + goal tracker with streak analytics and animated progress visualizations.",
@@ -141,6 +144,7 @@ export const projects = [
   },
   {
     title: "Gate Analytics",
+    label: "Data Dashboard",
     difficulty: "B" as Rank,
     blurb:
       "Dashboard turning raw event data into interactive, filterable charts in real time.",
@@ -149,6 +153,7 @@ export const projects = [
   },
   {
     title: "Monarch Chat",
+    label: "Real-Time Messaging",
     difficulty: "B" as Rank,
     blurb:
       "End-to-end messaging app with rooms, typing indicators and read receipts.",
@@ -157,6 +162,7 @@ export const projects = [
   },
   {
     title: "Arise Portfolio",
+    label: "Animated Portfolio",
     difficulty: "C" as Rank,
     blurb:
       "This very site — a Solo Leveling themed animated portfolio built with React + GSAP.",

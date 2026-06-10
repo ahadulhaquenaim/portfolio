@@ -4,6 +4,7 @@ import { X, ExternalLink, Swords } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import RankBadge from "../components/RankBadge";
 import { projects } from "../data/content";
+import { rankStyle } from "../lib/rank";
 
 type Project = (typeof projects)[number];
 
@@ -48,6 +49,14 @@ export default function Projects() {
               >
                 <div className="mb-5 flex items-center justify-between">
                   <Swords className="text-mana-bright" size={28} />
+                  {"label" in p && p.label && (
+                    <span
+                      className="text-[12px] tracking-[0.2em] font-mono font-semibold"
+                      style={{ color: rankStyle[p.difficulty].text, textShadow: `0 0 10px ${rankStyle[p.difficulty].glow}, 0 0 20px ${rankStyle[p.difficulty].glow}` }}
+                    >
+                      {p.label}
+                    </span>
+                  )}
                   <RankBadge rank={p.difficulty} />
                 </div>
                 <h3 className="font-display text-2xl text-slate-100">{p.title}</h3>
