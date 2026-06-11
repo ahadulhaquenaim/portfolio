@@ -59,7 +59,7 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="gate-card group flex flex-col rounded-xl p-7 text-left h-80"
+                className="gate-card group flex flex-col rounded-xl p-7 text-left min-h-80 sm:h-80"
               >
                 <div className="mb-5 flex items-center justify-between">
                   <Swords className="text-mana-bright" size={28} />
@@ -74,7 +74,7 @@ export default function Projects() {
                   <RankBadge rank={p.difficulty} />
                 </div>
                 <h3 className="font-display text-2xl text-slate-100">{p.title}</h3>
-                <p className="mt-1 flex-1 text-sm leading-relaxed text-slate-200 line-clamp-4" style={{ textShadow: "0 0 12px rgba(255,255,255,0.25)" }}>
+                <p className="mt-1 flex-1 text-sm leading-relaxed text-slate-200 sm:line-clamp-4" style={{ textShadow: "0 0 12px rgba(255,255,255,0.25)" }}>
                   {p.blurb}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2 min-h-7">
