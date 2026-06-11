@@ -58,6 +58,7 @@ export default function Sports() {
   const [activeDungeon, setActiveDungeon] = useState<DungeonKey | null>(null);
   const [activeAchievement, setActiveAchievement] = useState<Achievement | null>(null);
   const [carouselPage, setCarouselPage] = useState(0);
+  const [carouselDir, setCarouselDir] = useState<1 | -1>(1);
   const detailRef = useRef<HTMLDivElement>(null);
 
   function openDungeon(key: DungeonKey) {
@@ -354,7 +355,7 @@ export default function Sports() {
                         {/* Left arrow */}
                         {hasCarousel && (
                           <button
-                            onClick={() => setCarouselPage((p) => Math.max(0, p - 1))}
+                            onClick={() => { setCarouselDir(-1); setCarouselPage((p) => Math.max(0, p - 1)); }}
                             disabled={carouselPage === 0}
                             className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-9 h-9 rounded-full transition-all"
                             style={{
@@ -372,10 +373,10 @@ export default function Sports() {
                         <AnimatePresence mode="wait">
                           <motion.div
                             key={carouselPage}
-                            initial={{ opacity: 0, x: 40 }}
+                            initial={{ opacity: 0, x: carouselDir * 80 }}
                             animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -40 }}
-                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            exit={{ opacity: 0, x: carouselDir * -80 }}
+                            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                             className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
                           >
                             {visibleAchs.map((ach, i) => (
@@ -497,7 +498,7 @@ export default function Sports() {
                         {/* Right arrow */}
                         {hasCarousel && (
                           <button
-                            onClick={() => setCarouselPage((p) => Math.min(totalPages - 1, p + 1))}
+                            onClick={() => { setCarouselDir(1); setCarouselPage((p) => Math.min(totalPages - 1, p + 1)); }}
                             disabled={carouselPage === totalPages - 1}
                             className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-9 h-9 rounded-full transition-all"
                             style={{
@@ -518,7 +519,7 @@ export default function Sports() {
                           {Array.from({ length: totalPages }).map((_, idx) => (
                             <button
                               key={idx}
-                              onClick={() => setCarouselPage(idx)}
+                              onClick={() => { setCarouselDir(idx > carouselPage ? 1 : -1); setCarouselPage(idx); }}
                               className="rounded-full transition-all"
                               style={{
                                 width: carouselPage === idx ? 20 : 8,
