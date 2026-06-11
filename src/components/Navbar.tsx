@@ -106,7 +106,7 @@ export default function Navbar() {
         </motion.div>
       )}
 
-      <div className="flex items-center justify-between py-5 max-w-screen-2xl mx-auto">
+      <div className="flex items-center justify-between py-5 px-5 sm:px-8 max-w-screen-2xl mx-auto">
         {/* Logo */}
         <button
           onClick={() => go("home")}
@@ -197,7 +197,7 @@ export default function Navbar() {
         </button>
 
         {/* Desktop links */}
-        <ul ref={navRef} className="hidden items-center gap-3 md:flex">
+        <ul ref={navRef} className="hidden items-center gap-3 md:flex ml-8 lg:ml-12">
           {navLinks.map((l) => {
             const isActive = active === l.id;
             const isHovered = hovered === l.id;
@@ -207,7 +207,7 @@ export default function Navbar() {
                   onClick={() => go(l.id)}
                   onMouseEnter={() => setHovered(l.id)}
                   onMouseLeave={() => setHovered(null)}
-                  className="relative px-8 py-2 text-base tracking-widest font-semibold transition-colors duration-200 group"
+                  className="relative px-4 xl:px-8 py-2 text-base tracking-widest font-semibold transition-colors duration-200 group"
                   style={{
                     color: l.id === "sports"
                       ? isActive ? "#ffd700" : isHovered ? "#ffe44d" : "#f5c518"
@@ -470,7 +470,7 @@ export default function Navbar() {
         {/* CTA Button */}
         <button
           onClick={() => go("contact")}
-          className="hidden md:block relative overflow-hidden rounded-md px-5 py-2 text-sm font-semibold tracking-wider text-white"
+          className="hidden md:block relative shrink-0 whitespace-nowrap overflow-hidden rounded-md ml-6 lg:ml-10 px-5 py-2 text-sm font-semibold tracking-wider text-white"
           style={{
             background: "linear-gradient(135deg, #6d28d9, #a855f7)",
             boxShadow: "0 0 20px rgba(139,92,246,0.55), 0 0 40px rgba(168,85,247,0.2)",
