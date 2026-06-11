@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Trophy, Shield, Swords, ChevronDown } from "lucide-react";
+import { X, Trophy, Shield, Swords, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import { sports } from "../data/content";
 
@@ -52,14 +52,18 @@ const dungeonConfig = {
 
 type DungeonKey = keyof typeof dungeonConfig;
 
+const CARDS_PER_PAGE = 3;
+
 export default function Sports() {
   const [activeDungeon, setActiveDungeon] = useState<DungeonKey | null>(null);
   const [activeAchievement, setActiveAchievement] = useState<Achievement | null>(null);
+  const [carouselPage, setCarouselPage] = useState(0);
   const detailRef = useRef<HTMLDivElement>(null);
 
   function openDungeon(key: DungeonKey) {
     setActiveDungeon(key);
     setActiveAchievement(null);
+    setCarouselPage(0);
     setTimeout(() => detailRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
   }
 
@@ -332,127 +336,203 @@ export default function Sports() {
                 </button>
               </div>
 
-              {/* Achievement grid */}
+              {/* Achievement carousel */}
               <div className="p-6">
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                  {activeSport.achievements.map((ach, i) => (
-                    <motion.button
-                      key={i}
-                      onClick={() => setActiveAchievement(ach === activeAchievement ? null : ach)}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, delay: i * 0.07 }}
-                      className="group relative rounded-xl overflow-hidden text-left"
-                      style={{
-                        border: `1px solid ${ach === activeAchievement ? cfg.color : cfg.borderGlow.replace("0.35", "0.25")}`,
-                        boxShadow:
-                          ach === activeAchievement
-                            ? `0 0 22px ${cfg.glow}, 0 0 50px ${cfg.glow.replace("0.55", "0.15")}`
-                            : `0 2px 16px rgba(0,0,0,0.4)`,
-                        background:
-                          ach === activeAchievement
-                            ? `linear-gradient(160deg, ${cfg.gradientFrom}, ${cfg.gradientTo})`
-                            : `linear-gradient(160deg, rgba(19,12,38,0.9), rgba(10,7,22,0.95))`,
-                        transition: "all 0.35s ease",
-                      }}
-                    >
-                      {/* Achievement image */}
-                      <div className="relative overflow-hidden" style={{ aspectRatio: "1/1" }}>
-                        {ach.image ? (
-                          <img
-                            src={ach.image}
-                            alt={ach.title}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            style={{ objectPosition: ("imagePosition" in ach ? ach.imagePosition : undefined) ?? "center center" }}
-                          />
-                        ) : (
-                          <div
-                            className="w-full h-full flex items-center justify-center"
-                            style={{ background: `linear-gradient(135deg, ${cfg.gradientFrom}, ${cfg.gradientTo})` }}
+                {(() => {
+                  const achievements = activeSport.achievements;
+                  const total = achievements.length;
+                  const hasCarousel = total > CARDS_PER_PAGE;
+                  const totalPages = Math.ceil(total / CARDS_PER_PAGE);
+                  const visibleAchs = achievements.slice(
+                    carouselPage * CARDS_PER_PAGE,
+                    carouselPage * CARDS_PER_PAGE + CARDS_PER_PAGE
+                  );
+
+                  return (
+                    <>
+                      <div className="relative">
+                        {/* Left arrow */}
+                        {hasCarousel && (
+                          <button
+                            onClick={() => setCarouselPage((p) => Math.max(0, p - 1))}
+                            disabled={carouselPage === 0}
+                            className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-9 h-9 rounded-full transition-all"
+                            style={{
+                              background: carouselPage === 0 ? "rgba(0,0,0,0.3)" : cfg.gradientFrom,
+                              border: `1px solid ${carouselPage === 0 ? "rgba(255,255,255,0.1)" : cfg.color}`,
+                              color: carouselPage === 0 ? "rgba(255,255,255,0.2)" : cfg.color,
+                              boxShadow: carouselPage === 0 ? "none" : `0 0 12px ${cfg.glow}`,
+                            }}
                           >
-                            <span className="text-5xl opacity-40">{dungeonConfig[activeDungeon].icon}</span>
-                          </div>
+                            <ChevronLeft size={18} />
+                          </button>
                         )}
 
-                        {/* Overlay gradient */}
-                        <div
-                          className="absolute inset-0"
-                          style={{
-                            background: `linear-gradient(to top, ${cfg.gradientTo} 0%, transparent 40%)`,
-                            opacity: 0.45,
-                          }}
-                        />
+                        {/* Cards */}
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={carouselPage}
+                            initial={{ opacity: 0, x: 40 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -40 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+                          >
+                            {visibleAchs.map((ach, i) => (
+                              <motion.button
+                                key={carouselPage * CARDS_PER_PAGE + i}
+                                onClick={() => setActiveAchievement(ach === activeAchievement ? null : ach)}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.35, delay: i * 0.07 }}
+                                className="group relative rounded-xl overflow-hidden text-left"
+                                style={{
+                                  border: `1px solid ${ach === activeAchievement ? cfg.color : cfg.borderGlow.replace("0.35", "0.25")}`,
+                                  boxShadow:
+                                    ach === activeAchievement
+                                      ? `0 0 22px ${cfg.glow}, 0 0 50px ${cfg.glow.replace("0.55", "0.15")}`
+                                      : `0 2px 16px rgba(0,0,0,0.4)`,
+                                  background:
+                                    ach === activeAchievement
+                                      ? `linear-gradient(160deg, ${cfg.gradientFrom}, ${cfg.gradientTo})`
+                                      : `linear-gradient(160deg, rgba(19,12,38,0.9), rgba(10,7,22,0.95))`,
+                                  transition: "all 0.35s ease",
+                                }}
+                              >
+                                {/* Achievement image */}
+                                <div className="relative overflow-hidden" style={{ height: "380px" }}>
+                                  {ach.image ? (
+                                    <img
+                                      src={ach.image}
+                                      alt={ach.title}
+                                      className="absolute inset-0 w-full h-full object-cover"
+                                      style={{ objectPosition: ("imagePosition" in ach ? ach.imagePosition : undefined) ?? "center center" }}
+                                    />
+                                  ) : (
+                                    <div
+                                      className="w-full h-full flex items-center justify-center"
+                                      style={{ background: `linear-gradient(135deg, ${cfg.gradientFrom}, ${cfg.gradientTo})` }}
+                                    >
+                                      <span className="text-5xl opacity-40">{dungeonConfig[activeDungeon].icon}</span>
+                                    </div>
+                                  )}
 
-                        {/* Trophy badge */}
-                        <div
-                          className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest"
-                          style={{
-                            background: `rgba(0,0,0,0.75)`,
-                            border: `1px solid ${cfg.color}`,
-                            color: cfg.color,
-                            backdropFilter: "blur(8px)",
-                            boxShadow: `0 0 10px ${cfg.glow}`,
-                          }}
-                        >
-                          <Trophy size={10} />
-                          {ach.prize}
-                        </div>
+                                  {/* Overlay gradient */}
+                                  <div
+                                    className="absolute inset-0"
+                                    style={{
+                                      background: `linear-gradient(to top, ${cfg.gradientTo} 0%, transparent 40%)`,
+                                      opacity: 0.45,
+                                    }}
+                                  />
 
-                        {/* Expand hint */}
-                        <div
-                          className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                          style={{ color: cfg.color }}
-                        >
-                          <ChevronDown size={14} />
-                        </div>
-                      </div>
+                                  {/* Trophy badge */}
+                                  <div
+                                    className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest"
+                                    style={{
+                                      background: `rgba(0,0,0,0.75)`,
+                                      border: `1px solid ${cfg.color}`,
+                                      color: cfg.color,
+                                      backdropFilter: "blur(8px)",
+                                      boxShadow: `0 0 10px ${cfg.glow}`,
+                                    }}
+                                  >
+                                    <Trophy size={10} />
+                                    {ach.prize}
+                                  </div>
 
-                      {/* Card body */}
-                      <div className="p-4">
-                        <div
-                          className="font-display text-sm font-bold tracking-wide leading-tight mb-1"
-                          style={{
-                            color: cfg.color,
-                            textShadow: `0 0 10px ${cfg.glow}`,
-                          }}
-                        >
-                          {ach.title}
-                        </div>
-                        <div
-                          className="text-[10px] font-mono tracking-widest mb-2"
-                          style={{ color: cfg.color, opacity: 0.55 }}
-                        >
-                          {ach.date}
-                        </div>
+                                  {/* Expand hint */}
+                                  <div
+                                    className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    style={{ color: cfg.color }}
+                                  >
+                                    <ChevronDown size={14} />
+                                  </div>
+                                </div>
 
-                        {/* Expanded description */}
-                        <AnimatePresence>
-                          {ach === activeAchievement && (
-                            <motion.p
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: "auto" }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="text-[11px] leading-relaxed overflow-hidden"
-                              style={{ color: "rgba(225,215,255,0.75)" }}
-                            >
-                              {ach.description}
-                            </motion.p>
-                          )}
+                                {/* Card body */}
+                                <div className="p-4">
+                                  <div
+                                    className="font-display text-sm font-bold tracking-wide leading-tight mb-1"
+                                    style={{ color: cfg.color, textShadow: `0 0 10px ${cfg.glow}` }}
+                                  >
+                                    {ach.title}
+                                  </div>
+                                  <div
+                                    className="text-[10px] font-mono tracking-widest mb-2"
+                                    style={{ color: cfg.color, opacity: 0.55 }}
+                                  >
+                                    {ach.date}
+                                  </div>
+
+                                  <AnimatePresence>
+                                    {ach === activeAchievement && (
+                                      <motion.p
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="text-[11px] leading-relaxed overflow-hidden"
+                                        style={{ color: "rgba(225,215,255,0.75)" }}
+                                      >
+                                        {ach.description}
+                                      </motion.p>
+                                    )}
+                                  </AnimatePresence>
+
+                                  {ach !== activeAchievement && (
+                                    <p
+                                      className="text-[11px] leading-relaxed line-clamp-2"
+                                      style={{ color: "rgba(225,215,255,0.55)" }}
+                                    >
+                                      {ach.description}
+                                    </p>
+                                  )}
+                                </div>
+                              </motion.button>
+                            ))}
+                          </motion.div>
                         </AnimatePresence>
 
-                        {ach !== activeAchievement && (
-                          <p
-                            className="text-[11px] leading-relaxed line-clamp-2"
-                            style={{ color: "rgba(225,215,255,0.55)" }}
+                        {/* Right arrow */}
+                        {hasCarousel && (
+                          <button
+                            onClick={() => setCarouselPage((p) => Math.min(totalPages - 1, p + 1))}
+                            disabled={carouselPage === totalPages - 1}
+                            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-9 h-9 rounded-full transition-all"
+                            style={{
+                              background: carouselPage === totalPages - 1 ? "rgba(0,0,0,0.3)" : cfg.gradientFrom,
+                              border: `1px solid ${carouselPage === totalPages - 1 ? "rgba(255,255,255,0.1)" : cfg.color}`,
+                              color: carouselPage === totalPages - 1 ? "rgba(255,255,255,0.2)" : cfg.color,
+                              boxShadow: carouselPage === totalPages - 1 ? "none" : `0 0 12px ${cfg.glow}`,
+                            }}
                           >
-                            {ach.description}
-                          </p>
+                            <ChevronRight size={18} />
+                          </button>
                         )}
                       </div>
-                    </motion.button>
-                  ))}
-                </div>
+
+                      {/* Dot indicators */}
+                      {hasCarousel && (
+                        <div className="flex justify-center gap-2 mt-6">
+                          {Array.from({ length: totalPages }).map((_, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setCarouselPage(idx)}
+                              className="rounded-full transition-all"
+                              style={{
+                                width: carouselPage === idx ? 20 : 8,
+                                height: 8,
+                                background: carouselPage === idx ? cfg.color : cfg.borderGlow,
+                                boxShadow: carouselPage === idx ? `0 0 8px ${cfg.glow}` : "none",
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             </motion.div>
           )}

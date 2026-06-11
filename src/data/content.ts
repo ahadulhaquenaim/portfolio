@@ -224,11 +224,11 @@ export const sports = [
     category: "Badminton",
     achievements: [
       {
-        title: "Inter-University Badminton Championship",
+        title: "Man Of The Tournament (Singles & Doubles)",
         prize: "1st Place",
-        date: "March 2022",
-        description: "Won the gold medal in the singles category at the inter-university championship, defeating opponents from 12 universities in a grueling bracket-style tournament.",
-        image: null as string | null,
+        date: "January 1, 2021",
+        description: "Intra-Ict Badminton Tournament MBSTU",
+        image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/2.jpg",
       },
       {
         title: "Man Of The Tournament(Singles)",
@@ -245,17 +245,25 @@ export const sports = [
         description: "Inter-Software Badminton tournament 2025",
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/10.jpg",
       },
+      {
+        title: "Champion (Singles & Doubles)",
+        prize: "Champions",
+        date: "January 1, 2021",
+        description: "Intra-ICT Badminton Tournament",
+        image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/3.jpg",
+        imagePosition: "30% 30%",
+      },
     ],
   },
   {
     category: "Football",
     achievements: [
       {
-        title: "Inter-Department Football League",
-        prize: "Champions",
-        date: "February 2023",
-        description: "Captain of the CSE team that won the inter-department football league, topping the group stage and winning the final on penalties.",
-        image: null as string | null,
+        title: "Best Player",
+        prize: "Best Player",
+        date: "June 1, 2023",
+        description: "Taking prize from VC sir",
+        image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/4.jpg",
       },
       {
         title: "Champion",
