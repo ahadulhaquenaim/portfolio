@@ -106,11 +106,11 @@ export default function Navbar() {
         </motion.div>
       )}
 
-      <div className="flex items-center justify-between py-5 px-5 sm:px-8 max-w-screen-2xl mx-auto">
+      <div className="flex items-center justify-between gap-3 py-5 px-6 sm:px-8 max-w-screen-2xl mx-auto">
         {/* Logo */}
         <button
           onClick={() => go("home")}
-          className="group relative flex items-center gap-2.5 font-display text-2xl font-bold outline-none"
+          className="group relative flex min-w-0 shrink items-center gap-2.5 font-display text-xl sm:text-2xl font-bold outline-none"
           style={{ textShadow: "0 0 16px rgba(168,85,247,1), 0 0 40px rgba(139,92,246,0.6), 0 0 80px rgba(109,40,217,0.3)" }}
         >
           {/* Magic sparkle particles around logo */}
@@ -197,7 +197,7 @@ export default function Navbar() {
         </button>
 
         {/* Desktop links */}
-        <ul ref={navRef} className="hidden items-center gap-3 md:flex ml-8 lg:ml-12">
+        <ul ref={navRef} className="hidden items-center gap-1 lg:gap-2 md:flex mx-auto">
           {navLinks.map((l) => {
             const isActive = active === l.id;
             const isHovered = hovered === l.id;
@@ -207,7 +207,7 @@ export default function Navbar() {
                   onClick={() => go(l.id)}
                   onMouseEnter={() => setHovered(l.id)}
                   onMouseLeave={() => setHovered(null)}
-                  className="relative px-4 xl:px-8 py-2 text-base tracking-widest font-semibold transition-colors duration-200 group"
+                  className="relative px-3 lg:px-5 xl:px-7 py-2 text-sm lg:text-base tracking-widest font-semibold transition-colors duration-200 group"
                   style={{
                     color: l.id === "sports"
                       ? isActive ? "#ffd700" : isHovered ? "#ffe44d" : "#f5c518"
@@ -499,7 +499,7 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <motion.button
-          className="text-mana-bright md:hidden"
+          className="text-mana-bright shrink-0 md:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-label="menu"
           whileTap={{ scale: 0.9 }}
