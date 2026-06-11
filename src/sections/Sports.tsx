@@ -363,6 +363,7 @@ export default function Sports() {
                             src={ach.image}
                             alt={ach.title}
                             className="absolute inset-0 w-full h-full object-cover"
+                            style={{ objectPosition: ("imagePosition" in ach ? ach.imagePosition : undefined) ?? "center center" }}
                           />
                         ) : (
                           <div
