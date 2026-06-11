@@ -193,7 +193,9 @@ export default function Navbar() {
                   onMouseLeave={() => setHovered(null)}
                   className="relative px-8 py-2 text-base tracking-widest font-semibold transition-colors duration-200 group"
                   style={{
-                    color: isActive ? "#fff" : isHovered ? "#fff" : "#d1c8ea",
+                    color: l.id === "sports"
+                      ? isActive ? "#ffd700" : isHovered ? "#ffe44d" : "#f5c518"
+                      : isActive ? "#fff" : isHovered ? "#fff" : "#d1c8ea",
                   }}
                 >
                   {/* Hover background pill */}
@@ -219,7 +221,11 @@ export default function Navbar() {
                     <motion.span
                       layoutId="nav-active-bg"
                       className="absolute inset-0 rounded-md"
-                      style={{
+                      style={l.id === "sports" ? {
+                        background: "linear-gradient(135deg, rgba(180,130,0,0.2), rgba(255,215,0,0.1))",
+                        border: "1px solid rgba(255,215,0,0.4)",
+                        boxShadow: "0 0 18px rgba(255,215,0,0.25), inset 0 0 12px rgba(200,160,0,0.15)",
+                      } : {
                         background: "linear-gradient(135deg, rgba(109,40,217,0.25), rgba(168,85,247,0.15))",
                         border: "1px solid rgba(168,85,247,0.35)",
                         boxShadow: "0 0 18px rgba(168,85,247,0.25), inset 0 0 12px rgba(109,40,217,0.2)",
@@ -228,7 +234,103 @@ export default function Navbar() {
                     />
                   )}
 
-                  <span className="relative z-10">{l.label}</span>
+                  <span
+                    className="relative z-10"
+                    style={l.id === "sports" ? {
+                      textShadow: isActive
+                        ? "0 0 10px #ffd700, 0 0 22px #ffa500, 0 0 40px rgba(255,215,0,0.5)"
+                        : isHovered
+                        ? "0 0 8px #ffd700, 0 0 18px rgba(255,165,0,0.6)"
+                        : "0 0 6px rgba(255,215,0,0.4)",
+                    } : undefined}
+                  >{l.label}</span>
+
+                  {/* Golden sparkles for Sports nav item */}
+                  {l.id === "sports" && (
+                    <>
+                      {[
+                        { top: "-8px",  left: "15%",  delay: 0,    dur: 1.8, size: "4px", color: "#ffd700" },
+                        { top: "-7px",  left: "35%",  delay: 0.5,  dur: 2.1, size: "3px", color: "#ffb300" },
+                        { top: "-9px",  left: "55%",  delay: 1.0,  dur: 1.6, size: "5px", color: "#ffe44d" },
+                        { top: "-6px",  left: "75%",  delay: 0.3,  dur: 2.0, size: "3px", color: "#ffd700" },
+                        { top: "-7px",  left: "90%",  delay: 0.8,  dur: 1.9, size: "4px", color: "#ffb300" },
+                        { top: "108%", left: "20%",  delay: 0.4,  dur: 1.7, size: "3px", color: "#ffe44d" },
+                        { top: "108%", left: "50%",  delay: 1.1,  dur: 2.2, size: "4px", color: "#ffd700" },
+                        { top: "108%", left: "80%",  delay: 0.7,  dur: 1.8, size: "3px", color: "#ffb300" },
+                        { top: "50%",  left: "-4px", delay: 0.2,  dur: 2.0, size: "3px", color: "#ffd700" },
+                        { top: "50%",  left: "102%", delay: 0.9,  dur: 1.7, size: "3px", color: "#ffe44d" },
+                      ].map((p, i) => (
+                        <motion.span
+                          key={`gold-${i}`}
+                          className="pointer-events-none absolute rounded-full"
+                          style={{
+                            width: p.size,
+                            height: p.size,
+                            top: p.top,
+                            left: p.left,
+                            translateY: p.top === "50%" ? "-50%" : undefined,
+                            background: p.color,
+                            boxShadow: `0 0 6px 2px ${p.color}, 0 0 12px 3px rgba(255,215,0,0.6)`,
+                            zIndex: 10,
+                          }}
+                          animate={{
+                            opacity: [0, 1, 0.6, 1, 0],
+                            scale: [0, 1.5, 0.8, 1.3, 0],
+                            y: [0, -5, -10],
+                          }}
+                          transition={{
+                            duration: p.dur,
+                            repeat: Infinity,
+                            delay: p.delay,
+                            ease: "easeOut",
+                          }}
+                        />
+                      ))}
+
+                      {/* Rising gold sparks */}
+                      {[
+                        { left: "25%", delay: 0.1 },
+                        { left: "50%", delay: 0.7 },
+                        { left: "75%", delay: 1.3 },
+                      ].map((s, i) => (
+                        <motion.span
+                          key={`gold-rise-${i}`}
+                          className="absolute pointer-events-none rounded-full"
+                          style={{
+                            width: "2px",
+                            height: "4px",
+                            left: s.left,
+                            bottom: "100%",
+                            background: "linear-gradient(to top, #ffd700, #fff9c4)",
+                            boxShadow: "0 0 4px 2px rgba(255,215,0,0.9)",
+                          }}
+                          animate={{
+                            y: [0, -16, -26],
+                            opacity: [0, 1, 0],
+                            scale: [0.5, 1.2, 0],
+                          }}
+                          transition={{
+                            duration: 1.3,
+                            repeat: Infinity,
+                            delay: s.delay,
+                            ease: "easeOut",
+                          }}
+                        />
+                      ))}
+
+                      {/* Subtle gold shimmer background */}
+                      <motion.span
+                        className="absolute inset-0 rounded-md pointer-events-none"
+                        style={{
+                          background: "radial-gradient(ellipse at center, rgba(255,215,0,0.07) 0%, transparent 70%)",
+                        }}
+                        animate={{
+                          opacity: [0.4, 0.9, 0.4],
+                        }}
+                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                    </>
+                  )}
 
                   {/* Active underline with glow */}
                   {isActive && (
@@ -237,15 +339,19 @@ export default function Navbar() {
                       className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px rounded-full"
                       style={{
                         width: "60%",
-                        background: "linear-gradient(90deg, transparent, #a855f7, transparent)",
-                        boxShadow: "0 0 8px 1px #a855f7, 0 0 20px 2px rgba(168,85,247,0.5)",
+                        background: l.id === "sports"
+                          ? "linear-gradient(90deg, transparent, #ffd700, transparent)"
+                          : "linear-gradient(90deg, transparent, #a855f7, transparent)",
+                        boxShadow: l.id === "sports"
+                          ? "0 0 8px 1px #ffd700, 0 0 20px 2px rgba(255,215,0,0.6)"
+                          : "0 0 8px 1px #a855f7, 0 0 20px 2px rgba(168,85,247,0.5)",
                       }}
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
 
                   {/* Active sparkle constellation */}
-                  {isActive && (
+                  {isActive && l.id !== "sports" && (
                     <>
                       {/* Corner sparks */}
                       {[
@@ -325,6 +431,19 @@ export default function Navbar() {
                         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                       />
                     </>
+                  )}
+
+                  {/* Gold active pulse ring for Sports */}
+                  {isActive && l.id === "sports" && (
+                    <motion.span
+                      className="absolute inset-0 rounded-md pointer-events-none"
+                      style={{ border: "1px solid rgba(255,215,0,0.7)" }}
+                      animate={{
+                        opacity: [0.7, 0, 0.7],
+                        scale: [1, 1.08, 1],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    />
                   )}
                 </button>
               </li>
@@ -411,7 +530,13 @@ export default function Navbar() {
                   <button
                     onClick={() => go(l.id)}
                     className="flex w-full items-center gap-3 px-6 py-3.5 text-left tracking-widest text-sm"
-                    style={{
+                    style={l.id === "sports" ? {
+                      color: isActive ? "#ffd700" : "#c8a800",
+                      background: isActive ? "rgba(255,215,0,0.07)" : "transparent",
+                      borderLeft: isActive ? "2px solid #ffd700" : "2px solid transparent",
+                      textShadow: isActive ? "0 0 12px rgba(255,215,0,0.9)" : "0 0 6px rgba(255,215,0,0.3)",
+                      boxShadow: isActive ? "inset 0 0 30px rgba(255,215,0,0.05)" : "none",
+                    } : {
                       color: isActive ? "#fff" : "#94a3b8",
                       background: isActive ? "rgba(139,92,246,0.08)" : "transparent",
                       borderLeft: isActive ? "2px solid #a855f7" : "2px solid transparent",
@@ -423,8 +548,14 @@ export default function Navbar() {
                       <motion.span
                         animate={{ opacity: [0.4, 1, 0.4] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
-                        className="w-1.5 h-1.5 rounded-full bg-mana-bright shrink-0"
-                        style={{ boxShadow: "0 0 6px #a855f7" }}
+                        className="w-1.5 h-1.5 rounded-full shrink-0"
+                        style={l.id === "sports" ? {
+                          background: "#ffd700",
+                          boxShadow: "0 0 6px #ffd700, 0 0 12px rgba(255,215,0,0.7)",
+                        } : {
+                          background: "#a855f7",
+                          boxShadow: "0 0 6px #a855f7",
+                        }}
                       />
                     )}
                     {l.label}
