@@ -253,6 +253,21 @@ export const sports = [
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/3.jpg",
         imagePosition: "30% 30%",
       },
+      {
+        title: "Champion(Doubles)",
+        prize: "Champions",
+        date: "January 1, 2023",
+        description: "Intra-Govt Colony Badminton Tournament 2023",
+        image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/7.jpg",
+      },
+      {
+        title: "Champion(Singles & Doubles)",
+        prize: "Champions",
+        date: "March 1, 2023",
+        description: "Inter-MBSTU Badminton tournament 2023",
+        image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/8.jpg",
+        imagePosition: "center 40%",
+      },
     ],
   },
   {
