@@ -140,13 +140,7 @@ export default function Sports() {
                   }}
                 />
 
-                {/* Corner runes */}
-                <span
-                  className="absolute top-3 left-3 text-[10px] font-mono opacity-50 tracking-widest"
-                  style={{ color: dc.color }}
-                >
-                  {dc.rune}
-                </span>
+                {/* Corner rune */}
                 <span
                   className="absolute top-3 right-3 text-[10px] font-mono opacity-50 tracking-widest"
                   style={{ color: dc.color }}
@@ -156,15 +150,16 @@ export default function Sports() {
 
                 {/* Dungeon rank badge */}
                 <div
-                  className="absolute top-3 left-1/2 -translate-x-1/2 text-[9px] font-mono tracking-[0.3em] px-2 py-0.5 rounded"
+                  className="absolute top-2.5 left-3 text-[11px] font-bold font-mono tracking-[0.35em] px-3 py-1 rounded"
                   style={{
                     color: dc.color,
                     border: `1px solid ${dc.borderGlow}`,
                     background: `${dc.gradientFrom}`,
-                    textShadow: `0 0 8px ${dc.glow}`,
+                    textShadow: `0 0 10px ${dc.glow}, 0 0 20px ${dc.glow}, 0 0 35px ${dc.glow}`,
+                    boxShadow: `0 0 8px ${dc.borderGlow}, 0 0 16px ${dc.glow}`,
                   }}
                 >
-                  {dc.rank}-RANK
+                  S-RANK
                 </div>
 
                 {/* Sport icon */}
