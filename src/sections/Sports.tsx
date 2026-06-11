@@ -148,18 +148,29 @@ export default function Sports() {
                   {dc.runeAlt}
                 </span>
 
-                {/* Dungeon rank badge */}
-                <div
-                  className="absolute top-2.5 left-3 text-[11px] font-bold font-mono tracking-[0.35em] px-3 py-1 rounded"
-                  style={{
-                    color: dc.color,
-                    border: `1px solid ${dc.borderGlow}`,
-                    background: `${dc.gradientFrom}`,
-                    textShadow: `0 0 10px ${dc.glow}, 0 0 20px ${dc.glow}, 0 0 35px ${dc.glow}`,
-                    boxShadow: `0 0 8px ${dc.borderGlow}, 0 0 16px ${dc.glow}`,
-                  }}
-                >
-                  S-RANK
+                {/* Dungeon rank badge + count row */}
+                <div className="absolute top-2.5 left-3 right-3 flex items-center justify-between">
+                  <div
+                    className="text-[11px] font-bold font-mono tracking-[0.35em] px-3 py-1 rounded"
+                    style={{
+                      color: dc.color,
+                      border: `1px solid ${dc.borderGlow}`,
+                      background: `${dc.gradientFrom}`,
+                      textShadow: `0 0 10px ${dc.glow}, 0 0 20px ${dc.glow}, 0 0 35px ${dc.glow}`,
+                      boxShadow: `0 0 8px ${dc.borderGlow}, 0 0 16px ${dc.glow}`,
+                    }}
+                  >
+                    S-RANK
+                  </div>
+                  <span
+                    className="text-[18px] font-bold font-mono"
+                    style={{
+                      color: dc.color,
+                      textShadow: `0 0 10px ${dc.glow}, 0 0 20px ${dc.glow}`,
+                    }}
+                  >
+                    {count}
+                  </span>
                 </div>
 
                 {/* Sport icon */}
@@ -195,12 +206,9 @@ export default function Sports() {
 
                 {/* Trophy count bar */}
                 <div className="relative z-10 w-full mb-4">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[9px] font-mono tracking-widest" style={{ color: dc.color, opacity: 0.6 }}>
+                  <div className="flex items-center mb-1">
+                    <span className="text-[10px] font-mono tracking-widest" style={{ color: dc.color, opacity: 0.6 }}>
                       PRIZES CONQUERED
-                    </span>
-                    <span className="text-[11px] font-mono font-bold" style={{ color: dc.color }}>
-                      {count}
                     </span>
                   </div>
                   <div
