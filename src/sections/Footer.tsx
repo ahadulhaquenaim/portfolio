@@ -108,7 +108,7 @@ export default function Footer() {
           100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
         }
       `}</style>
-      <footer className="relative z-10 border-t border-mana/20 bg-void/60 py-8">
+      <footer className="relative z-10 border-t border-mana/20 bg-void/60 py-4">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-5 text-center">
           <div className="flex gap-14 items-center">
             {socials.map((s) => (
