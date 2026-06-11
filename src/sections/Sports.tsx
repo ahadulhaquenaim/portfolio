@@ -357,12 +357,12 @@ export default function Sports() {
                       }}
                     >
                       {/* Achievement image */}
-                      <div className="relative overflow-hidden" style={{ aspectRatio: "4/3" }}>
+                      <div className="relative overflow-hidden" style={{ aspectRatio: "1/1" }}>
                         {ach.image ? (
                           <img
                             src={ach.image}
                             alt={ach.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="absolute inset-0 w-full h-full object-cover"
                           />
                         ) : (
                           <div
@@ -377,7 +377,8 @@ export default function Sports() {
                         <div
                           className="absolute inset-0"
                           style={{
-                            background: `linear-gradient(to top, ${cfg.gradientTo} 0%, transparent 60%)`,
+                            background: `linear-gradient(to top, ${cfg.gradientTo} 0%, transparent 40%)`,
+                            opacity: 0.45,
                           }}
                         />
 
