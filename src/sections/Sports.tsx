@@ -73,11 +73,46 @@ export default function Sports() {
 
   return (
     <section id="sports" className="relative z-10 w-full px-0 py-24 overflow-hidden">
+      {/* Dungeon video background */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ opacity: 0.9, filter: "saturate(1) brightness(0.80) contrast(1.1)" }}
+        >
+          <source src="https://res.cloudinary.com/dumsdgz85/video/upload/v1781154392/dungeon_xbtdta.mp4" type="video/mp4" />
+        </video>
+        {/* Dark scrim so cards remain readable */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "rgba(4,2,18,0.45)" }}
+        />
+        {/* Edge vignette */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 90% 70% at 50% 50%, transparent 30%, rgba(4,2,18,0.5) 70%, rgba(4,2,18,0.88) 100%)",
+          }}
+        />
+        {/* Top/bottom fade */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(4,2,18,0.85) 0%, transparent 15%, transparent 85%, rgba(4,2,18,0.85) 100%)",
+          }}
+        />
+      </div>
+
       {/* Ambient floating runes */}
       {["ᚠ", "ᚢ", "ᚦ", "ᛁ", "ᚷ", "ᛉ", "ᚱ", "ᛏ"].map((r, i) => (
         <div
           key={i}
-          className="pointer-events-none absolute select-none font-mono text-2xl opacity-0"
+          className="pointer-events-none absolute select-none font-mono text-2xl opacity-0 z-10"
           style={{
             top: `${10 + i * 11}%`,
             left: i % 2 === 0 ? `${2 + i * 1.5}%` : `${88 - i * 1.5}%`,
@@ -90,7 +125,7 @@ export default function Sports() {
         </div>
       ))}
 
-      <div className="mx-auto max-w-7xl px-5">
+      <div className="relative z-10 mx-auto max-w-7xl px-5">
         <SectionHeading kicker="CHAMPION'S RECORD" title="CONQUERED DUNGEONS" />
 
         {/* Intro flavour text */}
