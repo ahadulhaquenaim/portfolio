@@ -461,7 +461,7 @@ export default function Sports() {
                                   </div>
                                   <div
                                     className="text-[10px] font-mono tracking-widest mb-2"
-                                    style={{ color: cfg.color, opacity: 0.55 }}
+                                    style={{ color: cfg.color, opacity: 0.95 }}
                                   >
                                     {ach.date}
                                   </div>
@@ -473,8 +473,8 @@ export default function Sports() {
                                         animate={{ opacity: 1, height: "auto" }}
                                         exit={{ opacity: 0, height: 0 }}
                                         transition={{ duration: 0.3 }}
-                                        className="text-[11px] leading-relaxed overflow-hidden"
-                                        style={{ color: "rgba(225,215,255,0.75)" }}
+                                        className="text-[13px] font-semibold leading-relaxed overflow-hidden"
+                                        style={{ color: "rgba(255,252,255,1)" }}
                                       >
                                         {ach.description}
                                       </motion.p>
@@ -483,8 +483,8 @@ export default function Sports() {
 
                                   {ach !== activeAchievement && (
                                     <p
-                                      className="text-[11px] leading-relaxed line-clamp-2"
-                                      style={{ color: "rgba(225,215,255,0.55)" }}
+                                      className="text-[13px] font-semibold leading-relaxed line-clamp-2"
+                                      style={{ color: "rgba(255,252,255,0.95)" }}
                                     >
                                       {ach.description}
                                     </p>
