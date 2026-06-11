@@ -23,7 +23,7 @@ export default function SectionHeading({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.05 }}
-        className="font-display text-3xl md:text-5xl font-bold text-glow tracking-wide whitespace-nowrap -translate-x-20"
+        className="font-display text-3xl md:text-5xl font-bold text-glow tracking-wide whitespace-nowrap"
       >
         {title}
       </motion.h2>

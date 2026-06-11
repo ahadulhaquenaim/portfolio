@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
-import SectionHeading from "../components/SectionHeading";
 import { socials, identity } from "../data/content";
 
 export default function Contact() {
@@ -44,41 +43,66 @@ export default function Contact() {
       )}
 
       {/* Content layered above video */}
-      <div className="relative z-10 mx-auto max-w-md px-5">
-        <SectionHeading kicker="GET IN TOUCH" title="CONQUER TOGETHER" />
-
-        <motion.form
-          onSubmit={onSubmit}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="rounded-xl border border-mana/60 bg-transparent p-7 shadow-[0_0_30px_rgba(168,85,247,0.5),inset_0_0_30px_rgba(168,85,247,0.05)]"
-        >
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field name="name" placeholder="Your name" />
-            <Field name="email" type="email" placeholder="Your email" />
-          </div>
-          <textarea
-            name="message"
-            required
-            rows={5}
-            placeholder="Your message..."
-            className="mt-4 w-full resize-none rounded-md border border-white/50 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-white focus:shadow-[0_0_14px_rgba(255,255,255,0.4)] placeholder:text-white/80 placeholder:[text-shadow:0_0_10px_rgba(255,255,255,0.6)]"
-          />
-          <button
-            type="submit"
-            className="btn-mana mt-5 flex w-full items-center justify-center gap-2 rounded-md px-7 py-3 font-semibold tracking-wider text-white"
+      <div className="relative z-10 px-5">
+        <div className="text-center mb-14">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-system text-sm tracking-[0.4em] font-semibold mb-3"
           >
-            {sent ? "OPENING MAIL…" : "CONQUER TOGETHER"} <Send size={16} />
-          </button>
-        </motion.form>
+            ✦ GET IN TOUCH ✦
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.05 }}
+            className="font-display text-3xl md:text-5xl font-bold text-glow tracking-wide whitespace-nowrap"
+          >
+            CONQUER TOGETHER
+          </motion.h2>
+          <div className="mx-auto mt-5 flex items-center justify-center gap-3">
+            <span className="h-px w-16 bg-gradient-to-r from-transparent to-mana" />
+            <span className="h-2 w-2 rotate-45 bg-mana-bright shadow-[0_0_12px_#a855f7]" />
+            <span className="h-px w-16 bg-gradient-to-l from-transparent to-mana" />
+          </div>
+        </div>
 
-        {/* Socials */}
-        <div className="mt-10 flex justify-center gap-8">
-          {socials.map((s) => (
-            <SocialIcon key={s.label} s={s} />
-          ))}
+        <div className="mx-auto max-w-md">
+          <motion.form
+            onSubmit={onSubmit}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-xl border border-mana/60 bg-transparent p-7 shadow-[0_0_30px_rgba(168,85,247,0.5),inset_0_0_30px_rgba(168,85,247,0.05)]"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field name="name" placeholder="Your name" />
+              <Field name="email" type="email" placeholder="Your email" />
+            </div>
+            <textarea
+              name="message"
+              required
+              rows={5}
+              placeholder="Your message..."
+              className="mt-4 w-full resize-none rounded-md border border-white/50 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-white focus:shadow-[0_0_14px_rgba(255,255,255,0.4)] placeholder:text-white/80 placeholder:[text-shadow:0_0_10px_rgba(255,255,255,0.6)]"
+            />
+            <button
+              type="submit"
+              className="btn-mana mt-5 flex w-full items-center justify-center gap-2 rounded-md px-7 py-3 font-semibold tracking-wider text-white"
+            >
+              {sent ? "OPENING MAIL…" : "CONQUER TOGETHER"} <Send size={16} />
+            </button>
+          </motion.form>
+
+          {/* Socials */}
+          <div className="mt-10 flex justify-center gap-8">
+            {socials.map((s) => (
+              <SocialIcon key={s.label} s={s} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
