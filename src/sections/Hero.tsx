@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Star, Cpu } from "lucide-react";
 import { identity } from "../data/content";
+import { useVideoInView } from "../lib/useVideoInView";
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed + 1) * 10000;
@@ -94,12 +95,26 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
+    // Throttle to one update per animation frame — mousemove can fire far more
+    // often than 60fps and each .set() schedules spring work.
+    let frame = 0;
+    let lastX = 0;
+    let lastY = 0;
     const handleMove = (e: MouseEvent) => {
-      mouseX.set((e.clientX / window.innerWidth - 0.5) * 2);
-      mouseY.set((e.clientY / window.innerHeight - 0.5) * 2);
+      lastX = (e.clientX / window.innerWidth - 0.5) * 2;
+      lastY = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        mouseX.set(lastX);
+        mouseY.set(lastY);
+      });
     };
-    window.addEventListener("mousemove", handleMove);
-    return () => window.removeEventListener("mousemove", handleMove);
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, [mouseX, mouseY]);
 
   return (
@@ -239,6 +254,7 @@ function CharacterLayer({
 }) {
   const x = useTransform(springX, [-1, 1], [-8, 8]);
   const y = useTransform(springY, [-1, 1], [-5, 5]);
+  const videoRef = useVideoInView<HTMLVideoElement>();
 
   return (
     <motion.div className="absolute inset-0 z-0" style={{ x, y }}>
@@ -246,6 +262,7 @@ function CharacterLayer({
       {videoSrc ? (
         <div className="hero-character absolute inset-0 overflow-hidden">
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
@@ -279,14 +296,17 @@ function CharacterLayer({
         />
       ) : null}
 
-      {/* Aura pulse layer 1 — wide slow breathe */}
+      {/* Aura pulse layer 1 — wide slow breathe.
+          Opacity-only (no scale) so the full-screen blurred gradient never
+          re-rasters; mix-blend stays but the layer just cross-fades. */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: "radial-gradient(ellipse 38% 62% at 57% 50%, rgba(168,85,247,0.22) 0%, rgba(109,40,217,0.1) 45%, transparent 70%)",
           mixBlendMode: "screen",
+          willChange: "opacity",
         }}
-        animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.06, 1] }}
+        animate={{ opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       />
 
@@ -296,20 +316,10 @@ function CharacterLayer({
         style={{
           background: "radial-gradient(ellipse 22% 40% at 57% 48%, rgba(232,121,249,0.28) 0%, rgba(168,85,247,0.1) 50%, transparent 70%)",
           mixBlendMode: "screen",
+          willChange: "opacity",
         }}
-        animate={{ opacity: [0.4, 0.9, 0.5, 1, 0.4], scale: [1, 1.04, 0.98, 1.05, 1] }}
+        animate={{ opacity: [0.4, 0.9, 0.5, 1, 0.4] }}
         transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Rim light flicker — edge glow on the character */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 55% 80% at 57% 50%, transparent 55%, rgba(168,85,247,0.18) 75%, rgba(232,121,249,0.12) 85%, transparent 95%)",
-          mixBlendMode: "screen",
-        }}
-        animate={{ opacity: [0.5, 1, 0.6, 0.9, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", times: [0, 0.2, 0.5, 0.8, 1] }}
       />
 
       {/* Lightning bolts around the silhouette */}

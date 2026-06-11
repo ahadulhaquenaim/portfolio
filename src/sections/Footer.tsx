@@ -51,7 +51,10 @@ function SparkleIcon({ label, children }: { label: string; children: React.React
   }
 
   useEffect(() => {
-    // spawn 1-2 sparkles every 300ms continuously
+    // Spawn sparkles only while hovered — a constant 300ms timer × every icon
+    // churns React renders + DOM nodes forever (even off-screen) and was a
+    // measurable source of jitter. On hover it's both nicer and cheaper.
+    if (!hovered) return;
     intervalRef.current = setInterval(() => {
       const count = Math.random() < 0.5 ? 1 : 2;
       const batch = Array.from({ length: count }, spawnSparkle);
@@ -61,7 +64,7 @@ function SparkleIcon({ label, children }: { label: string; children: React.React
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, []);
+  }, [hovered]);
 
   // remove expired sparkles
   useEffect(() => {

@@ -37,17 +37,28 @@
   0%,
   100% {
     opacity: 0.55;
-    filter: drop-shadow(0 0 8px var(--color-mana));
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 22px var(--color-mana-bright));
   }
 }
 
 /* ============================================================ BASE ============================================================ */
 html {
   scroll-behavior: smooth;
+}
+
+/* Accessibility + performance: kill all looping animation for users who ask
+   for reduced motion. Also a safety valve for low-power devices. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 body {
@@ -211,21 +222,25 @@ body::before {
   box-shadow: 0 0 28px rgba(139, 92, 246, 0.45), inset 0 0 22px rgba(76, 29, 149, 0.3);
 }
 
-/* Magic shimmer sweep */
+/* Magic shimmer sweep — translateX a wide gradient strip (compositor-only)
+   instead of animating background-position (which repaints each frame). */
 .gate-card::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  width: 100%;
   background: linear-gradient(
     115deg,
     transparent 30%,
     rgba(168, 85, 247, 0.08) 50%,
     transparent 70%
   );
-  background-size: 200% 100%;
   animation: shimmer-sweep 4s linear infinite;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
 }
 
 /* Corner sparkle orbs */
@@ -238,8 +253,8 @@ body::before {
 }
 
 @keyframes shimmer-sweep {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(300%); }
 }
 
 @keyframes spark-float {
@@ -316,12 +331,25 @@ body::before {
     0 0 30px rgba(139, 92, 246, 0.4),
     0 0 80px rgba(109, 40, 217, 0.25),
     inset 0 0 40px rgba(76, 29, 149, 0.2);
+}
+
+/* Glow pulse via an opacity-animated overlay (GPU-composited — no box-shadow repaint) */
+.sl-frame-outer::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  pointer-events: none;
+  box-shadow:
+    0 0 50px rgba(168, 85, 247, 0.65),
+    0 0 110px rgba(139, 92, 246, 0.4);
   animation: sl-border-pulse 3s ease-in-out infinite;
+  will-change: opacity;
 }
 
 @keyframes sl-border-pulse {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(168,85,247,0.2), 0 0 30px rgba(139,92,246,0.4), 0 0 80px rgba(109,40,217,0.25), inset 0 0 40px rgba(76,29,149,0.2); }
-  50%       { box-shadow: 0 0 0 1px rgba(168,85,247,0.4), 0 0 50px rgba(168,85,247,0.65), 0 0 110px rgba(139,92,246,0.4), inset 0 0 60px rgba(109,40,217,0.3); }
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 1; }
 }
 
 /* Corner bracket decorations */
@@ -529,10 +557,11 @@ body::before {
   }
 }
 
-/* Skills section — GPU-composited CSS animations to avoid JS-driven jitter */
+/* Skills section — GPU-composited CSS animations to avoid JS-driven jitter.
+   Drive the scan with translateY (compositor-only) instead of `top` (layout). */
 @keyframes skillScan {
-  0%   { top: -40%; }
-  100% { top: 140%; }
+  0%   { transform: translateY(-140%); }
+  100% { transform: translateY(340%); }
 }
 @keyframes skillSparkle {
   0%, 100% { opacity: 0; transform: scale(0.5); }
@@ -540,10 +569,13 @@ body::before {
 }
 
 .skill-scan {
+  top: 0;
   animation: skillScan 2s ease-in-out infinite;
   animation-fill-mode: both;
+  will-change: transform;
 }
 .skill-sparkle {
   animation: skillSparkle ease-in-out infinite;
   animation-fill-mode: both;
+  will-change: transform, opacity;
 }

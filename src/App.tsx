@@ -1,3 +1,4 @@
+import { MotionConfig } from "framer-motion";
 import ParticleBg from "./components/ParticleBg";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
@@ -12,8 +13,8 @@ import Footer from "./sections/Footer";
 
 export default function App() {
   return (
-    <>
-<ParticleBg />
+    <MotionConfig reducedMotion="user">
+      <ParticleBg />
       <Navbar />
       <main className="relative">
         <Hero />
@@ -26,6 +27,6 @@ export default function App() {
         <Sports />
       </main>
       <Footer />
-    </>
+    </MotionConfig>
   );
 }

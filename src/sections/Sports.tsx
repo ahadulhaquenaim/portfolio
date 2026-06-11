@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Trophy, Shield, Swords, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import { sports } from "../data/content";
+import { useVideoInView } from "../lib/useVideoInView";
 
 type SportCategory = (typeof sports)[number];
 type Achievement = SportCategory["achievements"][number];
@@ -60,6 +61,7 @@ export default function Sports() {
   const [carouselPage, setCarouselPage] = useState(0);
   const [carouselDir, setCarouselDir] = useState<1 | -1>(1);
   const detailRef = useRef<HTMLDivElement>(null);
+  const videoRef = useVideoInView<HTMLVideoElement>();
 
   function openDungeon(key: DungeonKey) {
     setActiveDungeon(key);
@@ -81,10 +83,12 @@ export default function Sports() {
       {/* Dungeon video background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="metadata"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ opacity: 0.9, filter: "saturate(1) brightness(0.80) contrast(1.1)" }}
         >
@@ -156,11 +160,13 @@ export default function Sports() {
               >
                 {/* Shimmer sweep */}
                 <div
-                  className="pointer-events-none absolute inset-0 z-0"
+                  className="pointer-events-none absolute inset-y-0 z-0"
                   style={{
+                    left: "-100%",
+                    width: "100%",
                     background: `linear-gradient(115deg, transparent 30%, ${dc.color.replace(")", ",0.06)")} 50%, transparent 70%)`,
-                    backgroundSize: "200% 100%",
                     animation: "shimmer-sweep 4s linear infinite",
+                    willChange: "transform",
                   }}
                 />
 

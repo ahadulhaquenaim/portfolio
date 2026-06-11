@@ -105,11 +105,12 @@ function FloatingRunes() {
             top: `${(i * 17 + 5) % 90}%`,
             color: i % 3 === 0 ? "#8b5cf620" : i % 3 === 1 ? "#38bdf815" : "#4ade8012",
           }}
-          animate={{
+          whileInView={{
             y: [0, -18, 0],
             opacity: [0.3, 0.7, 0.3],
             rotate: [0, i % 2 === 0 ? 15 : -15, 0],
           }}
+          viewport={{ margin: "120px" }}
           transition={{
             duration: 4 + (i % 4),
             repeat: Infinity,
@@ -292,7 +293,16 @@ function CertCarousel() {
     },
   };
 
-  const SPRING = { type: "spring" as const, stiffness: 280, damping: 30, mass: 0.85 };
+  // Spring the transform/opacity, but give `filter` (blur) a short tween —
+  // springing blur re-rasters every card every frame for the whole settle
+  // time and is the carousel's main jank source.
+  const SPRING = {
+    type: "spring" as const,
+    stiffness: 280,
+    damping: 30,
+    mass: 0.85,
+    filter: { type: "tween" as const, duration: 0.25, ease: "easeOut" as const },
+  };
 
   const getSlot = (idx: number) => {
     if (idx === active) return "center";
@@ -329,7 +339,7 @@ function CertCarousel() {
               className="absolute w-full md:w-[52%] max-w-140"
               animate={SLOT[slot]}
               transition={SPRING}
-              style={{ transformStyle: "preserve-3d", pointerEvents: isCenter ? "auto" : "none" }}
+              style={{ transformStyle: "preserve-3d", pointerEvents: isCenter ? "auto" : "none", willChange: "transform, opacity" }}
             >
               {/* breathing glow — only on center */}
               {isCenter && (

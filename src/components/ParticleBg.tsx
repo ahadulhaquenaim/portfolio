@@ -22,10 +22,13 @@ export default function ParticleBg() {
         className="fixed inset-0 z-0 pointer-events-none"
         options={{
           fullScreen: { enable: false },
-          fpsLimit: 60,
-          detectRetina: true,
+          // Cap at 30fps + skip retina doubling: ambient particles don't need
+          // 60fps and retina detection 2-4x's the per-frame physics work on
+          // HiDPI screens. This is a large, invisible CPU win.
+          fpsLimit: 30,
+          detectRetina: false,
           particles: {
-            number: { value: 30, density: { enable: true } },
+            number: { value: 22, density: { enable: true } },
             color: { value: ["#8b5cf6", "#a855f7", "#38bdf8"] },
             opacity: {
               value: { min: 0.1, max: 0.5 },

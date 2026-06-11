@@ -1,11 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import { socials, identity } from "../data/content";
+import { useVideoInView } from "../lib/useVideoInView";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useVideoInView<HTMLVideoElement>();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

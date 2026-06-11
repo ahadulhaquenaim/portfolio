@@ -38,10 +38,17 @@ export default function Navbar() {
     };
   }, []);
 
+  const moveFrame = useRef(0);
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (moveFrame.current) return;
+    moveFrame.current = requestAnimationFrame(() => {
+      moveFrame.current = 0;
+      mouseX.set(x);
+      mouseY.set(y);
+    });
   };
 
   const go = (id: string) => {
