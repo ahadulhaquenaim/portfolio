@@ -528,3 +528,22 @@ body::before {
     transform: translate(-2px, 1px);
   }
 }
+
+/* Skills section — GPU-composited CSS animations to avoid JS-driven jitter */
+@keyframes skillScan {
+  0%   { top: -40%; }
+  100% { top: 140%; }
+}
+@keyframes skillSparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50%       { opacity: 1; transform: scale(1.4); }
+}
+
+.skill-scan {
+  animation: skillScan 2s ease-in-out infinite;
+  animation-fill-mode: both;
+}
+.skill-sparkle {
+  animation: skillSparkle ease-in-out infinite;
+  animation-fill-mode: both;
+}

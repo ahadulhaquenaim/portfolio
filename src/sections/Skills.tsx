@@ -149,38 +149,39 @@ export default function Skills() {
                           )}
 
                           <motion.div
-                            className="group relative overflow-hidden rounded border"
+                            className="skill-card group relative overflow-hidden rounded border"
                             style={{
                               borderColor: "rgba(251,191,36,0.45)",
                               background: "rgba(251,191,36,0.07)",
                               width: 190,
                               padding: "10px 16px",
+                              transition: "transform 0.15s ease, box-shadow 0.15s ease",
                             }}
                             initial={{ opacity: 0, scale: 0.85 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.3, delay: skillDelay }}
-                            whileHover={{ scale: 1.04, boxShadow: `0 0 24px ${GOLD_GLOW}, 0 0 48px rgba(251,191,36,0.4)` }}
+                            onMouseEnter={e => {
+                              (e.currentTarget as HTMLElement).style.transform = "scale(1.04)";
+                              (e.currentTarget as HTMLElement).style.boxShadow = `0 0 24px ${GOLD_GLOW}, 0 0 48px rgba(251,191,36,0.4)`;
+                            }}
+                            onMouseLeave={e => {
+                              (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                              (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                            }}
                           >
-                            {/* top-to-bottom scan glow */}
-                            <motion.div
-                              className="pointer-events-none absolute left-0 right-0"
+                            {/* top-to-bottom scan glow — CSS animation, no JS loop */}
+                            <div
+                              className="pointer-events-none absolute left-0 right-0 skill-scan"
                               style={{
                                 height: "40%",
                                 background: "linear-gradient(180deg, rgba(251,191,36,0.18) 0%, rgba(251,191,36,0.06) 60%, transparent 100%)",
                                 borderRadius: 4,
-                              }}
-                              animate={{ top: ["-40%", "140%"] }}
-                              transition={{
-                                duration: 2.0,
-                                delay: skillDelay,
-                                repeat: Infinity,
-                                repeatDelay: 1.2,
-                                ease: "easeInOut",
+                                animationDelay: `${skillDelay}s`,
                               }}
                             />
 
-                            {/* sparkles */}
+                            {/* sparkles — CSS animation */}
                             {[
                               { left: "10%", top: "20%", dur: 1.8, delay: 0.0 },
                               { left: "80%", top: "15%", dur: 2.2, delay: 0.5 },
@@ -188,18 +189,25 @@ export default function Skills() {
                               { left: "25%", top: "75%", dur: 2.0, delay: 0.8 },
                               { left: "90%", top: "55%", dur: 1.9, delay: 0.3 },
                             ].map((sp, j) => (
-                              <motion.div
+                              <div
                                 key={j}
-                                className="pointer-events-none absolute rounded-full"
-                                style={{ left: sp.left, top: sp.top, width: 3, height: 3, background: GOLD, boxShadow: `0 0 4px 2px ${GOLD_GLOW}` }}
-                                animate={{ opacity: [0, 1, 0], scale: [0.5, 1.4, 0.5] }}
-                                transition={{ duration: sp.dur, delay: skillDelay + sp.delay, repeat: Infinity, ease: "easeInOut" }}
+                                className="pointer-events-none absolute rounded-full skill-sparkle"
+                                style={{
+                                  left: sp.left,
+                                  top: sp.top,
+                                  width: 3,
+                                  height: 3,
+                                  background: GOLD,
+                                  boxShadow: `0 0 4px 2px ${GOLD_GLOW}`,
+                                  animationDuration: `${sp.dur}s`,
+                                  animationDelay: `${skillDelay + sp.delay}s`,
+                                }}
                               />
                             ))}
 
                             {/* hover glow */}
                             <div
-                              className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
                               style={{ background: "radial-gradient(ellipse at center, rgba(251,191,36,0.13) 0%, transparent 70%)" }}
                             />
 
