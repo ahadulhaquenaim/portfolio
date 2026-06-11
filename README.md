@@ -11,9 +11,6 @@ particles and System-window UI.
 **Stack:** React 19 + Vite 7 · TypeScript · Tailwind CSS v4 · Framer Motion ·
 GSAP · tsParticles · lucide-react · GitHub Pages
 
-> A full breakdown of every technology and *why* it's used lives in
-> [`docs/TECH_STACK.md`](docs/TECH_STACK.md) (local-only — it's git-ignored).
-
 ---
 
 ## Quick start
