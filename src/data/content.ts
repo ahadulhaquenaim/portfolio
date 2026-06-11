@@ -217,6 +217,89 @@ export const experience = [
   },
 ];
 
+/* --------------------------------- SPORTS -------------------------------- */
+// Three dungeon categories — each holds your conquered prizes.
+export const sports = [
+  {
+    category: "Badminton",
+    achievements: [
+      {
+        title: "Inter-University Badminton Championship",
+        prize: "1st Place",
+        date: "March 2022",
+        description: "Won the gold medal in the singles category at the inter-university championship, defeating opponents from 12 universities in a grueling bracket-style tournament.",
+        image: null as string | null,
+      },
+      {
+        title: "Department Tournament – Doubles",
+        prize: "Champions",
+        date: "November 2021",
+        description: "Partnered up and dominated the doubles event in the annual department sports fest, going unbeaten across all matches.",
+        image: null as string | null,
+      },
+      {
+        title: "Intra-Hall Badminton Cup",
+        prize: "Runner-Up",
+        date: "January 2020",
+        description: "Reached the final of the intra-hall cup, finishing as runner-up after a nail-biting three-set final.",
+        image: null as string | null,
+      },
+    ],
+  },
+  {
+    category: "Football",
+    achievements: [
+      {
+        title: "Inter-Department Football League",
+        prize: "Champions",
+        date: "February 2023",
+        description: "Captain of the CSE team that won the inter-department football league, topping the group stage and winning the final on penalties.",
+        image: null as string | null,
+      },
+      {
+        title: "Fresher's Football Tournament",
+        prize: "Top Scorer",
+        date: "October 2019",
+        description: "Awarded top scorer of the fresher's tournament with 7 goals across 5 matches, earning the golden boot.",
+        image: null as string | null,
+      },
+      {
+        title: "Annual University Sports Day – Football",
+        prize: "1st Place",
+        date: "December 2022",
+        description: "The team secured first place in the annual university sports day football event, beating the reigning champions in the semi-final.",
+        image: null as string | null,
+      },
+    ],
+  },
+  {
+    category: "Cricket",
+    achievements: [
+      {
+        title: "Inter-University Cricket Tournament",
+        prize: "Champions",
+        date: "April 2023",
+        description: "Represented the university in the inter-university cricket tournament and lifted the trophy as part of a squad that went unbeaten throughout the event.",
+        image: null as string | null,
+      },
+      {
+        title: "Department Cricket Cup – Best Batsman",
+        prize: "Best Batsman",
+        date: "March 2021",
+        description: "Received the best batsman award for scoring the most runs in the department cricket cup, including a match-winning half-century in the final.",
+        image: null as string | null,
+      },
+      {
+        title: "Hall Cricket Championship",
+        prize: "Runner-Up",
+        date: "November 2020",
+        description: "Reached the final of the hall cricket championship, finishing runners-up in a closely contested match that went to the last over.",
+        image: null as string | null,
+      },
+    ],
+  },
+] as const;
+
 /* --------------------------------- SOCIAL -------------------------------- */
 export const socials: { label: string; href: string; icon: IconComponent }[] = [
   {
@@ -246,5 +329,6 @@ export const navLinks = [
   { id: "experience", label: "EXPERIENCE" },
   { id: "certifications", label: "CERTIFICATIONS" },
   { id: "contact", label: "CONTACT" },
+  { id: "sports", label: "SPORTS" },
   { id: "games", label: "GAMES" },
 ];
