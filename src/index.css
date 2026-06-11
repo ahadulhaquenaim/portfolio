@@ -579,3 +579,56 @@ body::before {
   animation-fill-mode: both;
   will-change: transform, opacity;
 }
+
+/* ============================================================
+   MOBILE RESPONSIVE OVERRIDES (<= 640px)
+   The Solo-Leveling status window + a few fixed-size pieces use
+   hard-coded rem padding/fonts that overflow narrow screens.
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Status window — tighten padding + shrink type so it fits */
+  .sl-inner-panel {
+    padding: 1.25rem 1rem 1.5rem;
+  }
+  .sl-title-bar {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .sl-title-text {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    padding: 0.25rem 0.75rem;
+  }
+  .sl-level-row {
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .sl-level-num {
+    font-size: 2.75rem;
+  }
+  .sl-level-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+  }
+  .sl-job-key,
+  .sl-job-val,
+  .sl-job-val--sm {
+    font-size: 0.85rem;
+  }
+  /* Stats: single column so values never get clipped */
+  .sl-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .sl-stat-row {
+    padding: 0.6rem 0.8rem;
+  }
+  .sl-stat-key {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+  }
+  .sl-stat-val {
+    font-size: 0.85rem;
+    white-space: normal;
+  }
+}

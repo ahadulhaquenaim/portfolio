@@ -9,12 +9,12 @@ export default function SectionHeading({
   title: string;
 }) {
   return (
-    <div className="text-center mb-14">
+    <div className="text-center mb-10 sm:mb-14 px-4">
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-system text-sm tracking-[0.4em] font-semibold mb-3"
+        className="text-system text-xs sm:text-sm tracking-[0.3em] sm:tracking-[0.4em] font-semibold mb-3"
       >
         ✦ {kicker} ✦
       </motion.p>
@@ -23,7 +23,7 @@ export default function SectionHeading({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.05 }}
-        className="font-display text-3xl md:text-5xl font-bold text-glow tracking-wide whitespace-nowrap"
+        className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-glow tracking-wide"
       >
         {title}
       </motion.h2>

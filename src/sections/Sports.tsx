@@ -407,7 +407,7 @@ export default function Sports() {
                                 }}
                               >
                                 {/* Achievement image */}
-                                <div className="relative overflow-hidden" style={{ height: "380px" }}>
+                                <div className="relative h-64 overflow-hidden sm:h-[380px]">
                                   {ach.image ? (
                                     <img
                                       src={ach.image}

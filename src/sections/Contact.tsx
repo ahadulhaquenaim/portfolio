@@ -59,7 +59,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
-            className="font-display text-3xl md:text-5xl font-bold text-glow tracking-wide whitespace-nowrap"
+            className="font-display text-2xl sm:text-3xl md:text-5xl font-bold text-glow tracking-wide"
           >
             CONQUER TOGETHER
           </motion.h2>

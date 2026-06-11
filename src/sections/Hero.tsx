@@ -167,33 +167,33 @@ export default function Hero() {
       />
 
 
-      <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-8 pt-24 pb-16 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-16 xl:pl-24">
+      <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-center gap-8 px-5 pt-28 pb-16 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-16 xl:pl-24">
         {/* ---- LEFT: headline text ---- */}
         <div className="hero-text">
-          <p className="mb-3 text-sm font-semibold tracking-[0.3em] text-mana-bright [text-shadow:0_0_16px_rgba(168,85,247,1),0_0_32px_rgba(168,85,247,0.6)]">
+          <p className="mb-3 text-xs sm:text-sm font-semibold tracking-[0.25em] sm:tracking-[0.3em] text-mana-bright [text-shadow:0_0_16px_rgba(168,85,247,1),0_0_32px_rgba(168,85,247,0.6)]">
             {identity.tagline}
           </p>
-          <h1 className="font-display text-7xl font-black leading-none text-glow md:text-8xl">
+          <h1 className="font-display text-5xl font-black leading-none text-glow sm:text-7xl md:text-8xl">
             {identity.name}
           </h1>
-          <p className="mt-4 text-xl tracking-[0.2em] text-white [text-shadow:0_0_12px_rgba(168,85,247,0.8)]">
+          <p className="mt-4 text-base sm:text-xl tracking-[0.15em] sm:tracking-[0.2em] text-white [text-shadow:0_0_12px_rgba(168,85,247,0.8)]">
             {identity.roles.join("  |  ")}
           </p>
-          <p className="mt-5 max-w-md font-semibold leading-relaxed text-white/90 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+          <p className="mt-5 max-w-md text-sm sm:text-base font-semibold leading-relaxed text-white/90 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
             {identity.intro}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
             <a
               href="#projects"
-              className="btn-mana rounded-md px-7 py-3 font-semibold tracking-wider text-white"
+              className="btn-mana rounded-md px-5 py-3 text-sm sm:px-7 sm:text-base font-semibold tracking-wider text-white"
             >
               VIEW MY WORK ›
             </a>
             <a
               href={`${import.meta.env.BASE_URL}cv/ahad-cv.pdf`}
               download="ahad-cv.pdf"
-              className="flex items-center gap-2 rounded-md border-2 px-7 py-3 font-bold tracking-wider text-[#22d3ee] backdrop-blur-sm transition-all duration-300 hover:bg-[#22d3ee22]"
+              className="flex items-center gap-2 rounded-md border-2 px-5 py-3 text-sm sm:px-7 sm:text-base font-bold tracking-wider text-[#22d3ee] backdrop-blur-sm transition-all duration-300 hover:bg-[#22d3ee22]"
               style={{ background: "#22d3ee18", borderColor: "#22d3ee90", boxShadow: "0 0 20px 4px #22d3ee40" }}
             >
               <Download size={14} />

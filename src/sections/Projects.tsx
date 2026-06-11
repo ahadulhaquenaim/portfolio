@@ -174,7 +174,7 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 z-200 flex items-center justify-center bg-abyss/80 px-8 pt-20 pb-8 backdrop-blur-sm"
+            className="fixed inset-0 z-200 flex items-center justify-center bg-abyss/80 px-3 pt-20 pb-4 sm:px-8 sm:pb-8 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
@@ -184,12 +184,12 @@ export default function Projects() {
               className="system-panel w-full max-w-7xl rounded-xl max-h-[88vh] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
             >
               {/* Header */}
-              <div className="flex items-start justify-between p-8 pb-5">
+              <div className="flex items-start justify-between p-5 pb-4 sm:p-8 sm:pb-5">
                 <div>
                   <p className="text-xs tracking-[0.3em] text-system">
                     [ DUNGEON BRIEFING ]
                   </p>
-                  <h3 className="mt-2 font-display text-3xl text-glow">
+                  <h3 className="mt-2 font-display text-2xl sm:text-3xl text-glow">
                     {active.title}
                   </h3>
                   <div className="mt-3 flex items-center gap-3">

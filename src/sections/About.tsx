@@ -12,10 +12,10 @@ const panelIcons: Record<string, string> = {
 
 export default function About() {
   return (
-    <section id="about" className="relative z-10 mx-auto max-w-screen-2xl px-10 py-24">
+    <section id="about" className="relative z-10 mx-auto max-w-screen-2xl px-5 py-20 sm:px-10 sm:py-24">
       <SectionHeading kicker="ABOUT ME" title={about.title} />
 
-      <div className="grid items-center gap-20 md:grid-cols-[5fr_6fr]">
+      <div className="grid items-center gap-10 md:gap-20 md:grid-cols-[5fr_6fr]">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -25,7 +25,7 @@ export default function About() {
         >
           <div className="sparkle-wrap relative">
             {about.paragraphs.map((p, i) => (
-              <p key={i} className="text-2xl leading-relaxed text-glow-blue mb-6">
+              <p key={i} className="text-lg sm:text-2xl leading-relaxed text-glow-blue mb-6">
                 {p}
               </p>
             ))}

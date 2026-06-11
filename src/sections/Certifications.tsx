@@ -336,7 +336,7 @@ function CertCarousel() {
           return (
             <motion.div
               key={cert.title}
-              className="absolute w-full md:w-[52%] max-w-140"
+              className="absolute w-[88%] sm:w-full md:w-[52%] max-w-140"
               animate={SLOT[slot]}
               transition={SPRING}
               style={{ transformStyle: "preserve-3d", pointerEvents: isCenter ? "auto" : "none", willChange: "transform, opacity" }}
@@ -395,7 +395,7 @@ function CertCarousel() {
                 <span className="absolute right-3 top-4 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚠᚱ</span>
                 <span className="absolute bottom-4 left-3 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚷᚹ</span>
 
-                <div className="relative z-10 p-8 flex flex-col">
+                <div className="relative z-10 p-5 sm:p-8 flex flex-col">
                   {/* header */}
                   <div className="mb-5 flex items-center justify-between">
                     <div className="flex items-center gap-2">

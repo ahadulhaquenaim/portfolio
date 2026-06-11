@@ -20,14 +20,14 @@ export default function Skills() {
   const byName = Object.fromEntries(skills.map((s) => [s.name, s]));
 
   return (
-    <section id="skills" className="relative z-10 w-full px-16 py-12 overflow-x-auto">
+    <section id="skills" className="relative z-10 w-full px-4 py-12 sm:px-16 md:overflow-x-auto">
       <SectionHeading kicker="ABILITIES" title="SKILL TREE" />
 
       <div className="relative flex flex-col items-center">
 
         {/* Root trunk down to root node */}
         <motion.div
-          className="w-px"
+          className="hidden md:block w-px"
           style={{ background: TRUNK_COLOR, height: 16, boxShadow: LINE_GLOW }}
           initial={{ scaleY: 0, originY: 0 }}
           whileInView={{ scaleY: 1 }}
@@ -58,7 +58,7 @@ export default function Skills() {
 
         {/* Trunk continuing down */}
         <motion.div
-          className="w-px"
+          className="hidden md:block w-px"
           style={{ background: TRUNK_COLOR, height: 32, boxShadow: LINE_GLOW }}
           initial={{ scaleY: 0, originY: 0 }}
           whileInView={{ scaleY: 1 }}
@@ -69,7 +69,7 @@ export default function Skills() {
         {/* Horizontal bar + category columns */}
         <div className="relative w-full">
           <motion.div
-            className="absolute top-0 left-1/2 -translate-x-1/2 h-px"
+            className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 h-px"
             style={{ background: TRUNK_COLOR, width: "95%", boxShadow: LINE_GLOW }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -77,10 +77,7 @@ export default function Skills() {
             transition={{ duration: 0.6, delay: 0.65 }}
           />
 
-          <div
-            className="grid pt-0"
-            style={{ gridTemplateColumns: `repeat(${CATEGORIES.length}, 1fr)` }}
-          >
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:gap-0 md:[grid-template-columns:repeat(6,1fr)]">
             {CATEGORIES.map((cat, catIdx) => {
               const delay = 0.7 + catIdx * 0.1;
               const catSkills = cat.names
@@ -132,11 +129,11 @@ export default function Skills() {
                   />
 
                   {/* Skill cards */}
-                  <div className="flex flex-col items-center gap-0 pb-4 px-2">
+                  <div className="flex w-full flex-col items-center gap-0 pb-4 px-2">
                     {catSkills.map((s, si) => {
                       const skillDelay = delay + 0.25 + si * 0.07;
                       return (
-                        <div key={s.name} className="flex flex-col items-center">
+                        <div key={s.name} className="flex w-full max-w-[260px] flex-col items-center md:w-auto md:max-w-none">
                           {si > 0 && (
                             <motion.div
                               className="w-px"
@@ -149,11 +146,10 @@ export default function Skills() {
                           )}
 
                           <motion.div
-                            className="skill-card group relative overflow-hidden rounded border"
+                            className="skill-card group relative w-full overflow-hidden rounded border md:w-[190px]"
                             style={{
                               borderColor: "rgba(251,191,36,0.45)",
                               background: "rgba(251,191,36,0.07)",
-                              width: 190,
                               padding: "10px 16px",
                               transition: "transform 0.15s ease, box-shadow 0.15s ease",
                             }}

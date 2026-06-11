@@ -53,7 +53,16 @@ export default function Navbar() {
 
   const go = (id: string) => {
     setOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    // Defer to the next frame so the mobile menu has begun collapsing and the
+    // page layout (and the element's offsetTop) is settled before we scroll.
+    // Scroll the window directly instead of scrollIntoView so the closing menu
+    // animation can't fight the scroll mid-flight.
+    requestAnimationFrame(() => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top, behavior: "smooth" });
+    });
   };
 
   return (
@@ -538,16 +547,16 @@ export default function Navbar() {
                     onClick={() => go(l.id)}
                     className="flex w-full items-center gap-3 px-6 py-3.5 text-left tracking-widest text-sm"
                     style={l.id === "sports" ? {
-                      color: isActive ? "#ffd700" : "#c8a800",
+                      color: isActive ? "#ffd700" : "#ffd54a",
                       background: isActive ? "rgba(255,215,0,0.07)" : "transparent",
                       borderLeft: isActive ? "2px solid #ffd700" : "2px solid transparent",
-                      textShadow: isActive ? "0 0 12px rgba(255,215,0,0.9)" : "0 0 6px rgba(255,215,0,0.3)",
+                      textShadow: isActive ? "0 0 12px rgba(255,215,0,0.9)" : "0 0 8px rgba(255,215,0,0.4)",
                       boxShadow: isActive ? "inset 0 0 30px rgba(255,215,0,0.05)" : "none",
                     } : {
-                      color: isActive ? "#fff" : "#94a3b8",
+                      color: isActive ? "#fff" : "#e9e3fb",
                       background: isActive ? "rgba(139,92,246,0.08)" : "transparent",
                       borderLeft: isActive ? "2px solid #a855f7" : "2px solid transparent",
-                      textShadow: isActive ? "0 0 12px rgba(168,85,247,0.8)" : "none",
+                      textShadow: isActive ? "0 0 12px rgba(168,85,247,0.8)" : "0 0 8px rgba(168,85,247,0.25)",
                       boxShadow: isActive ? "inset 0 0 30px rgba(139,92,246,0.06)" : "none",
                     }}
                   >
