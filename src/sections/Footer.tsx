@@ -1,68 +1,86 @@
 import { useState, useEffect, useRef } from "react";
 import { socials, identity } from "../data/content";
 
-const iconStyles: Record<string, { color: string; glow: string; ring: string }> = {
+const iconStyles: Record<string, { color: string; glow: string; ring: string; sparkleColor: string }> = {
   GitHub: {
     color: "text-white",
     glow: "shadow-[0_0_14px_4px_rgba(255,255,255,0.45)]",
     ring: "ring-white/40",
+    sparkleColor: "255,255,255",
   },
   LinkedIn: {
     color: "text-sky-400",
     glow: "shadow-[0_0_14px_4px_rgba(56,189,248,0.55)]",
     ring: "ring-sky-400/50",
+    sparkleColor: "56,189,248",
   },
   Facebook: {
     color: "text-blue-500",
     glow: "shadow-[0_0_14px_4px_rgba(59,130,246,0.55)]",
     ring: "ring-blue-500/50",
+    sparkleColor: "99,140,255",
   },
   Email: {
     color: "text-fuchsia-400",
     glow: "shadow-[0_0_14px_4px_rgba(232,121,249,0.55)]",
     ring: "ring-fuchsia-400/50",
+    sparkleColor: "232,121,249",
   },
 };
 
-type Sparkle = { id: number; x: number; y: number; size: number; delay: number };
+type Sparkle = { id: number; x: number; y: number; size: number; duration: number; delay: number };
 
 function SparkleIcon({ label, children }: { label: string; children: React.ReactNode }) {
   const [hovered, setHovered] = useState(false);
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const counterRef = useRef(0);
   const style = iconStyles[label] ?? iconStyles["Email"];
 
+  function spawnSparkle(): Sparkle {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 18 + Math.random() * 16;
+    return {
+      id: counterRef.current++,
+      x: Math.cos(angle) * radius,
+      y: Math.sin(angle) * radius,
+      size: Math.random() * 3 + 2,
+      duration: 700 + Math.random() * 400,
+      delay: 0,
+    };
+  }
+
   useEffect(() => {
-    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+    // spawn 1-2 sparkles every 300ms continuously
+    intervalRef.current = setInterval(() => {
+      const count = Math.random() < 0.5 ? 1 : 2;
+      const batch = Array.from({ length: count }, spawnSparkle);
+      setSparkles((prev) => [...prev.slice(-12), ...batch]);
+    }, 300);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
-  function handleEnter() {
-    setHovered(true);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    const burst: Sparkle[] = Array.from({ length: 8 }, (_, i) => ({
-      id: Date.now() + i,
-      x: Math.random() * 60 - 30,
-      y: Math.random() * 60 - 30,
-      size: Math.random() * 4 + 2,
-      delay: i * 40,
-    }));
-    setSparkles(burst);
-    timerRef.current = setTimeout(() => setSparkles([]), 700);
-  }
-
-  function handleLeave() {
-    setHovered(false);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    setSparkles([]);
-  }
+  // remove expired sparkles
+  useEffect(() => {
+    if (sparkles.length === 0) return;
+    const maxDuration = Math.max(...sparkles.map((s) => s.duration)) + 50;
+    const t = setTimeout(() => {
+      const cutoff = counterRef.current - 14;
+      setSparkles((prev) => prev.filter((s) => s.id >= cutoff));
+    }, maxDuration);
+    return () => clearTimeout(t);
+  }, [sparkles]);
 
   return (
     <div
       className="relative flex items-center justify-center"
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/* sparkle particles */}
+      {/* continuous sparkle particles */}
       {sparkles.map((sp) => (
         <span
           key={sp.id}
@@ -72,9 +90,9 @@ function SparkleIcon({ label, children }: { label: string; children: React.React
             height: sp.size,
             left: `calc(50% + ${sp.x}px)`,
             top: `calc(50% + ${sp.y}px)`,
-            background: "white",
-            boxShadow: "0 0 4px 2px rgba(255,255,255,0.8)",
-            animation: `sparkle-fade 0.6s ${sp.delay}ms ease-out forwards`,
+            background: `rgb(${style.sparkleColor})`,
+            boxShadow: `0 0 5px 2px rgba(${style.sparkleColor},0.8)`,
+            animation: `sparkle-orbit ${sp.duration}ms ease-out forwards`,
             transform: "translate(-50%, -50%)",
           }}
         />
@@ -103,9 +121,11 @@ export default function Footer() {
   return (
     <>
       <style>{`
-        @keyframes sparkle-fade {
-          0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-          100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+        @keyframes sparkle-orbit {
+          0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0.4); }
+          25%  { opacity: 1;   transform: translate(-50%, -50%) scale(1); }
+          75%  { opacity: 0.7; transform: translate(-50%, -50%) scale(0.8); }
+          100% { opacity: 0;   transform: translate(-50%, -50%) scale(0.2); }
         }
       `}</style>
       <footer className="relative z-10 border-t border-mana/20 bg-void/60 py-4">
