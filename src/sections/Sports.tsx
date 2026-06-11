@@ -108,22 +108,6 @@ export default function Sports() {
         />
       </div>
 
-      {/* Ambient floating runes */}
-      {["ᚠ", "ᚢ", "ᚦ", "ᛁ", "ᚷ", "ᛉ", "ᚱ", "ᛏ"].map((r, i) => (
-        <div
-          key={i}
-          className="pointer-events-none absolute select-none font-mono text-2xl opacity-0 z-10"
-          style={{
-            top: `${10 + i * 11}%`,
-            left: i % 2 === 0 ? `${2 + i * 1.5}%` : `${88 - i * 1.5}%`,
-            color: ["#8b5cf6", "#38bdf8", "#fbbf24", "#34d399"][i % 4],
-            animation: `pulseGlow ${2.5 + i * 0.4}s ease-in-out ${i * 0.3}s infinite`,
-            fontSize: `${14 + (i % 3) * 4}px`,
-          }}
-        >
-          {r}
-        </div>
-      ))}
 
       <div className="relative z-10 mx-auto max-w-7xl px-5">
         <SectionHeading kicker="CHAMPION'S RECORD" title="CONQUERED DUNGEONS" />
@@ -174,14 +158,6 @@ export default function Sports() {
                     animation: "shimmer-sweep 4s linear infinite",
                   }}
                 />
-
-                {/* Corner rune */}
-                <span
-                  className="absolute top-3 right-3 text-[10px] font-mono opacity-50 tracking-widest"
-                  style={{ color: dc.color }}
-                >
-                  {dc.runeAlt}
-                </span>
 
                 {/* Dungeon rank badge + count row */}
                 <div className="absolute top-2.5 left-3 right-3 flex items-center justify-between">
