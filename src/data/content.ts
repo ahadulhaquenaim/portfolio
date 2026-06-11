@@ -253,6 +253,7 @@ export const sports = [
         description: "Intra-ICT Badminton Tournament",
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/3.jpg",
         imagePosition: "30% 30%",
+        imageFit: "contain",
       },
       {
         title: "Champion(Doubles)",
