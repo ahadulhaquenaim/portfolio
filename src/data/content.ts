@@ -244,6 +244,7 @@ export const sports = [
         date: "January 1, 2025",
         description: "Inter-Software Badminton tournament 2025",
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/10.jpg",
+        imageFit: "contain",
       },
       {
         title: "Champion (Singles & Doubles)",
@@ -259,6 +260,7 @@ export const sports = [
         date: "January 1, 2023",
         description: "Intra-Govt Colony Badminton Tournament 2023",
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/7.jpg",
+        imageFit: "contain",
       },
       {
         title: "Champion(Singles & Doubles)",
@@ -267,6 +269,7 @@ export const sports = [
         description: "Inter-MBSTU Badminton tournament 2023",
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/8.jpg",
         imagePosition: "center 40%",
+        imageFit: "contain",
       },
       {
         title: "Man Of The Tournament",
@@ -307,6 +310,7 @@ export const sports = [
         date: "July 1, 2024",
         description: "Intra-Akota Colony Football Tournament",
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/football_n.jpg",
+        imageFit: "contain",
       },
       {
         title: "Top Scorer",
@@ -314,7 +318,8 @@ export const sports = [
         date: "June 1, 2018",
         description: "Intra-ICT Football Tournament 2018",
         image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/top_score.png",
-        imagePosition: "center center",
+        imagePosition: "center 30%",
+        imageFit: "contain",
       },
     ],
   },

@@ -405,8 +405,8 @@ export default function Sports() {
                                     <img
                                       src={ach.image}
                                       alt={ach.title}
-                                      className="absolute inset-0 w-full h-full object-cover"
-                                      style={{ objectPosition: ("imagePosition" in ach ? ach.imagePosition : undefined) ?? "center center" }}
+                                      className="absolute inset-0 w-full h-full"
+                                      style={{ objectFit: ("imageFit" in ach ? ach.imageFit as "cover" | "contain" : "cover"), objectPosition: ("imagePosition" in ach ? ach.imagePosition : undefined) ?? "center center" }}
                                     />
                                   ) : (
                                     <div
