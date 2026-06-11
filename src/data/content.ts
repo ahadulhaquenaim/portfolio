@@ -277,18 +277,18 @@ export const sports = [
     category: "Cricket",
     achievements: [
       {
-        title: "Inter-University Cricket Tournament",
+        title: "Champion",
         prize: "Champions",
-        date: "April 2023",
-        description: "Represented the university in the inter-university cricket tournament and lifted the trophy as part of a squad that went unbeaten throughout the event.",
-        image: null as string | null,
+        date: "January 1, 2026",
+        description: "Cricsoft Bd Cricket Tournament 2026",
+        image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/14.jpg",
       },
       {
-        title: "Department Cricket Cup – Best Batsman",
-        prize: "Best Batsman",
-        date: "March 2021",
-        description: "Received the best batsman award for scoring the most runs in the department cricket cup, including a match-winning half-century in the final.",
-        image: null as string | null,
+        title: "Champion",
+        prize: "Champions",
+        date: "October 1, 2025",
+        description: "Intra-ICT Cricket tournament 2025",
+        image: "https://bkif02lvdu10wryr.public.blob.vercel-storage.com/13.jpg",
       },
       {
         title: "Man Of The Final",
