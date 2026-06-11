@@ -330,5 +330,4 @@ export const navLinks = [
   { id: "certifications", label: "CERTIFICATIONS" },
   { id: "contact", label: "CONTACT" },
   { id: "sports", label: "SPORTS" },
-  { id: "games", label: "GAMES" },
 ];
