@@ -459,18 +459,19 @@ function CertCarousel() {
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/btn relative flex items-center gap-1.5 overflow-hidden rounded-md px-4 py-2 font-display text-[12px] font-bold tracking-[0.18em]"
+                      className="group/btn relative flex items-center gap-2 overflow-hidden rounded-md px-5 py-2.5 font-display text-[13px] font-semibold tracking-[0.18em]"
                       style={{
-                        background: `${cert.categoryColor}15`,
+                        background: `${cert.categoryColor}28`,
                         color: cert.categoryColor,
-                        border: `1px solid ${cert.categoryColor}40`,
+                        border: `1.5px solid ${cert.categoryColor}80`,
+                        boxShadow: `0 0 8px 1px ${cert.categoryColor}30`,
                       }}
-                      whileHover={{ background: `${cert.categoryColor}30`, boxShadow: `0 0 16px 2px ${cert.categoryColor}40` }}
+                      whileHover={{ background: `${cert.categoryColor}45`, boxShadow: `0 0 20px 4px ${cert.categoryColor}60` }}
                       whileTap={{ scale: 0.96 }}
                     >
                       <div className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover/btn:translate-x-full" />
                       <span>VIEW</span>
-                      <ExternalLink size={11} />
+                      <ExternalLink size={12} />
                     </motion.a>
                   </div>
                 </div>
