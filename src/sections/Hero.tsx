@@ -5,6 +5,7 @@ import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Star, Cpu } f
 import { identity } from "../data/content";
 import { useVideoInView } from "../lib/useVideoInView";
 import { useTheme } from "../theme/ThemeContext";
+import type { HeroVideoStyle } from "../theme/palette";
 
 export default function Hero() {
   const { palette } = useTheme();
@@ -102,7 +103,7 @@ export default function Hero() {
 
       {/* ---- Full-bleed looping video background (dungeon-style treatment) ---- */}
       <div className="hero-character absolute inset-0 z-0 overflow-hidden">
-        <HeroVideoBg videoSrc={palette.heroVideo ?? null} imageSrc={identity.heroBackground ?? null} />
+        <HeroVideoBg videoSrc={palette.heroVideo ?? null} imageSrc={identity.heroBackground ?? null} videoStyle={palette.heroVideoStyle} />
         {/* Dark scrim so the headline stays readable */}
         <div className="absolute inset-0" style={{ background: "rgba(4,2,18,0.45)" }} />
         {/* Edge vignette */}
@@ -122,6 +123,9 @@ export default function Hero() {
           }}
         />
       </div>
+
+      {/* Solid top band so the hero video never shows through the fixed navbar */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-24 bg-linear-to-b from-abyss via-abyss/95 to-transparent" />
 
       {/* Left→right dark gradient so the headline text stays readable */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(100deg,rgba(5,3,12,0.92)_0%,rgba(5,3,12,0.6)_28%,rgba(5,3,12,0.0)_42%,rgba(5,3,12,0.0)_70%,rgba(5,3,12,0.4)_100%)]" />
@@ -196,9 +200,11 @@ export default function Hero() {
 function HeroVideoBg({
   videoSrc,
   imageSrc,
+  videoStyle,
 }: {
   videoSrc: string | null;
   imageSrc: string | null;
+  videoStyle: HeroVideoStyle;
 }) {
   const videoRef = useVideoInView<HTMLVideoElement>();
 
@@ -212,8 +218,15 @@ function HeroVideoBg({
         muted
         playsInline
         preload="metadata"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0.9, filter: "saturate(1) brightness(0.80) contrast(1.1)" }}
+        className="absolute inset-0 w-full h-full"
+        style={{
+          objectFit: videoStyle.objectFit,
+          objectPosition: videoStyle.objectPosition,
+          opacity: videoStyle.opacity,
+          filter: videoStyle.filter,
+          transform: `scale(${videoStyle.scale})`,
+          transformOrigin: videoStyle.transformOrigin,
+        }}
       >
         <source src={videoSrc} type="video/mp4" />
       </video>

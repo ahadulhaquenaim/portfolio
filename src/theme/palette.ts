@@ -11,6 +11,18 @@
 
 export type ThemeName = "solo" | "dbz";
 
+/* Per-theme display tuning for the hero background video. Each clip has its own
+   aspect ratio / focal point, so framing, crop and grading are kept independent
+   instead of forcing one shared set of values onto both. */
+export type HeroVideoStyle = {
+  objectFit: "cover" | "contain";
+  objectPosition: string; // e.g. "left center", "50% 40%"
+  scale: number; // >1 crops outward from transformOrigin
+  transformOrigin: string; // anchor the scale, e.g. "left center"
+  opacity: number;
+  filter: string; // full CSS filter string
+};
+
 export type Palette = {
   /* primary accent (purple in Solo / orange in DBZ) */
   primary: string; // solid hex
@@ -36,6 +48,7 @@ export type Palette = {
 
   /* per-section background videos */
   heroVideo: string;
+  heroVideoStyle: HeroVideoStyle;
   sportsVideo: string;
   contactVideo: string;
 };
@@ -63,6 +76,14 @@ export const PALETTES: Record<ThemeName, Palette> = {
 
     heroVideo:
       "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101679/hero-character_xacc6j.mp4",
+    heroVideoStyle: {
+      objectFit: "contain",
+      objectPosition: "center center",
+      scale: 1.12, // gentle zoom, character kept centered
+      transformOrigin: "center center",
+      opacity: 0.9,
+      filter: "saturate(1) brightness(0.80) contrast(1.1)",
+    },
     sportsVideo:
       "https://res.cloudinary.com/dumsdgz85/video/upload/v1781154392/dungeon_xbtdta.mp4",
     contactVideo:
@@ -92,6 +113,14 @@ export const PALETTES: Record<ThemeName, Palette> = {
 
     heroVideo:
       "https://res.cloudinary.com/dumsdgz85/video/upload/v1781248710/I_want_to_create_a_animation_f_but0jy.mp4",
+    heroVideoStyle: {
+      objectFit: "contain",
+      objectPosition: "center center",
+      scale: 1, // DBZ clip framed independently — tune freely
+      transformOrigin: "center center",
+      opacity: 0.9,
+      filter: "saturate(1.05) brightness(0.85) contrast(1.05)",
+    },
     sportsVideo:
       "https://res.cloudinary.com/dumsdgz85/video/upload/v1781248618/turning_goku_aa7bdk.mp4",
     // No DBZ-specific contact clip supplied — reuse the hero energy clip so the
