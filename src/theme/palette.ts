@@ -78,9 +78,9 @@ export const PALETTES: Record<ThemeName, Palette> = {
       "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101679/hero-character_xacc6j.mp4",
     heroVideoStyle: {
       objectFit: "contain",
-      objectPosition: "center center",
-      scale: 1.12, // gentle zoom, character kept centered
-      transformOrigin: "center center",
+      objectPosition: "62% center", // nudged right of center
+      scale: 0.95, // just a touch of zoom
+      transformOrigin: "62% center",
       opacity: 0.9,
       filter: "saturate(1) brightness(0.80) contrast(1.1)",
     },
