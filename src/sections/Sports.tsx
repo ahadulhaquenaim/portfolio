@@ -121,6 +121,7 @@ export default function Sports() {
           springX={springX}
           springY={springY}
           palette={palette}
+          fullWidth
         />
         {/* Dark scrim so cards remain readable */}
         <div

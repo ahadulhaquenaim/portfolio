@@ -29,12 +29,16 @@ export default function CharacterLayer({
   springX,
   springY,
   palette,
+  fullWidth = false,
 }: {
   imageSrc: string | null;
   videoSrc: string | null;
   springX: ReturnType<typeof useSpring>;
   springY: ReturnType<typeof useSpring>;
   palette: Palette;
+  /** When true, the video fills the section edge-to-edge (object-cover)
+   *  instead of sitting as a centered, height-locked column. */
+  fullWidth?: boolean;
 }) {
   const x = useTransform(springX, [-1, 1], [-8, 8]);
   const y = useTransform(springY, [-1, 1], [-5, 5]);
@@ -52,16 +56,28 @@ export default function CharacterLayer({
             muted
             playsInline
             preload="metadata"
-            style={{
-              position: "absolute",
-              top: "10%",
-              left: "50%",
-              transform: "translateX(-45%)",
-              height: "100%",
-              width: "auto",
-              minWidth: "60%",
-              willChange: "transform",
-            }}
+            style={
+              fullWidth
+                ? {
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center 30%",
+                    willChange: "transform",
+                  }
+                : {
+                    position: "absolute",
+                    top: "10%",
+                    left: "50%",
+                    transform: "translateX(-45%)",
+                    height: "100%",
+                    width: "auto",
+                    minWidth: "60%",
+                    willChange: "transform",
+                  }
+            }
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
