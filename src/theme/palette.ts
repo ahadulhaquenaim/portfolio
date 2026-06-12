@@ -112,7 +112,7 @@ export const PALETTES: Record<ThemeName, Palette> = {
     cyanRGB: "56,189,248",
 
     heroVideo:
-      "https://res.cloudinary.com/dumsdgz85/video/upload/v1781248710/I_want_to_create_a_animation_f_but0jy.mp4",
+      "https://res.cloudinary.com/dumsdgz85/video/upload/v1781248618/turning_goku_aa7bdk.mp4",
     heroVideoStyle: {
       objectFit: "contain",
       objectPosition: "center center",
