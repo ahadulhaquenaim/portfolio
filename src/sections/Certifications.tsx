@@ -91,6 +91,14 @@ const RANK_COLORS: Record<string, string> = {
   B: "#38bdf8",
 };
 
+/* The Certifications section stays on the Solo-Leveling purple accent in every
+   theme — the DBZ orange washed the whole panel (background glow, runes, arrows)
+   and read poorly, so we pin these to Solo values instead of `palette.primary`. */
+const SECTION_ACCENT = "#8b5cf6";
+const SECTION_ACCENT_RGB = "168,85,247";
+const ARROW_ACCENT = SECTION_ACCENT;
+const ARROW_ACCENT_RGB = SECTION_ACCENT_RGB;
+
 /* ── floating rune particles ── */
 const RUNES = ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "ᚲ", "ᚷ", "ᚹ", "ᚺ", "ᚾ", "ᛁ", "ᛃ", "ᛇ", "ᛈ", "ᛉ", "ᛊ"];
 
@@ -105,7 +113,7 @@ function FloatingRunes() {
           style={{
             left: `${(i * 6.25) % 100}%`,
             top: `${(i * 17 + 5) % 90}%`,
-            color: i % 3 === 0 ? `rgba(${palette.primaryRGB},0.13)` : i % 3 === 1 ? `rgba(${palette.systemRGB},0.08)` : "#4ade8012",
+            color: i % 3 === 0 ? `rgba(${SECTION_ACCENT_RGB},0.13)` : i % 3 === 1 ? `rgba(${palette.systemRGB},0.08)` : "#4ade8012",
           }}
           whileInView={{
             y: [0, -18, 0],
@@ -507,13 +515,13 @@ function CertCarousel() {
             className="relative flex h-10 w-10 items-center justify-center rounded-full"
             style={{
               background: "linear-gradient(135deg, var(--t-shadow), var(--t-void))",
-              border: `1px solid rgba(${palette.primaryRGB},0.25)`,
-              boxShadow: `0 0 12px rgba(${palette.primaryRGB},0.08)`,
+              border: `1px solid rgba(${ARROW_ACCENT_RGB},0.25)`,
+              boxShadow: `0 0 12px rgba(${ARROW_ACCENT_RGB},0.08)`,
             }}
           >
             <motion.div
               className="absolute inset-0 rounded-full"
-              style={{ border: `1px solid ${palette.primary}` }}
+              style={{ border: `1px solid ${ARROW_ACCENT}` }}
               animate={{ opacity: [0.1, 0.4, 0.1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -539,13 +547,13 @@ function CertCarousel() {
             className="relative flex h-10 w-10 items-center justify-center rounded-full"
             style={{
               background: "linear-gradient(135deg, var(--t-shadow), var(--t-void))",
-              border: `1px solid rgba(${palette.primaryRGB},0.25)`,
-              boxShadow: `0 0 12px rgba(${palette.primaryRGB},0.08)`,
+              border: `1px solid rgba(${ARROW_ACCENT_RGB},0.25)`,
+              boxShadow: `0 0 12px rgba(${ARROW_ACCENT_RGB},0.08)`,
             }}
           >
             <motion.div
               className="absolute inset-0 rounded-full"
-              style={{ border: `1px solid ${palette.primary}` }}
+              style={{ border: `1px solid ${ARROW_ACCENT}` }}
               animate={{ opacity: [0.1, 0.4, 0.1] }}
               transition={{ duration: 2, repeat: Infinity, delay: 1 }}
             />
@@ -606,7 +614,7 @@ export default function Certifications() {
       {/* background arcane glow blobs */}
       <div
         className="pointer-events-none absolute left-1/4 top-1/3 h-96 w-96 rounded-full opacity-[0.06]"
-        style={{ background: `radial-gradient(circle, ${palette.primary}, transparent 70%)`, filter: "blur(60px)" }}
+        style={{ background: `radial-gradient(circle, ${SECTION_ACCENT}, transparent 70%)`, filter: "blur(60px)" }}
       />
       <div
         className="pointer-events-none absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full opacity-[0.05]"
