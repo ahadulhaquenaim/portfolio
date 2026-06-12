@@ -3,10 +3,12 @@ import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import { socials, identity } from "../data/content";
 import { useVideoInView } from "../lib/useVideoInView";
+import { useTheme } from "../theme/ThemeContext";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
   const videoRef = useVideoInView<HTMLVideoElement>();
+  const { palette } = useTheme();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,10 +23,11 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative w-full overflow-hidden py-24">
-      {/* Full-bleed background video */}
-      {identity.contactVideo && (
+      {/* Full-bleed background video — theme-driven */}
+      {palette.contactVideo && (
         <div className="absolute inset-0 z-0">
           <video
+            key={palette.contactVideo}
             ref={videoRef}
             autoPlay
             loop
@@ -33,11 +36,11 @@ export default function Contact() {
             preload="metadata"
             className="h-full w-full object-cover"
           >
-            <source src={identity.contactVideo} type="video/mp4" />
+            <source src={palette.contactVideo} type="video/mp4" />
           </video>
           {/* Dark overlays for readability */}
           <div className="absolute inset-0 bg-abyss/30" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(109,40,217,0.2),transparent_70%)]" />
+          <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 50% 50%, rgba(${palette.primaryRGB},0.2), transparent 70%)` }} />
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-abyss to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-abyss to-transparent" />
         </div>
@@ -65,7 +68,7 @@ export default function Contact() {
           </motion.h2>
           <div className="mx-auto mt-5 flex items-center justify-center gap-3">
             <span className="h-px w-16 bg-gradient-to-r from-transparent to-mana" />
-            <span className="h-2 w-2 rotate-45 bg-mana-bright shadow-[0_0_12px_#a855f7]" />
+            <span className="h-2 w-2 rotate-45 bg-mana-bright" style={{ boxShadow: `0 0 12px ${palette.primaryBright}` }} />
             <span className="h-px w-16 bg-gradient-to-l from-transparent to-mana" />
           </div>
         </div>
@@ -77,7 +80,8 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="rounded-xl border border-mana/60 bg-transparent p-7 shadow-[0_0_30px_rgba(168,85,247,0.5),inset_0_0_30px_rgba(168,85,247,0.05)]"
+            className="rounded-xl border border-mana/60 bg-transparent p-7"
+            style={{ boxShadow: `0 0 30px rgba(${palette.primaryRGB},0.5), inset 0 0 30px rgba(${palette.primaryRGB},0.05)` }}
           >
             <div className="grid gap-4 sm:grid-cols-2">
               <Field name="name" placeholder="Your name" />
@@ -119,6 +123,7 @@ const SPARKLE_POSITIONS = [
 
 function SocialIcon({ s }: { s: { label: string; href: string; icon: React.ElementType } }) {
   const [hovered, setHovered] = useState(false);
+  const { palette } = useTheme();
 
   return (
     <a
@@ -128,7 +133,16 @@ function SocialIcon({ s }: { s: { label: string; href: string; icon: React.Eleme
       aria-label={s.label}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative grid h-12 w-12 place-items-center rounded-lg border border-cyan-400/50 bg-abyss/40 backdrop-blur-sm text-cyan-300 transition-all duration-300 hover:border-cyan-300 hover:text-white shadow-[0_0_12px_rgba(34,211,238,0.4),0_4px_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.8),0_4px_30px_rgba(34,211,238,0.6)]"
+      className="relative grid h-12 w-12 place-items-center rounded-lg bg-abyss/40 backdrop-blur-sm transition-all duration-300 hover:text-white"
+      style={{
+        color: palette.cyan,
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: hovered ? `rgba(${palette.cyanRGB},1)` : `rgba(${palette.cyanRGB},0.5)`,
+        boxShadow: hovered
+          ? `0 0 25px rgba(${palette.cyanRGB},0.8), 0 4px 30px rgba(${palette.cyanRGB},0.6)`
+          : `0 0 12px rgba(${palette.cyanRGB},0.4), 0 4px 20px rgba(${palette.cyanRGB},0.3)`,
+      }}
     >
       <s.icon size={20} />
 
@@ -136,8 +150,8 @@ function SocialIcon({ s }: { s: { label: string; href: string; icon: React.Eleme
       {SPARKLE_POSITIONS.map((pos, i) => (
         <motion.div
           key={i}
-          className="pointer-events-none absolute h-1.5 w-1.5 rounded-full bg-cyan-300"
-          style={{ top: pos.top, left: pos.left, translateX: "-50%", translateY: "-50%" }}
+          className="pointer-events-none absolute h-1.5 w-1.5 rounded-full"
+          style={{ background: palette.cyan, top: pos.top, left: pos.left, translateX: "-50%", translateY: "-50%" }}
           animate={hovered ? {
             scale: [0, 1.5, 0],
             opacity: [0, 1, 0],

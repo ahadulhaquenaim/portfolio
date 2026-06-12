@@ -2,8 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks, identity } from "../data/content";
+import { useTheme } from "../theme/ThemeContext";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
+  const { palette } = useTheme();
   const [active, setActive] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -99,32 +102,33 @@ export default function Navbar() {
               y: springY,
               translateX: "-50%",
               translateY: "-50%",
-              background: "radial-gradient(ellipse, #a855f7 0%, transparent 70%)",
+              background: `radial-gradient(ellipse, ${palette.primaryBright} 0%, transparent 70%)`,
               filter: "blur(16px)",
             }}
           />
         </motion.div>
       )}
 
-      <div className="flex items-center justify-between gap-3 py-5 px-6 sm:px-8 max-w-screen-2xl mx-auto">
+      <div className="flex items-center justify-between gap-4 lg:gap-8 py-5 px-6 sm:px-8 max-w-screen-2xl mx-auto">
         {/* Logo */}
         <button
           onClick={() => go("home")}
-          className="group relative flex min-w-0 shrink items-center gap-2.5 font-display text-xl sm:text-2xl font-bold outline-none"
-          style={{ textShadow: "0 0 16px rgba(168,85,247,1), 0 0 40px rgba(139,92,246,0.6), 0 0 80px rgba(109,40,217,0.3)" }}
+          className="group relative flex shrink-0 items-center gap-2.5 font-display text-xl sm:text-2xl font-bold outline-none"
+          style={{ textShadow: `0 0 16px rgba(${palette.primaryRGB},1), 0 0 40px rgba(${palette.primaryRGB},0.6), 0 0 80px rgba(${palette.primaryRGB},0.3)` }}
         >
-          {/* Magic sparkle particles around logo */}
+          {/* Magic sparkle particles around logo — positioned with percentages so they
+              stay anchored to the logo box regardless of its rendered width */}
           {[
-            { top: "-8px",  left: "10px",  delay: 0,    dur: 2.0, size: "4px" },
-            { top: "-6px",  left: "50px",  delay: 0.4,  dur: 1.7, size: "3px" },
-            { top: "-10px", left: "90px",  delay: 0.9,  dur: 2.2, size: "5px" },
-            { top: "-7px",  left: "130px", delay: 0.2,  dur: 1.8, size: "3px" },
-            { top: "50%",   left: "4px",   delay: 0.3,  dur: 1.8, size: "3px" },
-            { top: "100%",  left: "35px",  delay: 0.7,  dur: 1.6, size: "3px" },
-            { top: "100%",  left: "75px",  delay: 1.2,  dur: 2.1, size: "4px" },
-            { top: "100%",  left: "115px", delay: 0.6,  dur: 1.9, size: "3px" },
-            { top: "-4px",  left: "60px",  delay: 1.5,  dur: 2.3, size: "2px" },
-            { top: "20%",   left: "155px", delay: 1.0,  dur: 2.0, size: "3px" },
+            { top: "-8px",  left: "8%",   delay: 0,    dur: 2.0, size: "4px" },
+            { top: "-6px",  left: "30%",  delay: 0.4,  dur: 1.7, size: "3px" },
+            { top: "-10px", left: "55%",  delay: 0.9,  dur: 2.2, size: "5px" },
+            { top: "-7px",  left: "80%",  delay: 0.2,  dur: 1.8, size: "3px" },
+            { top: "50%",   left: "2%",   delay: 0.3,  dur: 1.8, size: "3px" },
+            { top: "100%",  left: "22%",  delay: 0.7,  dur: 1.6, size: "3px" },
+            { top: "100%",  left: "48%",  delay: 1.2,  dur: 2.1, size: "4px" },
+            { top: "100%",  left: "72%",  delay: 0.6,  dur: 1.9, size: "3px" },
+            { top: "-4px",  left: "38%",  delay: 1.5,  dur: 2.3, size: "2px" },
+            { top: "20%",   left: "96%",  delay: 1.0,  dur: 2.0, size: "3px" },
           ].map((p, i) => (
             <motion.span
               key={i}
@@ -133,8 +137,8 @@ export default function Navbar() {
                 width: p.size, height: p.size,
                 top: p.top, left: p.left,
                 translateY: p.top === "50%" ? "-50%" : undefined,
-                background: i % 3 === 0 ? "#e879f9" : i % 3 === 1 ? "#a855f7" : "#c084fc",
-                boxShadow: `0 0 6px 2px ${i % 2 === 0 ? "rgba(232,121,249,0.9)" : "rgba(168,85,247,0.9)"}`,
+                background: i % 3 === 0 ? palette.spark : i % 3 === 1 ? palette.primaryBright : palette.primaryBright,
+                boxShadow: `0 0 6px 2px ${i % 2 === 0 ? `rgba(${palette.sparkRGB},0.9)` : `rgba(${palette.primaryRGB},0.9)`}`,
                 zIndex: 10,
               }}
               animate={{
@@ -155,26 +159,26 @@ export default function Navbar() {
           <motion.svg
             width="22" height="22" viewBox="0 0 24 24" fill="none"
             className="relative shrink-0"
-            style={{ filter: "drop-shadow(0 0 6px #a855f7) drop-shadow(0 0 14px rgba(168,85,247,0.7))" }}
+            style={{ filter: `drop-shadow(0 0 6px ${palette.primaryBright}) drop-shadow(0 0 14px rgba(${palette.primaryRGB},0.7))` }}
             animate={{ rotate: [-8, 8, -8] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             {/* blade */}
-            <line x1="5" y1="19" x2="19" y2="5" stroke="#c084fc" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="5" y1="19" x2="19" y2="5" stroke={palette.primaryBright} strokeWidth="2" strokeLinecap="round"/>
             {/* tip diamond */}
-            <polygon points="19,5 21,3 22,5 20,7" fill="#e879f9" stroke="#a855f7" strokeWidth="0.5"/>
+            <polygon points="19,5 21,3 22,5 20,7" fill={palette.spark} stroke={palette.primaryBright} strokeWidth="0.5"/>
             {/* crossguard */}
-            <line x1="8" y1="16" x2="6" y2="18" stroke="#a855f7" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="10" y1="14" x2="8" y2="12" stroke="#a855f7" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="8" y1="16" x2="6" y2="18" stroke={palette.primaryBright} strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="14" x2="8" y2="12" stroke={palette.primaryBright} strokeWidth="1.5" strokeLinecap="round"/>
             {/* handle */}
-            <line x1="4" y1="20" x2="2" y2="22" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="4" y1="20" x2="2" y2="22" stroke={palette.primaryDeep} strokeWidth="2.5" strokeLinecap="round"/>
           </motion.svg>
 
           {/* Name text */}
           <span
             className="relative text-white tracking-[0.25em]"
             style={{
-              textShadow: "0 0 14px rgba(168,85,247,1), 0 0 32px rgba(168,85,247,0.6)",
+              textShadow: `0 0 14px rgba(${palette.primaryRGB},1), 0 0 32px rgba(${palette.primaryRGB},0.6)`,
             }}
           >
             {identity.name}
@@ -184,20 +188,20 @@ export default function Navbar() {
           <motion.svg
             width="22" height="22" viewBox="0 0 24 24" fill="none"
             className="relative shrink-0 scale-x-[-1]"
-            style={{ filter: "drop-shadow(0 0 6px #a855f7) drop-shadow(0 0 14px rgba(168,85,247,0.7))" }}
+            style={{ filter: `drop-shadow(0 0 6px ${palette.primaryBright}) drop-shadow(0 0 14px rgba(${palette.primaryRGB},0.7))` }}
             animate={{ rotate: [8, -8, 8] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
-            <line x1="5" y1="19" x2="19" y2="5" stroke="#c084fc" strokeWidth="2" strokeLinecap="round"/>
-            <polygon points="19,5 21,3 22,5 20,7" fill="#e879f9" stroke="#a855f7" strokeWidth="0.5"/>
-            <line x1="8" y1="16" x2="6" y2="18" stroke="#a855f7" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="10" y1="14" x2="8" y2="12" stroke="#a855f7" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="4" y1="20" x2="2" y2="22" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="5" y1="19" x2="19" y2="5" stroke={palette.primaryBright} strokeWidth="2" strokeLinecap="round"/>
+            <polygon points="19,5 21,3 22,5 20,7" fill={palette.spark} stroke={palette.primaryBright} strokeWidth="0.5"/>
+            <line x1="8" y1="16" x2="6" y2="18" stroke={palette.primaryBright} strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="14" x2="8" y2="12" stroke={palette.primaryBright} strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="4" y1="20" x2="2" y2="22" stroke={palette.primaryDeep} strokeWidth="2.5" strokeLinecap="round"/>
           </motion.svg>
         </button>
 
         {/* Desktop links */}
-        <ul ref={navRef} className="hidden items-center gap-1 lg:gap-2 md:flex mx-auto">
+        <ul ref={navRef} className="hidden flex-1 items-center justify-center gap-1 lg:gap-2 md:flex">
           {navLinks.map((l) => {
             const isActive = active === l.id;
             const isHovered = hovered === l.id;
@@ -225,8 +229,8 @@ export default function Navbar() {
                         transition={{ duration: 0.18 }}
                         className="absolute inset-0 rounded-md"
                         style={{
-                          background: "rgba(139,92,246,0.08)",
-                          border: "1px solid rgba(139,92,246,0.2)",
+                          background: `rgba(${palette.primaryRGB},0.08)`,
+                          border: `1px solid rgba(${palette.primaryRGB},0.2)`,
                         }}
                       />
                     )}
@@ -242,9 +246,9 @@ export default function Navbar() {
                         border: "1px solid rgba(255,215,0,0.4)",
                         boxShadow: "0 0 18px rgba(255,215,0,0.25), inset 0 0 12px rgba(200,160,0,0.15)",
                       } : {
-                        background: "linear-gradient(135deg, rgba(109,40,217,0.25), rgba(168,85,247,0.15))",
-                        border: "1px solid rgba(168,85,247,0.35)",
-                        boxShadow: "0 0 18px rgba(168,85,247,0.25), inset 0 0 12px rgba(109,40,217,0.2)",
+                        background: `linear-gradient(135deg, rgba(${palette.primaryRGB},0.25), rgba(${palette.primaryRGB},0.15))`,
+                        border: `1px solid rgba(${palette.primaryRGB},0.35)`,
+                        boxShadow: `0 0 18px rgba(${palette.primaryRGB},0.25), inset 0 0 12px rgba(${palette.primaryRGB},0.2)`,
                       }}
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
@@ -357,10 +361,10 @@ export default function Navbar() {
                         width: "60%",
                         background: l.id === "sports"
                           ? "linear-gradient(90deg, transparent, #ffd700, transparent)"
-                          : "linear-gradient(90deg, transparent, #a855f7, transparent)",
+                          : `linear-gradient(90deg, transparent, ${palette.primaryBright}, transparent)`,
                         boxShadow: l.id === "sports"
                           ? "0 0 8px 1px #ffd700, 0 0 20px 2px rgba(255,215,0,0.6)"
-                          : "0 0 8px 1px #a855f7, 0 0 20px 2px rgba(168,85,247,0.5)",
+                          : `0 0 8px 1px ${palette.primaryBright}, 0 0 20px 2px rgba(${palette.primaryRGB},0.5)`,
                       }}
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
@@ -389,8 +393,8 @@ export default function Navbar() {
                             left: s.left,
                             right: (s as any).right,
                             translateY: s.top === "50%" ? "-50%" : undefined,
-                            background: "#a855f7",
-                            boxShadow: "0 0 6px 2px #a855f7, 0 0 12px 4px rgba(168,85,247,0.6)",
+                            background: palette.primaryBright,
+                            boxShadow: `0 0 6px 2px ${palette.primaryBright}, 0 0 12px 4px rgba(${palette.primaryRGB},0.6)`,
                           }}
                           animate={{
                             opacity: [0, 1, 0.6, 1, 0],
@@ -419,8 +423,8 @@ export default function Navbar() {
                             height: "3px",
                             left: s.left,
                             bottom: "100%",
-                            background: "#c084fc",
-                            boxShadow: "0 0 5px 2px rgba(192,132,252,0.8)",
+                            background: palette.primaryBright,
+                            boxShadow: `0 0 5px 2px rgba(${palette.primaryRGB},0.8)`,
                           }}
                           animate={{
                             y: [0, -18, -28],
@@ -439,7 +443,7 @@ export default function Navbar() {
                       {/* Pulse ring */}
                       <motion.span
                         className="absolute inset-0 rounded-md pointer-events-none"
-                        style={{ border: "1px solid rgba(168,85,247,0.6)" }}
+                        style={{ border: `1px solid rgba(${palette.primaryRGB},0.6)` }}
                         animate={{
                           opacity: [0.6, 0, 0.6],
                           scale: [1, 1.08, 1],
@@ -467,21 +471,26 @@ export default function Navbar() {
           })}
         </ul>
 
+        {/* Right-side actions (desktop) */}
+        <div className="hidden md:flex shrink-0 items-center gap-4 lg:gap-6">
+        {/* Theme toggle (desktop) */}
+        <ThemeToggle />
+
         {/* CTA Button */}
         <button
           onClick={() => go("contact")}
-          className="hidden md:block relative shrink-0 whitespace-nowrap overflow-hidden rounded-md ml-6 lg:ml-10 px-5 py-2 text-sm font-semibold tracking-wider text-white"
+          className="relative shrink-0 whitespace-nowrap overflow-hidden rounded-md px-5 py-2 text-sm font-semibold tracking-wider text-white"
           style={{
-            background: "linear-gradient(135deg, #6d28d9, #a855f7)",
-            boxShadow: "0 0 20px rgba(139,92,246,0.55), 0 0 40px rgba(168,85,247,0.2)",
+            background: `linear-gradient(135deg, ${palette.primaryDeep}, ${palette.primaryBright})`,
+            boxShadow: `0 0 20px rgba(${palette.primaryRGB},0.55), 0 0 40px rgba(${palette.primaryRGB},0.2)`,
           }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLButtonElement).style.boxShadow =
-              "0 0 30px rgba(168,85,247,0.85), 0 0 60px rgba(168,85,247,0.35)";
+              `0 0 30px rgba(${palette.primaryRGB},0.85), 0 0 60px rgba(${palette.primaryRGB},0.35)`;
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLButtonElement).style.boxShadow =
-              "0 0 20px rgba(139,92,246,0.55), 0 0 40px rgba(168,85,247,0.2)";
+              `0 0 20px rgba(${palette.primaryRGB},0.55), 0 0 40px rgba(${palette.primaryRGB},0.2)`;
           }}
         >
           {/* Shimmer sweep */}
@@ -496,14 +505,16 @@ export default function Navbar() {
           />
           LET'S CONNECT
         </button>
+        </div>
 
         {/* Mobile toggle */}
+        <div className="flex shrink-0 items-center gap-3 md:hidden"><ThemeToggle compact />
         <motion.button
-          className="text-mana-bright shrink-0 md:hidden"
+          className="text-mana-bright shrink-0"
           onClick={() => setOpen((o) => !o)}
           aria-label="menu"
           whileTap={{ scale: 0.9 }}
-          style={{ filter: "drop-shadow(0 0 6px #a855f7)" }}
+          style={{ filter: `drop-shadow(0 0 6px ${palette.primaryBright})` }}
         >
           <AnimatePresence mode="wait">
             {open ? (
@@ -517,6 +528,7 @@ export default function Navbar() {
             )}
           </AnimatePresence>
         </motion.button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -529,7 +541,7 @@ export default function Navbar() {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden md:hidden"
             style={{
-              borderTop: "1px solid rgba(139,92,246,0.2)",
+              borderTop: `1px solid rgba(${palette.primaryRGB},0.2)`,
               background: "rgba(5,3,12,0.96)",
               backdropFilter: "blur(20px)",
             }}
@@ -554,10 +566,10 @@ export default function Navbar() {
                       boxShadow: isActive ? "inset 0 0 30px rgba(255,215,0,0.05)" : "none",
                     } : {
                       color: isActive ? "#fff" : "#e9e3fb",
-                      background: isActive ? "rgba(139,92,246,0.08)" : "transparent",
-                      borderLeft: isActive ? "2px solid #a855f7" : "2px solid transparent",
-                      textShadow: isActive ? "0 0 12px rgba(168,85,247,0.8)" : "0 0 8px rgba(168,85,247,0.25)",
-                      boxShadow: isActive ? "inset 0 0 30px rgba(139,92,246,0.06)" : "none",
+                      background: isActive ? `rgba(${palette.primaryRGB},0.08)` : "transparent",
+                      borderLeft: isActive ? `2px solid ${palette.primaryBright}` : "2px solid transparent",
+                      textShadow: isActive ? `0 0 12px rgba(${palette.primaryRGB},0.8)` : `0 0 8px rgba(${palette.primaryRGB},0.25)`,
+                      boxShadow: isActive ? `inset 0 0 30px rgba(${palette.primaryRGB},0.06)` : "none",
                     }}
                   >
                     {isActive && (
@@ -569,8 +581,8 @@ export default function Navbar() {
                           background: "#ffd700",
                           boxShadow: "0 0 6px #ffd700, 0 0 12px rgba(255,215,0,0.7)",
                         } : {
-                          background: "#a855f7",
-                          boxShadow: "0 0 6px #a855f7",
+                          background: palette.primaryBright,
+                          boxShadow: `0 0 6px ${palette.primaryBright}`,
                         }}
                       />
                     )}

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTheme } from "../theme/ThemeContext";
 
 /** Cinematic section title with a glowing rune divider. */
 export default function SectionHeading({
@@ -8,6 +9,7 @@ export default function SectionHeading({
   kicker: string;
   title: string;
 }) {
+  const { palette } = useTheme();
   return (
     <div className="text-center mb-10 sm:mb-14 px-4">
       <motion.p
@@ -29,7 +31,7 @@ export default function SectionHeading({
       </motion.h2>
       <div className="mx-auto mt-5 flex items-center justify-center gap-3">
         <span className="h-px w-16 bg-gradient-to-r from-transparent to-mana" />
-        <span className="h-2 w-2 rotate-45 bg-mana-bright shadow-[0_0_12px_#a855f7]" />
+        <span className="h-2 w-2 rotate-45 bg-mana-bright" style={{ boxShadow: `0 0 12px ${palette.primaryBright}` }} />
         <span className="h-px w-16 bg-gradient-to-l from-transparent to-mana" />
       </div>
     </div>

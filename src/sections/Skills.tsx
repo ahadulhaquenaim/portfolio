@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import SectionHeading from "../components/SectionHeading";
 import { skills } from "../data/content";
-
-const GOLD = "#fbbf24";
-const GOLD_GLOW = "rgba(251,191,36,0.6)";
-const TRUNK_COLOR = GOLD;
-const LINE_GLOW = `0 0 6px ${GOLD_GLOW}, 0 0 14px rgba(251,191,36,0.35)`;
+import { useTheme } from "../theme/ThemeContext";
 
 const CATEGORIES = [
   { label: "Languages",     names: ["JavaScript", "TypeScript", "Python", "C / C++"] },
@@ -17,6 +13,12 @@ const CATEGORIES = [
 ];
 
 export default function Skills() {
+  const { palette } = useTheme();
+  const GOLD = palette.gold;
+  const GOLD_GLOW = `rgba(${palette.goldRGB},0.6)`;
+  const TRUNK_COLOR = GOLD;
+  const LINE_GLOW = `0 0 6px ${GOLD_GLOW}, 0 0 14px rgba(${palette.goldRGB},0.35)`;
+
   const byName = Object.fromEntries(skills.map((s) => [s.name, s]));
 
   return (
@@ -44,13 +46,13 @@ export default function Skills() {
           transition={{ duration: 0.4, delay: 0.3 }}
           style={{
             borderColor: GOLD_GLOW,
-            boxShadow: `0 0 20px ${GOLD_GLOW}, 0 0 40px rgba(251,191,36,0.3), inset 0 0 10px rgba(251,191,36,0.08)`,
-            background: "rgba(251,191,36,0.06)",
+            boxShadow: `0 0 20px ${GOLD_GLOW}, 0 0 40px rgba(${palette.goldRGB},0.3), inset 0 0 10px rgba(${palette.goldRGB},0.08)`,
+            background: `rgba(${palette.goldRGB},0.06)`,
           }}
         >
           <span
             className="font-display text-base tracking-[0.25em] uppercase"
-            style={{ color: GOLD, textShadow: `0 0 10px ${GOLD_GLOW}, 0 0 20px rgba(251,191,36,0.5)` }}
+            style={{ color: GOLD, textShadow: `0 0 10px ${GOLD_GLOW}, 0 0 20px rgba(${palette.goldRGB},0.5)` }}
           >
             Core Abilities
           </span>
@@ -102,8 +104,8 @@ export default function Skills() {
                     className="relative z-10 rounded border px-5 py-2.5 text-center"
                     style={{
                       borderColor: GOLD_GLOW,
-                      background: "rgba(251,191,36,0.1)",
-                      boxShadow: `0 0 16px ${GOLD_GLOW}, 0 0 32px rgba(251,191,36,0.25)`,
+                      background: `rgba(${palette.goldRGB},0.1)`,
+                      boxShadow: `0 0 16px ${GOLD_GLOW}, 0 0 32px rgba(${palette.goldRGB},0.25)`,
                     }}
                     initial={{ opacity: 0, y: -8 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -148,8 +150,8 @@ export default function Skills() {
                           <motion.div
                             className="skill-card group relative w-full overflow-hidden rounded border md:w-[190px]"
                             style={{
-                              borderColor: "rgba(251,191,36,0.45)",
-                              background: "rgba(251,191,36,0.07)",
+                              borderColor: `rgba(${palette.goldRGB},0.45)`,
+                              background: `rgba(${palette.goldRGB},0.07)`,
                               padding: "10px 16px",
                               transition: "transform 0.15s ease, box-shadow 0.15s ease",
                             }}
@@ -159,7 +161,7 @@ export default function Skills() {
                             transition={{ duration: 0.3, delay: skillDelay }}
                             onMouseEnter={e => {
                               (e.currentTarget as HTMLElement).style.transform = "scale(1.04)";
-                              (e.currentTarget as HTMLElement).style.boxShadow = `0 0 24px ${GOLD_GLOW}, 0 0 48px rgba(251,191,36,0.4)`;
+                              (e.currentTarget as HTMLElement).style.boxShadow = `0 0 24px ${GOLD_GLOW}, 0 0 48px rgba(${palette.goldRGB},0.4)`;
                             }}
                             onMouseLeave={e => {
                               (e.currentTarget as HTMLElement).style.transform = "scale(1)";
@@ -171,7 +173,7 @@ export default function Skills() {
                               className="pointer-events-none absolute left-0 right-0 skill-scan"
                               style={{
                                 height: "40%",
-                                background: "linear-gradient(180deg, rgba(251,191,36,0.18) 0%, rgba(251,191,36,0.06) 60%, transparent 100%)",
+                                background: `linear-gradient(180deg, rgba(${palette.goldRGB},0.18) 0%, rgba(${palette.goldRGB},0.06) 60%, transparent 100%)`,
                                 borderRadius: 4,
                                 animationDelay: `${skillDelay}s`,
                               }}
@@ -204,7 +206,7 @@ export default function Skills() {
                             {/* hover glow */}
                             <div
                               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-                              style={{ background: "radial-gradient(ellipse at center, rgba(251,191,36,0.13) 0%, transparent 70%)" }}
+                              style={{ background: `radial-gradient(ellipse at center, rgba(${palette.goldRGB},0.13) 0%, transparent 70%)` }}
                             />
 
                             <div className="relative z-10 flex items-center justify-center">
@@ -221,7 +223,7 @@ export default function Skills() {
                               <motion.div
                                 className="h-full rounded-full"
                                 style={{
-                                  background: `linear-gradient(90deg, ${GOLD}, rgba(251,191,36,0.6))`,
+                                  background: `linear-gradient(90deg, ${GOLD}, rgba(${palette.goldRGB},0.6))`,
                                   boxShadow: `0 0 5px ${GOLD_GLOW}`,
                                 }}
                                 initial={{ width: 0 }}
