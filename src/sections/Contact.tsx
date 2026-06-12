@@ -8,7 +8,9 @@ import { useTheme } from "../theme/ThemeContext";
 export default function Contact() {
   const [sent, setSent] = useState(false);
   const videoRef = useVideoInView<HTMLVideoElement>();
-  const { palette } = useTheme();
+  const { palette, theme } = useTheme();
+  const accent = theme === "solo" ? "#ffffff" : palette.primary;
+  const accentRGB = theme === "solo" ? "255,255,255" : palette.primaryRGB;
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,7 +93,11 @@ export default function Contact() {
               required
               rows={5}
               placeholder="Your message..."
-              className="mt-4 w-full resize-none rounded-md border border-white/50 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-white focus:shadow-[0_0_14px_rgba(255,255,255,0.4)] placeholder:text-white/80 placeholder:[text-shadow:0_0_10px_rgba(255,255,255,0.6)]"
+              style={{
+                "--accent": accent,
+                "--accent-rgb": accentRGB,
+              } as React.CSSProperties}
+              className="mt-4 w-full resize-none rounded-md border-2 border-(--accent)/60 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-(--accent) focus:shadow-[0_0_14px_rgba(var(--accent-rgb),0.5)] placeholder:text-(--accent) placeholder:font-medium placeholder:[text-shadow:0_0_8px_rgba(0,0,0,0.6)]"
             />
             <button
               type="submit"
@@ -187,13 +193,20 @@ function Field({
   type?: string;
   placeholder: string;
 }) {
+  const { palette, theme } = useTheme();
+  const accent = theme === "solo" ? "#ffffff" : palette.primary;
+  const accentRGB = theme === "solo" ? "255,255,255" : palette.primaryRGB;
   return (
     <input
       name={name}
       type={type}
       required
       placeholder={placeholder}
-      className="w-full rounded-md border border-white/50 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-white focus:shadow-[0_0_14px_rgba(255,255,255,0.4)] placeholder:text-white/80 placeholder:[text-shadow:0_0_10px_rgba(255,255,255,0.6)]"
+      style={{
+        "--accent": accent,
+        "--accent-rgb": accentRGB,
+      } as React.CSSProperties}
+      className="w-full rounded-md border-2 border-(--accent)/60 bg-transparent px-4 py-3 text-slate-100 outline-none transition focus:border-(--accent) focus:shadow-[0_0_14px_rgba(var(--accent-rgb),0.5)] placeholder:text-(--accent) placeholder:font-medium placeholder:[text-shadow:0_0_8px_rgba(0,0,0,0.6)]"
     />
   );
 }

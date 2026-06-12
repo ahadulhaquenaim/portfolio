@@ -105,7 +105,7 @@ export default function Hero() {
       {/* On mobile the character is pushed into the lower half of the screen so
           it sits BELOW the headline + CTA buttons instead of behind them.
           On lg+ it returns to a full-bleed background (inset-0). */}
-      <div className="hero-character absolute inset-x-0 bottom-0 top-[36%] z-0 overflow-hidden lg:inset-0 lg:top-0">
+      <div className="hero-character absolute inset-x-0 bottom-0 top-[30%] z-0 overflow-hidden lg:inset-0 lg:top-0">
         <HeroVideoBg videoSrc={palette.heroVideo ?? null} imageSrc={identity.heroBackground ?? null} videoStyle={palette.heroVideoStyle} />
         {/* Dark scrim so the headline stays readable */}
         <div className="absolute inset-0" style={{ background: "rgba(4,2,18,0.25)" }} />
