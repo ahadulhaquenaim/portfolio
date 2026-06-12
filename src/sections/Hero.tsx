@@ -1,28 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Star, Cpu } from "lucide-react";
 import { identity } from "../data/content";
 import { useVideoInView } from "../lib/useVideoInView";
-
-function seededRandom(seed: number) {
-  const x = Math.sin(seed + 1) * 10000;
-  return x - Math.floor(x);
-}
+import { useTheme } from "../theme/ThemeContext";
+import type { HeroVideoStyle } from "../theme/palette";
 
 export default function Hero() {
+  const { palette } = useTheme();
   const root = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
   // The gate overlay is `position: fixed` and covers the whole viewport, so it
   // MUST always be torn down — even if GSAP never runs. We unmount it from
   // React (not just display:none) once the intro is done or skipped.
   const [showGate, setShowGate] = useState(true);
-
-  // Mouse parallax — raw mouse position normalised to [-1, 1]
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 30, damping: 30 });
-  const springY = useSpring(mouseY, { stiffness: 30, damping: 30 });
 
   useEffect(() => {
     const finish = () => {
@@ -94,29 +86,6 @@ export default function Hero() {
     };
   }, []);
 
-  useEffect(() => {
-    // Throttle to one update per animation frame — mousemove can fire far more
-    // often than 60fps and each .set() schedules spring work.
-    let frame = 0;
-    let lastX = 0;
-    let lastY = 0;
-    const handleMove = (e: MouseEvent) => {
-      lastX = (e.clientX / window.innerWidth - 0.5) * 2;
-      lastY = (e.clientY / window.innerHeight - 0.5) * 2;
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        mouseX.set(lastX);
-        mouseY.set(lastY);
-      });
-    };
-    window.addEventListener("mousemove", handleMove, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", handleMove);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [mouseX, mouseY]);
-
   return (
     <section
       id="home"
@@ -132,39 +101,38 @@ export default function Hero() {
         </div>
       )}
 
-      {/* ---- Full-bleed character (video if available, else image) ---- */}
-      <CharacterLayer
-        imageSrc={identity.heroBackground ?? null}
-        videoSrc={identity.heroVideo ?? null}
-        springX={springX}
-        springY={springY}
-      />
+      {/* ---- Full-bleed looping video background (dungeon-style treatment) ---- */}
+      {/* On mobile the character is pushed into the lower half of the screen so
+          it sits BELOW the headline + CTA buttons instead of behind them.
+          On lg+ it returns to a full-bleed background (inset-0). */}
+      <div className="hero-character absolute inset-x-0 bottom-0 top-[30%] z-0 overflow-hidden lg:inset-0 lg:top-0">
+        <HeroVideoBg videoSrc={palette.heroVideo ?? null} imageSrc={identity.heroBackground ?? null} videoStyle={palette.heroVideoStyle} />
+        {/* Dark scrim so the headline stays readable */}
+        <div className="absolute inset-0" style={{ background: "rgba(4,2,18,0.25)" }} />
+        {/* Edge vignette */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 90% 70% at 50% 50%, transparent 30%, rgba(4,2,18,0.5) 70%, rgba(4,2,18,0.88) 100%)",
+          }}
+        />
+        {/* Top/bottom fade */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(4,2,18,0.85) 0%, transparent 15%, transparent 85%, rgba(4,2,18,0.85) 100%)",
+          }}
+        />
+      </div>
 
-      {/* tsParticles (ParticleBg) handles ambient particles globally — no second system needed */}
+      {/* Solid top band so the hero video never shows through the fixed navbar */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-24 bg-linear-to-b from-abyss via-abyss/95 to-transparent" />
 
-      {/* Legibility overlays:
-          - left→right dark gradient so the headline text stays readable
-          - bottom fade so the hero blends into the next section
-          - subtle mana tint */}
+      {/* Left→right dark gradient so the headline text stays readable */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(100deg,rgba(5,3,12,0.92)_0%,rgba(5,3,12,0.6)_28%,rgba(5,3,12,0.0)_42%,rgba(5,3,12,0.0)_70%,rgba(5,3,12,0.4)_100%)]" />
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(109,40,217,0.25),transparent_65%)]" />
       <div className="absolute inset-x-0 bottom-0 z-0 h-40 bg-linear-to-t from-abyss to-transparent" />
-
-      {/* Left-to-right spotlight — soft beam across the character */}
-      <div
-        className="absolute inset-0 z-1 pointer-events-none"
-        style={{
-          background: "linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.04) 42%, rgba(220,180,255,0.06) 55%, transparent 70%)",
-        }}
-      />
-      {/* Aura glow — subtle purple halo around the body */}
-      <div
-        className="absolute inset-0 z-1 pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 42% 68% at 57% 52%, rgba(168,85,247,0.12) 0%, rgba(109,40,217,0.06) 50%, transparent 75%)",
-          mixBlendMode: "screen",
-        }}
-      />
 
 
       <div className="relative z-10 mx-auto grid min-h-screen w-full grid-cols-1 items-start gap-8 px-5 pt-24 pb-16 sm:px-8 lg:items-center lg:pt-28 lg:grid-cols-[1.2fr_0.8fr] xl:px-20 2xl:px-32 lg:pl-16 xl:pl-24">
@@ -230,137 +198,54 @@ export default function Hero() {
   );
 }
 
-// Lightning bolt paths — positioned around the character silhouette
-const LIGHTNING_BOLTS = [
-  { id: 0, x: "52%", y: "8%",  rotate: 15,  delay: 0,    dur: 2.8 },
-  { id: 1, x: "72%", y: "22%", rotate: 40,  delay: 1.1,  dur: 3.2 },
-  { id: 2, x: "78%", y: "55%", rotate: 70,  delay: 0.4,  dur: 2.5 },
-  { id: 3, x: "65%", y: "80%", rotate: 120, delay: 1.7,  dur: 3.6 },
-  { id: 4, x: "38%", y: "78%", rotate: 200, delay: 0.8,  dur: 2.9 },
-  { id: 5, x: "28%", y: "50%", rotate: 250, delay: 2.1,  dur: 3.1 },
-  { id: 6, x: "35%", y: "18%", rotate: 310, delay: 0.3,  dur: 2.6 },
-];
-
-function CharacterLayer({
-  imageSrc,
+// Full-bleed looping background video (dungeon-style treatment swapped in from
+// the Sports section). Plain object-cover loop — overlays are layered by Hero.
+function HeroVideoBg({
   videoSrc,
-  springX,
-  springY,
+  imageSrc,
+  videoStyle,
 }: {
-  imageSrc: string | null;
   videoSrc: string | null;
-  springX: ReturnType<typeof useSpring>;
-  springY: ReturnType<typeof useSpring>;
+  imageSrc: string | null;
+  videoStyle: HeroVideoStyle;
 }) {
-  const x = useTransform(springX, [-1, 1], [-8, 8]);
-  const y = useTransform(springY, [-1, 1], [-5, 5]);
   const videoRef = useVideoInView<HTMLVideoElement>();
 
-  return (
-    <motion.div className="absolute inset-0 z-0" style={{ x, y }}>
-      {/* Video takes priority over static image */}
-      {videoSrc ? (
-        <div className="hero-character absolute inset-0 overflow-hidden">
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            style={{
-              position: "absolute",
-              top: "10%",
-              left: "50%",
-              transform: "translateX(-45%)",
-              height: "100%",
-              width: "auto",
-              minWidth: "60%",
-              willChange: "transform",
-            }}
-          >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        </div>
-      ) : imageSrc ? (
-        <motion.div
-          className="hero-character absolute inset-0 bg-no-repeat"
-          style={{
-            backgroundImage: `url(${imageSrc})`,
-            backgroundSize: "110%",
-            backgroundPosition: "0% 15%",
-            transformOrigin: "50% 75%",
-          }}
-          animate={{ scale: [1, 1.012, 1, 1.008, 1], y: [0, -6, 0, -4, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", times: [0, 0.25, 0.5, 0.75, 1] }}
-        />
-      ) : null}
-
-      {/* Aura pulse layer 1 — wide slow breathe.
-          Opacity-only (no scale) so the full-screen blurred gradient never
-          re-rasters; mix-blend stays but the layer just cross-fades. */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
+  if (videoSrc) {
+    return (
+      <video
+        key={videoSrc}
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 w-full h-full"
         style={{
-          background: "radial-gradient(ellipse 38% 62% at 57% 50%, rgba(168,85,247,0.22) 0%, rgba(109,40,217,0.1) 45%, transparent 70%)",
-          mixBlendMode: "screen",
-          willChange: "opacity",
+          objectFit: videoStyle.objectFit,
+          objectPosition: videoStyle.objectPosition,
+          opacity: videoStyle.opacity,
+          filter: videoStyle.filter,
+          transform: `scale(${videoStyle.scale})`,
+          transformOrigin: videoStyle.transformOrigin,
         }}
-        animate={{ opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      />
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
+    );
+  }
 
-      {/* Aura pulse layer 2 — tighter faster flicker */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 22% 40% at 57% 48%, rgba(232,121,249,0.28) 0%, rgba(168,85,247,0.1) 50%, transparent 70%)",
-          mixBlendMode: "screen",
-          willChange: "opacity",
-        }}
-        animate={{ opacity: [0.4, 0.9, 0.5, 1, 0.4] }}
-        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+  if (imageSrc) {
+    return (
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${imageSrc})` }}
       />
+    );
+  }
 
-      {/* Lightning bolts around the silhouette */}
-      {LIGHTNING_BOLTS.map((bolt) => (
-        <motion.div
-          key={bolt.id}
-          className="absolute pointer-events-none"
-          style={{ left: bolt.x, top: bolt.y, rotate: bolt.rotate }}
-          animate={{
-            opacity: [0, 0, 1, 0.6, 1, 0],
-            scaleY: [0.4, 1, 0.8, 1.1, 0.6, 0],
-          }}
-          transition={{
-            duration: bolt.dur,
-            delay: bolt.delay,
-            repeat: Infinity,
-            repeatDelay: seededRandom(bolt.id * 31) * 2.5 + 0.5,
-            ease: "easeOut",
-          }}
-        >
-          <svg width="14" height="36" viewBox="0 0 14 36" fill="none">
-            <path
-              d="M8 0L2 16H7L0 36L14 14H8L13 0Z"
-              fill="url(#bolt-grad)"
-              filter="url(#bolt-glow)"
-            />
-            <defs>
-              <linearGradient id="bolt-grad" x1="7" y1="0" x2="7" y2="36" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#f0abfc" />
-                <stop offset="100%" stopColor="#7c3aed" />
-              </linearGradient>
-              <filter id="bolt-glow" x="-80%" y="-20%" width="260%" height="140%">
-                <feGaussianBlur stdDeviation="2.5" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-            </defs>
-          </svg>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
+  return null;
 }
 
 type Achievement = {

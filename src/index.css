@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
 /* ============================================================
-   SOLO LEVELING THEME — design tokens (Tailwind v4 @theme)
-   Use as `text-mana`, `bg-abyss`, `border-rune`, `font-display`...
+   THEME TOKENS (Tailwind v4 @theme)
+   The token VALUES come from CSS variables (--t-*) that are swapped
+   per theme in the [data-theme] blocks below. So `text-mana`,
+   `bg-abyss`, `border-rune` etc. all re-color automatically when the
+   <html data-theme> attribute flips between "solo" and "dbz".
    ============================================================ */
 @theme {
-  --color-abyss: #05030c; /* deepest background */
-  --color-void: #0a0716; /* panel background */
-  --color-shadow: #130c26; /* raised panel */
-  --color-mana: #8b5cf6; /* primary purple */
-  --color-mana-bright: #a855f7; /* glow purple */
-  --color-arcane: #6d28d9; /* deep purple */
-  --color-rune: #4c1d95; /* border purple */
-  --color-system: #38bdf8; /* system-window blue */
-  --color-system-deep: #0c4a6e; /* deep blue border */
-  --color-gold: #fbbf24; /* S-rank gold accent */
+  --color-abyss: var(--t-abyss); /* deepest background */
+  --color-void: var(--t-void); /* panel background */
+  --color-shadow: var(--t-shadow); /* raised panel */
+  --color-mana: var(--t-mana); /* primary accent */
+  --color-mana-bright: var(--t-mana-bright); /* glow accent */
+  --color-arcane: var(--t-arcane); /* deep accent */
+  --color-rune: var(--t-rune); /* border accent */
+  --color-system: var(--t-system); /* system-window blue */
+  --color-system-deep: var(--t-system-deep); /* deep blue border */
+  --color-gold: var(--t-gold); /* S-rank gold accent */
 
   --font-display: "Cinzel", serif;
   --font-body: "Rajdhani", sans-serif;
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-glow: pulseGlow 2.4s ease-in-out infinite;
+}
+
+/* ============================================================
+   PER-THEME VARIABLE SETS
+   --t-*      : the raw token values (consumed by @theme above)
+   --glow-*   : "r,g,b" triples used by rgba(var(--glow-x), a) in the
+                themed component CSS further down this file.
+   ============================================================ */
+
+/* SOLO LEVELING (default) — arcane purple + system blue + gold */
+:root,
+[data-theme="solo"] {
+  --t-abyss: #05030c;
+  --t-void: #0a0716;
+  --t-shadow: #130c26;
+  --t-mana: #8b5cf6;
+  --t-mana-bright: #a855f7;
+  --t-arcane: #6d28d9;
+  --t-rune: #4c1d95;
+  --t-system: #38bdf8;
+  --t-system-deep: #0c4a6e;
+  --t-gold: #fbbf24;
+
+  --glow-mana: 139, 92, 246; /* #8b5cf6 */
+  --glow-mana-bright: 168, 85, 247; /* #a855f7 */
+  --glow-arcane: 109, 40, 217; /* #6d28d9 */
+  --glow-rune: 76, 29, 149; /* #4c1d95 */
+  --glow-system: 56, 189, 248; /* #38bdf8 */
+  --glow-spark: 232, 121, 249; /* #e879f9 */
+  --glow-soft: 192, 132, 252; /* #c084fc */
+  --glow-lilac: 216, 180, 254; /* #d8b4fe */
+}
+
+/* DRAGON BALL Z — Goku/SSJ: gi-orange primary, SSJ-yellow energy, ki-blue */
+[data-theme="dbz"] {
+  --t-abyss: #0a0600; /* near-black with a warm bias */
+  --t-void: #14110a; /* warm panel */
+  --t-shadow: #241a0a; /* raised warm panel */
+  --t-mana: #f97316; /* gi orange (primary) */
+  --t-mana-bright: #fb923c; /* bright orange glow */
+  --t-arcane: #c2410c; /* deep burnt orange */
+  --t-rune: #92400e; /* amber border */
+  --t-system: #38bdf8; /* kamehameha ki-blue */
+  --t-system-deep: #0c4a6e;
+  --t-gold: #facc15; /* SSJ aura yellow */
+
+  --glow-mana: 249, 115, 22; /* #f97316 */
+  --glow-mana-bright: 251, 146, 60; /* #fb923c */
+  --glow-arcane: 194, 65, 12; /* #c2410c */
+  --glow-rune: 146, 64, 14; /* #92400e */
+  --glow-system: 56, 189, 248; /* #38bdf8 ki-blue */
+  --glow-spark: 253, 224, 71; /* #fde047 SSJ yellow */
+  --glow-soft: 253, 186, 116; /* #fdba74 light orange */
+  --glow-lilac: 254, 240, 138; /* #fef08a pale yellow */
 }
 
 @keyframes float {
@@ -81,8 +138,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(var(--glow-mana), 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--glow-mana), 0.04) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
 }
@@ -141,30 +198,44 @@ body::before {
   border-radius: 2px;
 }
 
-.sparkle-1 { top: 8%;  left: 2%;  color: #38bdf8; animation-delay: 0s;    animation-duration: 2.2s; }
-.sparkle-2 { top: 20%; left: 92%; color: #c4b5fd; animation-delay: 0.6s;  animation-duration: 2.8s; }
-.sparkle-3 { top: 60%; left: 5%;  color: #818cf8; animation-delay: 1.1s;  animation-duration: 2.5s; }
-.sparkle-4 { top: 80%; left: 85%; color: #7dd3fc; animation-delay: 0.3s;  animation-duration: 3s;   }
-.sparkle-5 { top: 45%; left: 50%; color: #e879f9; animation-delay: 1.5s;  animation-duration: 2s;   }
+.sparkle-1 { top: 8%;  left: 2%;  color: var(--t-system);      animation-delay: 0s;    animation-duration: 2.2s; }
+.sparkle-2 { top: 20%; left: 92%; color: rgb(var(--glow-lilac)); animation-delay: 0.6s;  animation-duration: 2.8s; }
+.sparkle-3 { top: 60%; left: 5%;  color: rgb(var(--glow-mana));  animation-delay: 1.1s;  animation-duration: 2.5s; }
+.sparkle-4 { top: 80%; left: 85%; color: var(--t-system);      animation-delay: 0.3s;  animation-duration: 3s;   }
+.sparkle-5 { top: 45%; left: 50%; color: rgb(var(--glow-spark)); animation-delay: 1.5s;  animation-duration: 2s;   }
 
 /* ============================================================ THEME UTILITIES ============================================================ */
 .text-glow {
-  text-shadow: 0 0 10px rgba(168, 85, 247, 0.8), 0 0 28px rgba(139, 92, 246, 0.45);
+  text-shadow: 0 0 10px rgba(var(--glow-mana-bright), 0.8), 0 0 28px rgba(var(--glow-mana), 0.45);
 }
 
 .text-glow-blue {
   color: #e0f2fe;
   font-weight: 600;
-  background: linear-gradient(90deg, #7dd3fc 0%, #e0f2fe 40%, #c4b5fd 75%, #818cf8 100%);
+  background: linear-gradient(90deg, var(--t-system) 0%, #e0f2fe 40%, rgb(var(--glow-soft)) 75%, rgb(var(--glow-mana-bright)) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: none;
   filter:
-    drop-shadow(0 0 2px rgba(56, 189, 248, 0.95))
-    drop-shadow(0 0 6px rgba(168, 85, 247, 0.4));
+    drop-shadow(0 0 2px rgba(var(--glow-system), 0.95))
+    drop-shadow(0 0 6px rgba(var(--glow-mana-bright), 0.4));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* DBZ theme: warm cream text with an orange aura, instead of the blue→orange
+   gradient (which reads as an odd mixed color). Warmth comes from the glow. */
+[data-theme="dbz"] .text-glow-blue {
+  color: #ffedd5;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #ffedd5;
+  text-shadow:
+    0 0 10px rgba(var(--glow-mana-bright), 0.55),
+    0 0 26px rgba(var(--glow-mana), 0.35);
+  filter: none;
 }
 
 /* RPG "system window" panel — the blue/black notification box */
@@ -211,7 +282,7 @@ body::before {
 /* Dungeon gate card */
 .gate-card {
   background: linear-gradient(160deg, var(--color-shadow), var(--color-void));
-  border: 1px solid rgba(76, 29, 149, 0.5);
+  border: 1px solid rgba(var(--glow-rune), 0.5);
   transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
   position: relative;
   overflow: hidden;
@@ -219,7 +290,7 @@ body::before {
 .gate-card:hover {
   transform: translateY(-6px);
   border-color: var(--color-mana-bright);
-  box-shadow: 0 0 28px rgba(139, 92, 246, 0.45), inset 0 0 22px rgba(76, 29, 149, 0.3);
+  box-shadow: 0 0 28px rgba(var(--glow-mana), 0.45), inset 0 0 22px rgba(var(--glow-rune), 0.3);
 }
 
 /* Magic shimmer sweep — translateX a wide gradient strip (compositor-only)
@@ -234,7 +305,7 @@ body::before {
   background: linear-gradient(
     115deg,
     transparent 30%,
-    rgba(168, 85, 247, 0.08) 50%,
+    rgba(var(--glow-mana-bright), 0.08) 50%,
     transparent 70%
   );
   animation: shimmer-sweep 4s linear infinite;
@@ -267,26 +338,26 @@ body::before {
 .btn-mana {
   position: relative;
   background: linear-gradient(135deg, var(--color-arcane), var(--color-mana));
-  box-shadow: 0 0 18px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 18px rgba(var(--glow-mana), 0.5);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 .btn-mana:hover {
-  box-shadow: 0 0 30px rgba(168, 85, 247, 0.85);
+  box-shadow: 0 0 30px rgba(var(--glow-mana-bright), 0.85);
   transform: translateY(-2px);
 }
 
 .btn-ghost {
-  border: 1px solid rgba(139, 92, 246, 0.55);
+  border: 1px solid rgba(var(--glow-mana), 0.55);
   transition: all 0.3s ease;
 }
 .btn-ghost:hover {
-  background: rgba(139, 92, 246, 0.12);
-  box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+  background: rgba(var(--glow-mana), 0.12);
+  box-shadow: 0 0 18px rgba(var(--glow-mana), 0.4);
 }
 
 .rune-border {
-  border: 1px solid rgba(139, 92, 246, 0.35);
-  box-shadow: inset 0 0 30px rgba(76, 29, 149, 0.18);
+  border: 1px solid rgba(var(--glow-mana), 0.35);
+  box-shadow: inset 0 0 30px rgba(var(--glow-rune), 0.18);
 }
 
 /* Scanline overlay */
@@ -319,18 +390,18 @@ body::before {
   position: relative;
   background: linear-gradient(
     135deg,
-    rgba(120, 60, 220, 0.18) 0%,
-    rgba(10, 7, 22, 0.95) 40%,
-    rgba(10, 7, 22, 0.95) 60%,
-    rgba(120, 60, 220, 0.18) 100%
+    rgba(var(--glow-mana), 0.22) 0%,
+    var(--t-void) 40%,
+    var(--t-void) 60%,
+    rgba(var(--glow-mana), 0.22) 100%
   );
-  border: 2px solid rgba(168, 85, 247, 0.75);
+  border: 2px solid rgba(var(--glow-mana-bright), 0.75);
   border-radius: 6px;
   box-shadow:
-    0 0 0 1px rgba(168, 85, 247, 0.2),
-    0 0 30px rgba(139, 92, 246, 0.4),
-    0 0 80px rgba(109, 40, 217, 0.25),
-    inset 0 0 40px rgba(76, 29, 149, 0.2);
+    0 0 0 1px rgba(var(--glow-mana-bright), 0.2),
+    0 0 30px rgba(var(--glow-mana), 0.4),
+    0 0 80px rgba(var(--glow-arcane), 0.25),
+    inset 0 0 40px rgba(var(--glow-rune), 0.2);
 }
 
 /* Glow pulse via an opacity-animated overlay (GPU-composited — no box-shadow repaint) */
@@ -341,8 +412,8 @@ body::before {
   border-radius: 6px;
   pointer-events: none;
   box-shadow:
-    0 0 50px rgba(168, 85, 247, 0.65),
-    0 0 110px rgba(139, 92, 246, 0.4);
+    0 0 50px rgba(var(--glow-mana-bright), 0.65),
+    0 0 110px rgba(var(--glow-mana), 0.4);
   animation: sl-border-pulse 3s ease-in-out infinite;
   will-change: opacity;
 }
@@ -369,7 +440,7 @@ body::before {
 /* Inner dark panel */
 .sl-inner-panel {
   position: relative;
-  background: linear-gradient(160deg, rgba(14, 8, 30, 0.97), rgba(8, 5, 20, 0.99));
+  background: linear-gradient(160deg, var(--t-shadow), var(--t-abyss));
   border-radius: 4px;
   padding: 2rem 2.5rem 2.25rem;
   overflow: hidden;
@@ -386,20 +457,20 @@ body::before {
 .sl-title-deco {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.6));
+  background: linear-gradient(90deg, transparent, rgba(var(--glow-mana-bright), 0.6));
 }
 .sl-title-deco:last-child {
-  background: linear-gradient(90deg, rgba(168, 85, 247, 0.6), transparent);
+  background: linear-gradient(90deg, rgba(var(--glow-mana-bright), 0.6), transparent);
 }
 .sl-title-text {
   font-family: var(--font-display);
   font-size: 1.1rem;
   letter-spacing: 0.4em;
   color: #fff;
-  border: 1px solid rgba(168, 85, 247, 0.55);
+  border: 1px solid rgba(var(--glow-mana-bright), 0.55);
   padding: 0.3rem 1.25rem;
-  text-shadow: 0 0 12px rgba(168, 85, 247, 0.9), 0 0 28px rgba(139, 92, 246, 0.5);
-  box-shadow: 0 0 14px rgba(139, 92, 246, 0.3), inset 0 0 10px rgba(76, 29, 149, 0.2);
+  text-shadow: 0 0 12px rgba(var(--glow-mana-bright), 0.9), 0 0 28px rgba(var(--glow-mana), 0.5);
+  box-shadow: 0 0 14px rgba(var(--glow-mana), 0.3), inset 0 0 10px rgba(var(--glow-rune), 0.2);
 }
 
 /* Level + job row */
@@ -420,16 +491,16 @@ body::before {
   font-size: 3.75rem;
   font-weight: 700;
   color: #fff;
-  text-shadow: 0 0 18px rgba(168, 85, 247, 0.8), 0 0 40px rgba(139, 92, 246, 0.4);
+  text-shadow: 0 0 18px rgba(var(--glow-mana-bright), 0.8), 0 0 40px rgba(var(--glow-mana), 0.4);
   letter-spacing: -0.02em;
 }
 .sl-level-label {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.3em;
-  color: #e9d5ff;
+  color: rgb(var(--glow-lilac));
   margin-top: 0.15rem;
-  text-shadow: 0 0 10px rgba(216, 180, 254, 1), 0 0 22px rgba(168, 85, 247, 1);
+  text-shadow: 0 0 10px rgba(var(--glow-lilac), 1), 0 0 22px rgba(var(--glow-mana-bright), 1);
 }
 .sl-job-block {
   display: flex;
@@ -447,7 +518,7 @@ body::before {
   font-weight: 700;
   letter-spacing: 0.2em;
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(216, 180, 254, 1), 0 0 22px rgba(168, 85, 247, 1);
+  text-shadow: 0 0 10px rgba(var(--glow-lilac), 1), 0 0 22px rgba(var(--glow-mana-bright), 1);
 }
 .sl-job-val {
   font-size: 1rem;
@@ -464,7 +535,7 @@ body::before {
 /* Divider */
 .sl-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.4), rgba(139, 92, 246, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--glow-mana-bright), 0.4), rgba(var(--glow-mana), 0.4), transparent);
   margin-bottom: 1.1rem;
 }
 
@@ -484,27 +555,27 @@ body::before {
   align-items: center;
   gap: 0.5rem;
   padding: 0.7rem 1rem;
-  background: rgba(76, 29, 149, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: rgba(var(--glow-rune), 0.12);
+  border: 1px solid rgba(var(--glow-mana), 0.2);
   border-radius: 3px;
   overflow: hidden;
   transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 .sl-stat-row:hover {
-  border-color: rgba(168, 85, 247, 0.55);
-  background: rgba(109, 40, 217, 0.2);
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
+  border-color: rgba(var(--glow-mana-bright), 0.55);
+  background: rgba(var(--glow-arcane), 0.2);
+  box-shadow: 0 0 12px rgba(var(--glow-mana), 0.25);
 }
 .sl-stat-icon {
   font-size: 1.3rem;
-  color: #d8b4fe;
-  text-shadow: 0 0 12px rgba(192, 132, 252, 1), 0 0 24px rgba(168, 85, 247, 0.8);
+  color: rgb(var(--glow-lilac));
+  text-shadow: 0 0 12px rgba(var(--glow-soft), 1), 0 0 24px rgba(var(--glow-mana-bright), 0.8);
 }
 .sl-stat-key {
   font-size: 0.92rem;
   letter-spacing: 0.2em;
   color: #ffffff;
-  text-shadow: 0 0 12px rgba(192, 132, 252, 1), 0 0 24px rgba(168, 85, 247, 0.8);
+  text-shadow: 0 0 12px rgba(var(--glow-soft), 1), 0 0 24px rgba(var(--glow-mana-bright), 0.8);
   white-space: nowrap;
   flex-shrink: 0;
 }

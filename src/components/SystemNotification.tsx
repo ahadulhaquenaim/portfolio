@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useTheme } from "../theme/ThemeContext";
 
 /**
  * The signature Solo Leveling "[System]" pop-up window.
@@ -17,6 +18,7 @@ export default function SystemNotification({
   sound?: boolean;
   className?: string;
 }) {
+  const { palette } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
   const [played, setPlayed] = useState(false);
@@ -55,7 +57,7 @@ export default function SystemNotification({
       className={`system-panel w-full px-5 py-4 ${className}`}
     >
       <div className="flex items-center gap-2 text-system text-base tracking-[0.25em] font-semibold">
-        <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-system shadow-[0_0_8px_#38bdf8]" />
+        <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-system" style={{ boxShadow: `0 0 8px ${palette.system}` }} />
         [ {title} ]
       </div>
       <p className="mt-2 font-display text-xl font-semibold text-glow-blue">{message}</p>

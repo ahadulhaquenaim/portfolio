@@ -3,8 +3,10 @@ import SectionHeading from "../components/SectionHeading";
 import RankBadge from "../components/RankBadge";
 import { experience } from "../data/content";
 import { rankStyle } from "../lib/rank";
+import { useTheme } from "../theme/ThemeContext";
 
 export default function Experience() {
+  const { palette } = useTheme();
   return (
     <section
       id="experience"
@@ -71,7 +73,7 @@ export default function Experience() {
                 >
                   {e.role}
                 </h3>
-                <p className="mt-2 text-sm" style={{ color: "#fbbf24", textShadow: "0 0 8px #fbbf24, 0 0 20px #f59e0bcc" }}>{e.org}</p>
+                <p className="mt-2 text-sm" style={{ color: palette.gold, textShadow: `0 0 8px ${palette.gold}, 0 0 20px ${palette.gold}cc` }}>{e.org}</p>
                 <ul className="mt-3 space-y-1.5 text-sm text-slate-400">
                   {e.points.map((pt, j) => (
                     <li key={j}>• {pt}</li>

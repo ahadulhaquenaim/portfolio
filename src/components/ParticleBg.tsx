@@ -1,6 +1,7 @@
 import Particles, { ParticlesProvider } from "@tsparticles/react";
 import type { Engine } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
+import { useTheme } from "../theme/ThemeContext";
 
 /**
  * Floating purple "mana" particles — the Solo Leveling ambient background.
@@ -15,9 +16,11 @@ const init = async (engine: Engine) => {
 };
 
 export default function ParticleBg() {
+  const { palette } = useTheme();
   return (
     <ParticlesProvider init={init}>
       <Particles
+        key={palette.primary}
         id="mana-particles"
         className="fixed inset-0 z-0 pointer-events-none"
         options={{
@@ -29,7 +32,7 @@ export default function ParticleBg() {
           detectRetina: false,
           particles: {
             number: { value: 22, density: { enable: true } },
-            color: { value: ["#8b5cf6", "#a855f7", "#38bdf8"] },
+            color: { value: [palette.primary, palette.primaryBright, palette.system] },
             opacity: {
               value: { min: 0.1, max: 0.5 },
               animation: { enable: true, speed: 0.4, sync: false },

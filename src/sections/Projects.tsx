@@ -5,10 +5,12 @@ import SectionHeading from "../components/SectionHeading";
 import RankBadge from "../components/RankBadge";
 import { projects } from "../data/content";
 import { rankStyle } from "../lib/rank";
+import { useTheme } from "../theme/ThemeContext";
 
 type Project = (typeof projects)[number];
 
 export default function Projects() {
+  const { palette } = useTheme();
   const [active, setActive] = useState<Project | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -81,8 +83,8 @@ export default function Projects() {
                   {p.tech.map((t) => (
                     <span
                       key={t}
-                      className="rounded border border-purple-400/70 bg-purple-500/15 px-2.5 py-0.5 text-[11px] tracking-wide text-purple-200 font-medium"
-                      style={{ boxShadow: "0 0 8px rgba(192,132,252,0.5), inset 0 0 6px rgba(168,85,247,0.1)", textShadow: "0 0 8px rgba(216,180,254,0.8)" }}
+                      className="rounded border px-2.5 py-0.5 text-[11px] tracking-wide font-medium"
+                      style={{ border: `1px solid rgba(${palette.primaryRGB},0.7)`, background: `rgba(${palette.primaryRGB},0.15)`, color: palette.primaryBright, boxShadow: `0 0 8px rgba(${palette.primaryRGB},0.5), inset 0 0 6px rgba(${palette.primaryRGB},0.1)`, textShadow: `0 0 8px rgba(${palette.sparkRGB},0.8)` }}
                     >
                       {t}
                     </span>
@@ -90,8 +92,8 @@ export default function Projects() {
                 </div>
                 <div className="mt-auto pt-4 flex justify-center">
                   <span
-                    className="text-xs tracking-widest opacity-0 transition-opacity group-hover:opacity-100 font-semibold text-blue-300"
-                    style={{ textShadow: "0 0 10px rgba(147,197,253,0.9), 0 0 20px rgba(59,130,246,0.7)" }}
+                    className="text-xs tracking-widest opacity-0 transition-opacity group-hover:opacity-100 font-semibold"
+                    style={{ color: palette.system, textShadow: `0 0 10px rgba(${palette.systemRGB},0.9), 0 0 20px rgba(${palette.systemRGB},0.7)` }}
                   >
                     ▸ ENTER GATE
                   </span>
@@ -135,7 +137,7 @@ export default function Projects() {
             {/* Arrowhead pointing up */}
           <motion.polyline
             points="12,14 20,4 28,14"
-            stroke="#38bdf8"
+            stroke={palette.system}
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -147,7 +149,7 @@ export default function Projects() {
           {/* Vertical line */}
           <motion.line
             x1="20" y1="14" x2="20" y2="32"
-            stroke="#38bdf8"
+            stroke={palette.system}
             strokeWidth="2.5"
             strokeLinecap="round"
             filter="url(#glow-line)"
@@ -158,8 +160,8 @@ export default function Projects() {
         <span
           className="text-xs tracking-[0.3em] font-mono uppercase font-semibold"
           style={{
-            color: "#38bdf8",
-            textShadow: "0 0 6px #38bdf8, 0 0 14px #38bdf8, 0 0 30px #38bdf8, 0 0 60px #a855f7, 0 0 90px #a855f7",
+            color: palette.system,
+            textShadow: `0 0 6px ${palette.system}, 0 0 14px ${palette.system}, 0 0 30px ${palette.system}, 0 0 60px ${palette.primaryBright}, 0 0 90px ${palette.primaryBright}`,
           }}
         >
           Click card
@@ -220,13 +222,17 @@ export default function Projects() {
                         <>
                           <button
                             onClick={() => prevSlide(active.slides as string[])}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-abyss/70 p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-purple-500/40"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-abyss/70 p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                            onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.4)`)}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "")}
                           >
                             <ChevronLeft size={20} />
                           </button>
                           <button
                             onClick={() => nextSlide(active.slides as string[])}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-abyss/70 p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-purple-500/40"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-abyss/70 p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                            onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.4)`)}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "")}
                           >
                             <ChevronRight size={20} />
                           </button>
@@ -235,7 +241,8 @@ export default function Projects() {
                               <button
                                 key={idx}
                                 onClick={() => setSlideIndex(idx)}
-                                className={`h-1.5 rounded-full transition-all ${idx === slideIndex ? "w-5 bg-purple-400" : "w-1.5 bg-slate-500"}`}
+                                className={`h-1.5 rounded-full transition-all ${idx === slideIndex ? "w-5" : "w-1.5 bg-slate-500"}`}
+                                style={idx === slideIndex ? { background: palette.primaryBright } : undefined}
                               />
                             ))}
                           </div>
@@ -250,8 +257,8 @@ export default function Projects() {
                         {active.tech.map((t) => (
                           <span
                             key={t}
-                            className="rounded border border-purple-400 bg-purple-500/20 px-2.5 py-1 text-sm font-semibold text-white"
-                            style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                            className="rounded border px-2.5 py-1 text-sm font-semibold text-white"
+                            style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                           >
                             {t}
                           </span>
@@ -273,8 +280,10 @@ export default function Projects() {
                         href={active.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 self-start rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
-                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        className="inline-flex items-center gap-2 self-start rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
+                        onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
+                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                       >
                         LIVE SERVER <ExternalLink size={16} />
                       </a>
@@ -287,7 +296,7 @@ export default function Projects() {
                         {active.tech.map((t) => (
                           <span
                             key={t}
-                            className="rounded border border-purple-400 bg-purple-500/20 px-2.5 py-1 text-sm font-semibold text-white" style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                            className="rounded border px-2.5 py-1 text-sm font-semibold text-white" style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                           >
                             {t}
                           </span>
@@ -300,8 +309,10 @@ export default function Projects() {
                           href={active.repoLink as string}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
-                          style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                          className="inline-flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
+                          onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
+                          style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                         >
                           REPO <ExternalLink size={16} />
                         </a>
@@ -316,8 +327,8 @@ export default function Projects() {
                     {active.tech.map((t) => (
                       <span
                         key={t}
-                        className="rounded border border-purple-400 bg-purple-500/20 px-2.5 py-1 text-sm font-semibold text-white"
-                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        className="rounded border px-2.5 py-1 text-sm font-semibold text-white"
+                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                       >
                         {t}
                       </span>
@@ -329,8 +340,10 @@ export default function Projects() {
                         href={active.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
-                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        className="inline-flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
+                        onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
+                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                       >
                         LIVE SERVER <ExternalLink size={16} />
                       </a>
@@ -340,8 +353,10 @@ export default function Projects() {
                         href={active.repoLink as string}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-md border border-purple-400 bg-purple-500/20 px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors hover:bg-purple-500/30"
-                        style={{ boxShadow: "0 0 10px rgba(192,132,252,0.8), 0 0 20px rgba(168,85,247,0.4)", textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        className="inline-flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
+                        onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
+                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
                       >
                         REPO <ExternalLink size={16} />
                       </a>

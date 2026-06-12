@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { ExternalLink, Calendar, ShieldCheck, Cpu, Lock, Code2, Server, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
+import { useTheme } from "../theme/ThemeContext";
 
 type Certification = {
   title: string;
@@ -90,10 +91,19 @@ const RANK_COLORS: Record<string, string> = {
   B: "#38bdf8",
 };
 
+/* The Certifications section stays on the Solo-Leveling purple accent in every
+   theme — the DBZ orange washed the whole panel (background glow, runes, arrows)
+   and read poorly, so we pin these to Solo values instead of `palette.primary`. */
+const SECTION_ACCENT = "#8b5cf6";
+const SECTION_ACCENT_RGB = "168,85,247";
+const ARROW_ACCENT = SECTION_ACCENT;
+const ARROW_ACCENT_RGB = SECTION_ACCENT_RGB;
+
 /* ── floating rune particles ── */
 const RUNES = ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "ᚲ", "ᚷ", "ᚹ", "ᚺ", "ᚾ", "ᛁ", "ᛃ", "ᛇ", "ᛈ", "ᛉ", "ᛊ"];
 
 function FloatingRunes() {
+  const { palette } = useTheme();
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {RUNES.map((r, i) => (
@@ -103,7 +113,7 @@ function FloatingRunes() {
           style={{
             left: `${(i * 6.25) % 100}%`,
             top: `${(i * 17 + 5) % 90}%`,
-            color: i % 3 === 0 ? "#8b5cf620" : i % 3 === 1 ? "#38bdf815" : "#4ade8012",
+            color: i % 3 === 0 ? `rgba(${SECTION_ACCENT_RGB},0.13)` : i % 3 === 1 ? `rgba(${palette.systemRGB},0.08)` : "#4ade8012",
           }}
           whileInView={{
             y: [0, -18, 0],
@@ -127,6 +137,7 @@ function FloatingRunes() {
 
 /* ── credential counter ── */
 function CredentialCounter() {
+  const { palette } = useTheme();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
 
@@ -152,14 +163,14 @@ function CredentialCounter() {
         <div
           className="relative z-10 flex h-24 w-24 flex-col items-center justify-center rounded-full border-2"
           style={{
-            background: "radial-gradient(circle, #130c26 60%, #05030c)",
-            borderColor: "#fbbf2460",
+            background: "radial-gradient(circle, var(--t-shadow) 60%, var(--t-abyss))",
+            borderColor: `${palette.gold}60`,
           }}
         >
           <motion.span
             className="font-display text-3xl font-black leading-none"
-            style={{ color: "#fbbf24", textShadow: "0 0 20px #fbbf2480" }}
-            animate={{ textShadow: ["0 0 20px #fbbf2480", "0 0 40px #fbbf24cc", "0 0 20px #fbbf2480"] }}
+            style={{ color: palette.gold, textShadow: `0 0 20px ${palette.gold}80` }}
+            animate={{ textShadow: [`0 0 20px ${palette.gold}80`, `0 0 40px ${palette.gold}cc`, `0 0 20px ${palette.gold}80`] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             {CERTIFICATIONS.length}
@@ -168,11 +179,11 @@ function CredentialCounter() {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <div className="h-px w-12" style={{ background: "linear-gradient(90deg, transparent, #fbbf24)" }} />
-        <span className="font-display text-[11px] tracking-[0.35em]" style={{ color: "#fbbf24" }}>
+        <div className="h-px w-12" style={{ background: `linear-gradient(90deg, transparent, ${palette.gold})` }} />
+        <span className="font-display text-[11px] tracking-[0.35em]" style={{ color: palette.gold }}>
           CREDENTIALS ACQUIRED
         </span>
-        <div className="h-px w-12" style={{ background: "linear-gradient(90deg, #fbbf24, transparent)" }} />
+        <div className="h-px w-12" style={{ background: `linear-gradient(90deg, ${palette.gold}, transparent)` }} />
       </div>
     </motion.div>
   );
@@ -182,6 +193,7 @@ function CredentialCounter() {
 
 /* ── carousel ── */
 function CertCarousel() {
+  const { palette } = useTheme();
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
@@ -331,7 +343,7 @@ function CertCarousel() {
         {CERTIFICATIONS.map((cert, idx) => {
           const slot = getSlot(idx);
           const isCenter = slot === "center";
-          const rankColor = RANK_COLORS[cert.rank] ?? "#8b5cf6";
+          const rankColor = RANK_COLORS[cert.rank] ?? palette.primary;
 
           return (
             <motion.div
@@ -369,7 +381,7 @@ function CertCarousel() {
               <div
                 className="group relative overflow-hidden rounded-xl h-full cursor-grab active:cursor-grabbing"
                 style={{
-                  background: "linear-gradient(135deg, #0a0716ee 0%, #130c26ee 100%)",
+                  background: "linear-gradient(135deg, var(--t-void) 0%, var(--t-shadow) 100%)",
                   border: `1px solid ${isCenter ? cert.categoryColor + "70" : cert.categoryColor + "35"}`,
                   boxShadow: isCenter
                     ? `0 0 32px 4px ${cert.categoryColor}45, 0 0 80px 8px ${cert.categoryColor}18, inset 0 0 24px 0px ${cert.categoryColor}10`
@@ -502,14 +514,14 @@ function CertCarousel() {
             whileTap={{ scale: 0.92 }}
             className="relative flex h-10 w-10 items-center justify-center rounded-full"
             style={{
-              background: "linear-gradient(135deg, #130c26, #0a0716)",
-              border: "1px solid #8b5cf640",
-              boxShadow: "0 0 12px #8b5cf615",
+              background: "linear-gradient(135deg, var(--t-shadow), var(--t-void))",
+              border: `1px solid rgba(${ARROW_ACCENT_RGB},0.25)`,
+              boxShadow: `0 0 12px rgba(${ARROW_ACCENT_RGB},0.08)`,
             }}
           >
             <motion.div
               className="absolute inset-0 rounded-full"
-              style={{ border: "1px solid #8b5cf6" }}
+              style={{ border: `1px solid ${ARROW_ACCENT}` }}
               animate={{ opacity: [0.1, 0.4, 0.1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -534,14 +546,14 @@ function CertCarousel() {
             whileTap={{ scale: 0.92 }}
             className="relative flex h-10 w-10 items-center justify-center rounded-full"
             style={{
-              background: "linear-gradient(135deg, #130c26, #0a0716)",
-              border: "1px solid #8b5cf640",
-              boxShadow: "0 0 12px #8b5cf615",
+              background: "linear-gradient(135deg, var(--t-shadow), var(--t-void))",
+              border: `1px solid rgba(${ARROW_ACCENT_RGB},0.25)`,
+              boxShadow: `0 0 12px rgba(${ARROW_ACCENT_RGB},0.08)`,
             }}
           >
             <motion.div
               className="absolute inset-0 rounded-full"
-              style={{ border: "1px solid #8b5cf6" }}
+              style={{ border: `1px solid ${ARROW_ACCENT}` }}
               animate={{ opacity: [0.1, 0.4, 0.1] }}
               transition={{ duration: 2, repeat: Infinity, delay: 1 }}
             />
@@ -594,6 +606,7 @@ function CertCarousel() {
 
 /* ── section ── */
 export default function Certifications() {
+  const { palette } = useTheme();
   return (
     <section id="certifications" className="relative z-10 mx-auto max-w-screen-2xl overflow-hidden px-6 py-24 md:px-10">
       <FloatingRunes />
@@ -601,11 +614,11 @@ export default function Certifications() {
       {/* background arcane glow blobs */}
       <div
         className="pointer-events-none absolute left-1/4 top-1/3 h-96 w-96 rounded-full opacity-[0.06]"
-        style={{ background: "radial-gradient(circle, #8b5cf6, transparent 70%)", filter: "blur(60px)" }}
+        style={{ background: `radial-gradient(circle, ${SECTION_ACCENT}, transparent 70%)`, filter: "blur(60px)" }}
       />
       <div
         className="pointer-events-none absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full opacity-[0.05]"
-        style={{ background: "radial-gradient(circle, #38bdf8, transparent 70%)", filter: "blur(60px)" }}
+        style={{ background: `radial-gradient(circle, ${palette.system}, transparent 70%)`, filter: "blur(60px)" }}
       />
 
       <SectionHeading kicker="CREDENTIALS · VERIFIED" title="Certifications" />

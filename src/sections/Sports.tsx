@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { X, Trophy, Shield, Swords, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
+import CharacterLayer from "../components/CharacterLayer";
 import { sports } from "../data/content";
-import { useVideoInView } from "../lib/useVideoInView";
+import { useTheme } from "../theme/ThemeContext";
 
 type SportCategory = (typeof sports)[number];
 type Achievement = SportCategory["achievements"][number];
@@ -61,7 +62,37 @@ export default function Sports() {
   const [carouselPage, setCarouselPage] = useState(0);
   const [carouselDir, setCarouselDir] = useState<1 | -1>(1);
   const detailRef = useRef<HTMLDivElement>(null);
-  const videoRef = useVideoInView<HTMLVideoElement>();
+  const { palette } = useTheme();
+
+  // Mouse parallax — raw mouse position normalised to [-1, 1] (swapped in from
+  // the Hero section's animated background treatment).
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 30, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 30, damping: 30 });
+
+  useEffect(() => {
+    // Throttle to one update per animation frame — mousemove can fire far more
+    // often than 60fps and each .set() schedules spring work.
+    let frame = 0;
+    let lastX = 0;
+    let lastY = 0;
+    const handleMove = (e: MouseEvent) => {
+      lastX = (e.clientX / window.innerWidth - 0.5) * 2;
+      lastY = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        mouseX.set(lastX);
+        mouseY.set(lastY);
+      });
+    };
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [mouseX, mouseY]);
 
   function openDungeon(key: DungeonKey) {
     setActiveDungeon(key);
@@ -80,20 +111,18 @@ export default function Sports() {
 
   return (
     <section id="sports" className="relative z-10 w-full px-0 py-24 overflow-hidden">
-      {/* Dungeon video background */}
+      {/* Dungeon background — Hero-style parallax character layer (mouse
+          parallax + aura pulses + lightning bolts), swapped in from Hero. */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ opacity: 0.9, filter: "saturate(1) brightness(0.80) contrast(1.1)" }}
-        >
-          <source src="https://res.cloudinary.com/dumsdgz85/video/upload/v1781154392/dungeon_xbtdta.mp4" type="video/mp4" />
-        </video>
+        <CharacterLayer
+          key={palette.sportsVideo}
+          imageSrc={null}
+          videoSrc={palette.sportsVideo ?? null}
+          springX={springX}
+          springY={springY}
+          palette={palette}
+          fullWidth
+        />
         {/* Dark scrim so cards remain readable */}
         <div
           className="absolute inset-0"
@@ -125,7 +154,7 @@ export default function Sports() {
         <div className="mb-12 text-center">
           <p
             className="mx-auto max-w-xl text-sm tracking-widest font-mono"
-            style={{ color: "rgba(196,181,253,0.6)" }}
+            style={{ color: `rgba(${palette.sparkRGB},0.6)` }}
           >
             ✦ THREE DUNGEONS AWAIT — EACH HOLDS THE TROPHIES OF BATTLE ✦
           </p>
@@ -402,7 +431,7 @@ export default function Sports() {
                                   background:
                                     ach === activeAchievement
                                       ? `linear-gradient(160deg, ${cfg.gradientFrom}, ${cfg.gradientTo})`
-                                      : `linear-gradient(160deg, rgba(19,12,38,0.9), rgba(10,7,22,0.95))`,
+                                      : "linear-gradient(160deg, var(--t-shadow), var(--t-void))",
                                   transition: "all 0.35s ease",
                                 }}
                               >
