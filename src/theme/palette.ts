@@ -81,8 +81,8 @@ export const PALETTES: Record<ThemeName, Palette> = {
       objectPosition: "62% center", // nudged right of center
       scale: 0.95, // just a touch of zoom
       transformOrigin: "62% center",
-      opacity: 0.9,
-      filter: "saturate(1) brightness(0.80) contrast(1.1)",
+      opacity: 1,
+      filter: "saturate(1.0) brightness(1.15) contrast(1.01)",
     },
     sportsVideo:
       "https://res.cloudinary.com/dumsdgz85/video/upload/v1781154392/dungeon_xbtdta.mp4",

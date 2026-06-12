@@ -105,7 +105,7 @@ export default function Hero() {
       <div className="hero-character absolute inset-0 z-0 overflow-hidden">
         <HeroVideoBg videoSrc={palette.heroVideo ?? null} imageSrc={identity.heroBackground ?? null} videoStyle={palette.heroVideoStyle} />
         {/* Dark scrim so the headline stays readable */}
-        <div className="absolute inset-0" style={{ background: "rgba(4,2,18,0.45)" }} />
+        <div className="absolute inset-0" style={{ background: "rgba(4,2,18,0.25)" }} />
         {/* Edge vignette */}
         <div
           className="absolute inset-0"
