@@ -40,7 +40,6 @@ export default function Contact() {
           </video>
           {/* Dark overlays for readability */}
           <div className="absolute inset-0 bg-abyss/30" />
-          <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 50% 50%, rgba(${palette.primaryRGB},0.2), transparent 70%)` }} />
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-abyss to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-abyss to-transparent" />
         </div>
