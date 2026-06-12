@@ -224,6 +224,20 @@ body::before {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* DBZ theme: warm cream text with an orange aura, instead of the blue→orange
+   gradient (which reads as an odd mixed color). Warmth comes from the glow. */
+[data-theme="dbz"] .text-glow-blue {
+  color: #ffedd5;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #ffedd5;
+  text-shadow:
+    0 0 10px rgba(var(--glow-mana-bright), 0.55),
+    0 0 26px rgba(var(--glow-mana), 0.35);
+  filter: none;
+}
+
 /* RPG "system window" panel — the blue/black notification box */
 .system-panel {
   position: relative;
