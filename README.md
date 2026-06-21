@@ -1,12 +1,14 @@
-# ✦ Ahad — Solo Leveling Animated Portfolio
+# ✦ Ahad — Anime Animated Portfolio
 
-A cinematic, RPG-themed personal portfolio inspired by *Solo Leveling*. It opens
-with a "Monarch's Awakening" gate-crack entrance over a full-bleed character
-**video**, then scrolls through Achievement-Unlocked cards, an XP **Skill Tree**,
-dungeon-raid **Project** cards, a Hunter Records **timeline**, a 3D
-**Certifications** carousel, a **Contact** form, and a **Conquered Dungeons**
-sports showcase — all over a black-and-purple aesthetic with floating mana
-particles and System-window UI.
+A cinematic, RPG-themed personal portfolio with a **dual anime skin** — flip the
+whole site between a *Solo Leveling* (arcane purple) look and a *Dragon Ball Z*
+(Super-Saiyan orange) look with one toggle. It opens with a "Monarch's
+Awakening" gate-crack entrance over a full-bleed character **video**, then
+scrolls through Achievement-Unlocked cards, an XP **Skill Tree**, dungeon-raid
+**Project** cards, a Hunter Records **timeline**, a 3D **Certifications**
+carousel, a **Contact** form, and a **Conquered Dungeons** sports showcase — all
+over a black aesthetic with floating mana particles and System-window UI. Every
+accent color, glow, sparkle, and background video recolors per theme.
 
 **Stack:** React 19 + Vite 7 · TypeScript · Tailwind CSS v4 · Framer Motion ·
 GSAP · tsParticles · lucide-react · GitHub Pages
@@ -49,6 +51,9 @@ npm run lint
 | **Sports** | "Conquered Dungeons" — expandable trophy galleries | `src/sections/Sports.tsx` |
 | **Footer** | Social icons with hover sparkles | `src/sections/Footer.tsx` |
 
+A **theme toggle** (`src/components/ThemeToggle.tsx`) in the navbar flips every
+section between the two anime skins — see [Theming](#theming) below.
+
 ---
 
 ## Editing your content
@@ -62,7 +67,7 @@ Key exports and what they control:
 
 | Export | Controls |
 |---|---|
-| `identity` | Name, tagline, roles, intro, **hero/contact video URLs**, email, CV path |
+| `identity` | Name, tagline, roles, intro, email, CV path (videos live in `src/theme/palette.ts`) |
 | `hudStats` | Skill readout values (Level/Mastery + percentages) |
 | `headlineStats` | The bold hero stat numbers (projects / years / dedication) |
 | `about` | Bio paragraphs and the class/rank/guild status panel |
@@ -84,17 +89,18 @@ B = purple, C = blue, D/E = grey (see [`src/lib/rank.ts`](src/lib/rank.ts)).
 
 ---
 
-## Media (hero & contact videos)
+## Media (hero, sports & contact videos)
 
-The hero and contact backgrounds are **videos**, served from Cloudinary and set
-in `identity.heroVideo` / `identity.contactVideo` in
-[`src/data/content.ts`](src/data/content.ts). The Sports section uses its own
-dungeon-background video set inline in `Sports.tsx`.
+The hero, sports, and contact backgrounds are **videos** served from Cloudinary.
+Because they differ per theme, they live alongside the colors in
+[`src/theme/palette.ts`](src/theme/palette.ts) — each theme defines its own
+`heroVideo` / `sportsVideo` / `contactVideo`.
 
-- To swap a video, replace the URL (any direct-playable `.mp4` works).
-- To use a **static image** instead of the hero video, set `heroVideo: null` and
-  put a transparent-background PNG in `public/`, then point `heroBackground` at
-  it — the hero falls back to an animated image layer automatically.
+- To swap a video for a theme, replace its URL in that theme's palette entry
+  (any direct-playable `.mp4` works).
+- The hero clip also carries a per-theme `heroVideoStyle` (object-fit, focal
+  point, scale, opacity, CSS filter) so each clip's framing and grading are
+  tuned independently.
 - All looping videos pause when scrolled out of view (see
   [`src/lib/useVideoInView.ts`](src/lib/useVideoInView.ts)) to save CPU/GPU.
 
@@ -102,13 +108,29 @@ dungeon-background video set inline in `Sports.tsx`.
 
 ## Theming
 
-Colors, fonts, and effects are CSS variables in
-[`src/index.css`](src/index.css) under `@theme` (Tailwind v4). Tweak
-`--color-mana`, `--color-system`, `--color-abyss`, etc. to reskin the whole site.
+The site ships with **two themes** — `solo` (Solo Leveling: arcane purple +
+system blue + S-rank gold) and `dbz` (Dragon Ball Z: gi orange + ki-blue + SSJ
+yellow). The active theme persists to `localStorage` and is reflected on
+`<html data-theme="…">`.
 
-Reusable utility/component classes defined there include: `.system-panel`,
-`.gate-card`, `.btn-mana`, `.text-glow`, `.glitch`, and the `.sl-*` status-window
-classes.
+Colors live in **two coordinated places**, both keyed by `data-theme`:
+
+1. **CSS variables** — the `[data-theme="solo"]` / `[data-theme="dbz"]` blocks in
+   [`src/index.css`](src/index.css) drive every Tailwind token and the
+   `.system-panel` / `.gate-card` / `.btn-mana` / `.text-glow` / `.glitch` /
+   `.sl-*` utility classes.
+2. **JS palette** — [`src/theme/palette.ts`](src/theme/palette.ts) mirrors those
+   values for the many components that compose colors inline in `style={{ … }}`
+   (glows, sparkles, gradients) and can't reference CSS vars cleanly. Read it
+   through `useTheme().palette` so nothing hardcodes a color literal.
+
+The provider and hook live in
+[`src/theme/ThemeContext.tsx`](src/theme/ThemeContext.tsx); the navbar
+[`ThemeToggle`](src/components/ThemeToggle.tsx) flips between the two.
+
+**To add or reskin a theme:** add a key to `ThemeName`, fill in its `PALETTES`
+entry (colors + per-theme videos), and add a matching `[data-theme="…"]` block in
+`index.css`. Both sides must agree.
 
 ---
 
@@ -165,6 +187,7 @@ src/
   animations/     Reusable Framer Motion variants (fade/stagger presets)
   components/     Shared UI (Navbar, ParticleBg, RankBadge, BrandIcons, …)
   data/           content.ts — single source of truth for most content
+  theme/          palette.ts (per-theme colors + videos) + ThemeContext
   lib/            Helpers (rank colors, useVideoInView hook)
   sections/       One file per page section (Hero, About, Skills, …)
   App.tsx         Composition root + MotionConfig

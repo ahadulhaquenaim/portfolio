@@ -168,8 +168,8 @@ export const projects = [
     label: "Applicant Tracking System",
     difficulty: "S" as Rank,
     blurb:
-      "Developed a full-stack ATS with a public job portal and internal HR/admin dashboard, streamlining end-to-end recruitment workflows. Built and extended RESTful APIs across 17+ NestJS modules covering candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC. Integrated Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments. Implemented multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for HR/admin reporting. Maintained a Turborepo monorepo with shared component libraries reused across two Next.js applications.",
-    tech: ["TypeScript", "NestJS", "Next.js", "Prisma", "MySQL", "Zustand", "AWS S3", "Docker", "JWT"],
+      "Contributed as a team member to a large-scale, production-grade ATS featuring a public job portal and an internal HR/admin dashboard, supporting end-to-end recruitment workflows. Developed and extended RESTful APIs across multiple NestJS modules covering candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC. Integrated Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments. Implemented multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for HR/admin reporting. Developed an AI-powered candidate shortlisting and scoring feature that automatically evaluates applicants against job requirements, reducing manual screening effort for the HR team.",
+    tech: ["TypeScript", "NestJS", "Next.js", "Prisma", "MySQL", "Ant Design", "Zustand", "AWS S3", "Docker", "JWT"],
     preview: atsPreview,
     link: "https://career.cefalo.com/",
   },
