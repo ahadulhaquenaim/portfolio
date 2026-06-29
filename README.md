@@ -43,7 +43,7 @@ npm run lint
 |---|---|---|
 | **Hero** | Cinematic gate intro (GSAP) over a character video + Achievement-Unlocked cards | `src/sections/Hero.tsx` |
 | **About** | Bio + Solo Leveling "STATUS" window | `src/sections/About.tsx` |
-| **Skills** | Branching XP "Skill Tree" of abilities | `src/sections/Skills.tsx` |
+| **Skills** | Branching XP "Skill Tree" across 6 categories including AI & Data Processing (LLM Integration, RAG, LangChain, Prompt Engineering, Vector DBs, Claude) | `src/sections/Skills.tsx` |
 | **Projects** | Dungeon-raid cards with a detail modal/slideshow | `src/sections/Projects.tsx` |
 | **Experience** | "Hunter Records" timeline | `src/sections/Experience.tsx` |
 | **Certifications** | 3D coverflow carousel of credentials | `src/sections/Certifications.tsx` |
@@ -71,7 +71,7 @@ Key exports and what they control:
 | `hudStats` | Skill readout values (Level/Mastery + percentages) |
 | `headlineStats` | The bold hero stat numbers (projects / years / dedication) |
 | `about` | Bio paragraphs and the class/rank/guild status panel |
-| `skills` | Skill-tree abilities with rank badges and XP values |
+| `skills` | Skill-tree abilities with rank badges and XP values — categories: Languages, Frontend, Backend, Database, DevOps & Cloud, AI & Data Processing |
 | `projects` | Dungeon-raid project cards (blurb, tech, links, slides) |
 | `experience` | Hunter Records timeline entries |
 | `sports` | Conquered-dungeons categories and their trophies |
