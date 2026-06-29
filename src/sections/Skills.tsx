@@ -9,7 +9,7 @@ const CATEGORIES = [
   { label: "Backend",       names: ["Node.js / Nest.js", "FastAPI / Django", "REST APIs", "Microservices", "GraphQL", "Testing (Jest/pytest)"] },
   { label: "Database",      names: ["PostgreSQL / MySQL", "MongoDB", "Redis", "Prisma / SQLAlchemy"] },
   { label: "DevOps & Cloud",names: ["Docker", "Git / CI-CD", "GCP", "AWS", "NGINX", "Vercel / Netlify", "Hostinger", "Prometheus / Grafana"] },
-  { label: "Data & AI",     names: ["LLM / AI Automation", "n8n Workflow", "Apache Airflow", "ETL Pipelines", "Pandas / BeautifulSoup4"] },
+  { label: "AI & Data",     names: ["LLM Integration", "Prompt Engineering", "RAG", "LangChain / LangGraph", "Vector Databases", "Claude (Anthropic)", "n8n Workflow", "Apache Airflow", "ETL Pipelines", "Pandas / BeautifulSoup4"] },
 ];
 
 export default function Skills() {

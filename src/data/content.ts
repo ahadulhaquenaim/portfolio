@@ -107,11 +107,16 @@ export const skills: { name: string; rank: Rank; value: number }[] = [
   { name: "Hostinger", rank: "A", value: 82 },
   { name: "Git / CI-CD", rank: "A", value: 84 },
   { name: "Testing (Jest/pytest)", rank: "A", value: 82 },
-  // Data & AI
+  // AI & Data
   { name: "Apache Airflow", rank: "A", value: 85 },
   { name: "ETL Pipelines", rank: "A", value: 86 },
   { name: "Pandas / BeautifulSoup4", rank: "A", value: 84 },
-  { name: "LLM / AI Automation", rank: "B", value: 80 },
+  { name: "LLM Integration", rank: "A", value: 85 },
+  { name: "Prompt Engineering", rank: "A", value: 84 },
+  { name: "RAG", rank: "A", value: 82 },
+  { name: "LangChain / LangGraph", rank: "A", value: 83 },
+  { name: "Vector Databases", rank: "B", value: 80 },
+  { name: "Claude (Anthropic)", rank: "A", value: 85 },
   { name: "n8n Workflow", rank: "B", value: 78 },
   { name: "Prometheus / Grafana", rank: "B", value: 76 },
   { name: "Zustand", rank: "A", value: 85 },
