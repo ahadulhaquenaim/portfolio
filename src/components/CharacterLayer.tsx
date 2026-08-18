@@ -55,7 +55,10 @@ export default function CharacterLayer({
             loop
             muted
             playsInline
-            preload="metadata"
+            // Below the fold — fetch nothing until useVideoInView plays it.
+            // "metadata" still opens a connection during the hero intro and
+            // steals bandwidth from the animation.
+            preload="none"
             style={
               fullWidth
                 ? {
