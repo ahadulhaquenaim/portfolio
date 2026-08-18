@@ -35,7 +35,8 @@ export default function Contact() {
             loop
             muted
             playsInline
-            preload="metadata"
+            // Below the fold — see CharacterLayer.
+            preload="none"
             className="h-full w-full object-cover"
           >
             <source src={palette.contactVideo} type="video/mp4" />

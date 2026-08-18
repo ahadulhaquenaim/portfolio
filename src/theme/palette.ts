@@ -75,7 +75,7 @@ export const PALETTES: Record<ThemeName, Palette> = {
     cyanRGB: "34,211,238",
 
     heroVideo:
-      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101679/hero-character_xacc6j.mp4",
+      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto:eco,w_1280,vc_auto/v1781101679/hero-character_xacc6j.mp4",
     heroVideoStyle: {
       objectFit: "contain",
       objectPosition: "62% center", // nudged right of center
@@ -85,9 +85,9 @@ export const PALETTES: Record<ThemeName, Palette> = {
       filter: "saturate(1.0) brightness(1.15) contrast(1.01)",
     },
     sportsVideo:
-      "https://res.cloudinary.com/dumsdgz85/video/upload/v1781154392/dungeon_xbtdta.mp4",
+      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto:eco,w_1280,vc_auto/v1781154392/dungeon_xbtdta.mp4",
     contactVideo:
-      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101707/meet_exwzv8.mp4",
+      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto:eco,w_1280,vc_auto/v1781101707/meet_exwzv8.mp4",
   },
 
   /* ----------------------------------------------------------------- DRAGON BALL Z
@@ -112,7 +112,7 @@ export const PALETTES: Record<ThemeName, Palette> = {
     cyanRGB: "56,189,248",
 
     heroVideo:
-      "https://res.cloudinary.com/dumsdgz85/video/upload/v1781248618/turning_goku_aa7bdk.mp4",
+      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto:eco,w_1280,vc_auto/v1781248618/turning_goku_aa7bdk.mp4",
     heroVideoStyle: {
       objectFit: "contain",
       objectPosition: "center center",
@@ -122,10 +122,10 @@ export const PALETTES: Record<ThemeName, Palette> = {
       filter: "saturate(1.05) brightness(0.85) contrast(1.05)",
     },
     sportsVideo:
-      "https://res.cloudinary.com/dumsdgz85/video/upload/v1781248618/turning_goku_aa7bdk.mp4",
+      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto:eco,w_1280,vc_auto/v1781248618/turning_goku_aa7bdk.mp4",
     // No DBZ-specific contact clip supplied — reuse the hero energy clip so the
     // contact section still reads as DBZ rather than falling back to Solo art.
     contactVideo:
-      "https://res.cloudinary.com/dumsdgz85/video/upload/v1781248710/I_want_to_create_a_animation_f_but0jy.mp4",
+      "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto:eco,w_1280,vc_auto/v1781248710/I_want_to_create_a_animation_f_but0jy.mp4",
   },
 };

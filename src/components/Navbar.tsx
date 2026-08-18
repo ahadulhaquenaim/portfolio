@@ -21,7 +21,9 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    // passive: the handler never calls preventDefault, so let the compositor
+    // scroll without waiting on it.
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     const observer = new IntersectionObserver(
       (entries) => {
