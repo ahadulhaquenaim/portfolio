@@ -42,7 +42,7 @@ export const identity = {
   heroVideo: "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101679/hero-character_xacc6j.mp4" as string | null,
   contactVideo: "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101707/meet_exwzv8.mp4" as string | null,
   email: "ahadul.haque@cefalo.com",
-  cvPath: "/cv/ahad-cv.pdf",
+  cvPath: "/cv/Md_Ahadul_Haque_CV.pdf",
 };
 
 /* --------------------------- HERO HUD STATS ------------------------------ */
