@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
-import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Star, Cpu } from "lucide-react";
+import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Cpu, Sparkles } from "lucide-react";
 import { identity } from "../data/content";
 import { useVideoInView } from "../lib/useVideoInView";
 import { useTheme } from "../theme/ThemeContext";
@@ -256,15 +256,25 @@ type Achievement = {
   desc: string;
   xp: string;
   isAI?: boolean;
+  isGold?: boolean;
 };
 
 const ACHIEVEMENTS: Achievement[] = [
+  {
+    icon: <Sparkles size={18} />,
+    rarity: "MYTHIC",
+    rarityColor: "#ffd700",
+    title: "Claude Certified Architect",
+    desc: "Foundations · Anthropic",
+    xp: "+5000 XP",
+    isGold: true,
+  },
   {
     icon: <Cpu size={18} />,
     rarity: "S-RANK · AI",
     rarityColor: "#22d3ee",
     title: "AI Integration Specialist",
-    desc: "LLM · Claude · Prompt Eng · N8N",
+    desc: "LLM · RAG · LangChain",
     xp: "+3000 XP",
     isAI: true,
   },
@@ -288,8 +298,8 @@ const ACHIEVEMENTS: Achievement[] = [
     icon: <Brain size={18} />,
     rarity: "EPIC",
     rarityColor: "#a855f7",
-    title: "Problem Solver S-Rank",
-    desc: "Turns complex bugs into clean solutions",
+    title: "Python Practitioner",
+    desc: "Django · scripting · automation",
     xp: "+1600 XP",
   },
   {
@@ -308,14 +318,6 @@ const ACHIEVEMENTS: Achievement[] = [
     desc: "Consistent growth, minimum stale time",
     xp: "+1000 XP",
   },
-  {
-    icon: <Star size={18} />,
-    rarity: "UNCOMMON",
-    rarityColor: "#4ade80",
-    title: "100% Dedication",
-    desc: "Ships with quality, every single time",
-    xp: "+800 XP",
-  },
 ];
 
 function AchievementCard({
@@ -327,21 +329,31 @@ function AchievementCard({
   index: number;
   go: boolean;
 }) {
-  const { isAI, rarityColor } = achievement;
+  const { isAI, isGold, rarityColor } = achievement;
+  const ink = "#241a00";
 
   return (
     <motion.div
       initial={{ opacity: 0, x: 48, scale: 0.92 }}
       animate={go ? { opacity: 1, x: 0, scale: 1 } : {}}
       transition={{ duration: 0.5, delay: 0.15 * index, ease: "easeOut" }}
-      className="group relative flex items-center gap-4 overflow-hidden rounded-lg border bg-abyss/60 px-5 py-4 backdrop-blur-sm"
-      style={{
-        borderColor: `${rarityColor}${isAI ? "70" : "40"}`,
-        boxShadow: isAI ? `0 0 18px 2px ${rarityColor}25, inset 0 0 24px 0px ${rarityColor}08` : undefined,
-      }}
+      className="group relative flex items-center gap-4 overflow-hidden rounded-lg border px-5 py-4 backdrop-blur-sm"
+      style={
+        isGold
+          ? {
+              background: "linear-gradient(135deg, #6b5200 0%, #a8790a 35%, #ffcf3d 68%, #a8790a 100%)",
+              borderColor: `${rarityColor}c0`,
+              boxShadow: `0 0 24px 4px ${rarityColor}55, 0 0 60px 10px ${rarityColor}25, inset 0 0 20px 0px ${rarityColor}18`,
+            }
+          : {
+              background: "color-mix(in srgb, var(--t-abyss) 60%, transparent)",
+              borderColor: `${rarityColor}${isAI ? "70" : "40"}`,
+              boxShadow: isAI ? `0 0 18px 2px ${rarityColor}25, inset 0 0 24px 0px ${rarityColor}08` : undefined,
+            }
+      }
     >
       {/* AI card: animated scan line */}
-      {isAI && (
+      {isAI && !isGold && (
         <motion.div
           className="pointer-events-none absolute inset-x-0 h-[2px] opacity-40"
           style={{ background: `linear-gradient(90deg, transparent, ${rarityColor}, transparent)` }}
@@ -349,20 +361,82 @@ function AchievementCard({
           transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
         />
       )}
+
+      {/* legendary border sparkle — rotating light chasing the frame */}
+      {isGold && (
+        <motion.div
+          className="pointer-events-none absolute inset-0 rounded-lg"
+          style={{
+            padding: 1.5,
+            background: "conic-gradient(from 0deg, transparent 0%, #fffbe6 8%, transparent 16%)",
+            WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+            WebkitMaskComposite: "xor",
+            maskComposite: "exclude",
+          }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+        />
+      )}
+
+      {/* legendary sparkle flecks */}
+      {isGold && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <motion.span
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                left: `${(i * 17 + 6) % 100}%`,
+                top: `${(i * 31 + 10) % 100}%`,
+                width: i % 4 === 0 ? 3 : 2,
+                height: i % 4 === 0 ? 3 : 2,
+                background: "#fffbe6",
+                boxShadow: "0 0 6px 1.5px #fff7cc",
+              }}
+              animate={{ opacity: [0, 1, 0], scale: [0.4, 1.4, 0.4] }}
+              transition={{ duration: 1.4 + (i % 4) * 0.35, repeat: Infinity, ease: "easeInOut", delay: i * 0.22 }}
+            />
+          ))}
+          {[
+            { left: "0%", top: "8%" },
+            { left: "22%", top: "0%" },
+            { left: "55%", top: "100%" },
+            { left: "98%", top: "35%" },
+            { left: "78%", top: "0%" },
+            { left: "0%", top: "82%" },
+          ].map((pos, i) => (
+            <motion.span
+              key={`edge-${i}`}
+              className="absolute rounded-full"
+              style={{
+                left: pos.left,
+                top: pos.top,
+                width: 3,
+                height: 3,
+                background: "#ffffff",
+                boxShadow: "0 0 8px 2px #fff7cc",
+              }}
+              animate={{ opacity: [0, 1, 0], scale: [0.3, 1.5, 0.3] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+            />
+          ))}
+        </div>
+      )}
+
       {/* left accent bar */}
       <motion.div
         className="absolute left-0 top-0 h-full w-1 rounded-l-lg"
-        style={{ background: rarityColor }}
-        animate={isAI ? { boxShadow: [`0 0 8px 2px ${rarityColor}50`, `0 0 20px 6px ${rarityColor}90`, `0 0 8px 2px ${rarityColor}50`] } : { boxShadow: `0 0 12px 3px ${rarityColor}70` }}
-        transition={isAI ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
+        style={{ background: isGold ? ink : rarityColor }}
+        animate={isAI || isGold ? { boxShadow: [`0 0 8px 2px ${rarityColor}50`, `0 0 20px 6px ${rarityColor}90`, `0 0 8px 2px ${rarityColor}50`] } : { boxShadow: `0 0 12px 3px ${rarityColor}70` }}
+        transition={isAI || isGold ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
       />
 
       {/* icon bubble */}
       <motion.div
         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md"
-        style={{ background: `${rarityColor}22`, color: rarityColor }}
-        animate={isAI ? { boxShadow: [`0 0 0px 0px ${rarityColor}00`, `0 0 12px 4px ${rarityColor}50`, `0 0 0px 0px ${rarityColor}00`] } : {}}
-        transition={isAI ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
+        style={isGold ? { background: ink, color: "#ffe066" } : { background: `${rarityColor}22`, color: rarityColor }}
+        animate={isAI || isGold ? { boxShadow: [`0 0 0px 0px ${rarityColor}00`, `0 0 12px 4px ${rarityColor}50`, `0 0 0px 0px ${rarityColor}00`] } : {}}
+        transition={isAI || isGold ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
       >
         {achievement.icon}
       </motion.div>
@@ -372,20 +446,25 @@ function AchievementCard({
         <div className="flex items-center gap-2">
           <span
             className="text-[10px] font-bold tracking-[0.18em]"
-            style={{ color: rarityColor }}
+            style={{ color: isGold ? ink : rarityColor }}
           >
             {achievement.rarity}
           </span>
-          <span className="text-[10px] font-semibold tracking-widest text-white/70">ACHIEVEMENT UNLOCKED</span>
+          <span className={`text-[10px] font-bold tracking-widest ${isGold ? "" : "text-white/70"}`} style={isGold ? { color: ink } : undefined}>ACHIEVEMENT UNLOCKED</span>
         </div>
-        <p className="truncate text-sm font-extrabold text-white [text-shadow:0_0_12px_rgba(255,255,255,0.4)]">{achievement.title}</p>
-        <p className="truncate text-xs font-semibold text-white/80">{achievement.desc}</p>
+        <p
+          className={`truncate text-sm font-extrabold ${isGold ? "" : "text-white [text-shadow:0_0_12px_rgba(255,255,255,0.4)]"}`}
+          style={isGold ? { color: ink } : undefined}
+        >
+          {achievement.title}
+        </p>
+        <p className={`truncate text-xs font-bold ${isGold ? "" : "text-white/80"}`} style={isGold ? { color: ink } : undefined}>{achievement.desc}</p>
       </div>
 
       {/* XP badge */}
       <span
         className="shrink-0 rounded px-2 py-1 text-[10px] font-bold tracking-wider"
-        style={{ background: `${rarityColor}22`, color: rarityColor }}
+        style={isGold ? { background: ink, color: "#ffe066" } : { background: `${rarityColor}22`, color: rarityColor }}
       >
         {achievement.xp}
       </span>
