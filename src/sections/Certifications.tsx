@@ -18,6 +18,17 @@ type Certification = {
 
 const CERTIFICATIONS: Certification[] = [
   {
+    title: "Claude Certified Architect - Foundations",
+    issuer: "Anthropic",
+    issuerColor: "#a855f7",
+    date: "07/09/2026",
+    credentialUrl: "https://www.credly.com/badges/5989b573-5a34-4e08-865e-4f810ded2179/public_url",
+    category: "AI",
+    categoryColor: "#c084fc",
+    CategoryIcon: Sparkles,
+    rank: "SS",
+  },
+  {
     title: "NestJS Mastery: Build & Deploy a Production-Ready API",
     issuer: "Udemy",
     issuerColor: "#f97316",
@@ -86,6 +97,7 @@ const CERTIFICATIONS: Certification[] = [
 ];
 
 const RANK_COLORS: Record<string, string> = {
+  SS: "#ffd700",
   S: "#fbbf24",
   A: "#a855f7",
   B: "#38bdf8",
@@ -344,6 +356,7 @@ function CertCarousel() {
           const slot = getSlot(idx);
           const isCenter = slot === "center";
           const rankColor = RANK_COLORS[cert.rank] ?? palette.primary;
+          const isLegendary = cert.rank === "SS";
 
           return (
             <motion.div
@@ -357,14 +370,50 @@ function CertCarousel() {
               {isCenter && (
                 <motion.div
                   className="absolute -inset-4 rounded-2xl pointer-events-none"
-                  animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  animate={
+                    isLegendary
+                      ? { opacity: [0.35, 0.75, 0.35], scale: [1, 1.08, 1] }
+                      : { opacity: [0.2, 0.5, 0.2], scale: [1, 1.05, 1] }
+                  }
+                  transition={{ duration: isLegendary ? 1.8 : 2.5, repeat: Infinity, ease: "easeInOut" }}
                   style={{
-                    background: `radial-gradient(ellipse, ${cert.categoryColor}55, transparent 70%)`,
-                    filter: "blur(18px)",
+                    background: isLegendary
+                      ? `radial-gradient(ellipse, ${RANK_COLORS.SS}70, transparent 70%)`
+                      : `radial-gradient(ellipse, ${cert.categoryColor}55, transparent 70%)`,
+                    filter: isLegendary ? "blur(24px)" : "blur(18px)",
                     zIndex: -1,
                   }}
                 />
+              )}
+
+              {/* legendary sparkle field — SS rank only */}
+              {isCenter && isLegendary && (
+                <div className="pointer-events-none absolute -inset-2 overflow-visible z-20">
+                  {Array.from({ length: 14 }).map((_, i) => (
+                    <motion.span
+                      key={i}
+                      className="absolute rounded-full"
+                      style={{
+                        left: `${(i * 37) % 100}%`,
+                        top: `${(i * 53) % 100}%`,
+                        width: i % 3 === 0 ? 3 : 2,
+                        height: i % 3 === 0 ? 3 : 2,
+                        background: RANK_COLORS.SS,
+                        boxShadow: `0 0 6px 1px ${RANK_COLORS.SS}`,
+                      }}
+                      animate={{
+                        opacity: [0, 1, 0],
+                        scale: [0.4, 1.3, 0.4],
+                      }}
+                      transition={{
+                        duration: 1.6 + (i % 5) * 0.3,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: (i % 7) * 0.25,
+                      }}
+                    />
+                  ))}
+                </div>
               )}
 
               {/* trail streak on side cards */}
@@ -381,9 +430,17 @@ function CertCarousel() {
               <div
                 className="group relative overflow-hidden rounded-xl h-full cursor-grab active:cursor-grabbing"
                 style={{
-                  background: "linear-gradient(135deg, var(--t-void) 0%, var(--t-shadow) 100%)",
-                  border: `1px solid ${isCenter ? cert.categoryColor + "70" : cert.categoryColor + "35"}`,
-                  boxShadow: isCenter
+                  background: isLegendary
+                    ? "linear-gradient(135deg, #6b5200 0%, #a8790a 35%, #ffcf3d 68%, #a8790a 100%)"
+                    : "linear-gradient(135deg, var(--t-void) 0%, var(--t-shadow) 100%)",
+                  border: isLegendary
+                    ? `1.5px solid ${RANK_COLORS.SS}${isCenter ? "c0" : "60"}`
+                    : `1px solid ${isCenter ? cert.categoryColor + "70" : cert.categoryColor + "35"}`,
+                  boxShadow: isLegendary
+                    ? isCenter
+                      ? `0 0 40px 6px ${RANK_COLORS.SS}55, 0 0 100px 14px ${RANK_COLORS.SS}25, inset 0 0 28px 0px ${RANK_COLORS.SS}18`
+                      : `0 0 20px 3px ${RANK_COLORS.SS}30`
+                    : isCenter
                     ? `0 0 32px 4px ${cert.categoryColor}45, 0 0 80px 8px ${cert.categoryColor}18, inset 0 0 24px 0px ${cert.categoryColor}10`
                     : `0 0 16px 2px ${cert.categoryColor}20`,
                 }}
@@ -400,12 +457,14 @@ function CertCarousel() {
                 <div
                   className="absolute left-0 right-0 top-0 h-0.75"
                   style={{
-                    background: `linear-gradient(90deg, transparent 0%, ${cert.categoryColor} 35%, ${rankColor} 65%, transparent 100%)`,
+                    background: isLegendary
+                      ? `linear-gradient(90deg, transparent 0%, ${RANK_COLORS.SS} 50%, transparent 100%)`
+                      : `linear-gradient(90deg, transparent 0%, ${cert.categoryColor} 35%, ${rankColor} 65%, transparent 100%)`,
                   }}
                 />
                 {/* corner runes */}
-                <span className="absolute right-3 top-4 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚠᚱ</span>
-                <span className="absolute bottom-4 left-3 font-display text-[10px] opacity-20" style={{ color: cert.categoryColor }}>ᚷᚹ</span>
+                <span className="absolute right-3 top-4 font-display text-[10px] opacity-20" style={{ color: isLegendary ? "#3d2c00" : cert.categoryColor }}>ᚠᚱ</span>
+                <span className="absolute bottom-4 left-3 font-display text-[10px] opacity-20" style={{ color: isLegendary ? "#3d2c00" : cert.categoryColor }}>ᚷᚹ</span>
 
                 <div className="relative z-10 p-5 sm:p-8 flex flex-col">
                   {/* header */}
@@ -413,20 +472,32 @@ function CertCarousel() {
                     <div className="flex items-center gap-2">
                       <span
                         className="rounded px-2.5 py-1 font-display text-[11px] font-bold tracking-[0.2em]"
-                        style={{ background: `${cert.categoryColor}18`, color: cert.categoryColor, border: `1px solid ${cert.categoryColor}35` }}
+                        style={
+                          isLegendary
+                            ? { background: "#3d2c0022", color: "#3d2c00", border: "1px solid #3d2c0055" }
+                            : { background: `${cert.categoryColor}18`, color: cert.categoryColor, border: `1px solid ${cert.categoryColor}35` }
+                        }
                       >
                         {cert.category}
                       </span>
                       <span
                         className="rounded px-2 py-1 font-display text-[11px] font-black tracking-[0.15em]"
-                        style={{ background: `${rankColor}18`, color: rankColor, border: `1px solid ${rankColor}40` }}
+                        style={
+                          isLegendary
+                            ? { background: "#1a1200", color: RANK_COLORS.SS, border: "1px solid #3d2c0080" }
+                            : { background: `${rankColor}18`, color: rankColor, border: `1px solid ${rankColor}40` }
+                        }
                       >
                         {cert.rank}-RANK
                       </span>
                     </div>
                     <motion.div
                       className="relative flex h-13 w-13 items-center justify-center rounded-lg"
-                      style={{ background: `radial-gradient(circle, ${cert.categoryColor}22, ${cert.categoryColor}08)`, border: `1px solid ${cert.categoryColor}35` }}
+                      style={
+                        isLegendary
+                          ? { background: "radial-gradient(circle, #3d2c0030, #3d2c0010)", border: "1px solid #3d2c0055" }
+                          : { background: `radial-gradient(circle, ${cert.categoryColor}22, ${cert.categoryColor}08)`, border: `1px solid ${cert.categoryColor}35` }
+                      }
                       animate={isCenter ? {
                         boxShadow: [
                           `0 0 0px 0px ${cert.categoryColor}00`,
@@ -436,11 +507,11 @@ function CertCarousel() {
                       } : {}}
                       transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <cert.CategoryIcon size={22} style={{ color: cert.categoryColor }} />
+                      <cert.CategoryIcon size={22} style={{ color: isLegendary ? "#3d2c00" : cert.categoryColor }} />
                       {isCenter && (
                         <motion.div
                           className="absolute inset-0 rounded-lg"
-                          style={{ border: `1px solid ${cert.categoryColor}` }}
+                          style={{ border: `1px solid ${isLegendary ? "#3d2c00" : cert.categoryColor}` }}
                           animate={{ opacity: [0, 0.5, 0] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         />
@@ -450,8 +521,11 @@ function CertCarousel() {
 
                   {/* title */}
                   <h3
-                    className="mb-4 font-display text-[18px] font-bold leading-snug text-white"
-                    style={{ textShadow: isCenter ? `0 0 16px ${cert.categoryColor}40` : "none" }}
+                    className="mb-4 font-display text-[18px] font-bold leading-snug"
+                    style={{
+                      color: isLegendary ? "#241a00" : "#ffffff",
+                      textShadow: isLegendary ? "none" : isCenter ? `0 0 16px ${cert.categoryColor}40` : "none",
+                    }}
                   >
                     {cert.title}
                   </h3>
@@ -460,35 +534,42 @@ function CertCarousel() {
                   <div className="mb-5 flex items-center gap-2">
                     <div
                       className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-black"
-                      style={{ background: `${cert.issuerColor}25`, color: cert.issuerColor, border: `1px solid ${cert.issuerColor}50` }}
+                      style={
+                        isLegendary
+                          ? { background: "#1a1200", color: "#ffe066", border: "1px solid #1a120060" }
+                          : { background: `${cert.issuerColor}25`, color: cert.issuerColor, border: `1px solid ${cert.issuerColor}50` }
+                      }
                     >
                       {cert.issuer[0]}
                     </div>
-                    <span className="text-sm font-semibold" style={{ color: cert.issuerColor }}>{cert.issuer}</span>
-                    <Cpu size={12} style={{ color: cert.issuerColor, opacity: 0.6 }} />
+                    <span className="text-sm font-bold" style={{ color: isLegendary ? "#1a1200" : cert.issuerColor }}>{cert.issuer}</span>
+                    <Cpu size={12} style={{ color: isLegendary ? "#1a1200" : cert.issuerColor, opacity: isLegendary ? 0.8 : 0.6 }} />
                   </div>
 
                   {/* divider */}
-                  <div className="mb-4 h-px" style={{ background: `linear-gradient(90deg, ${cert.categoryColor}40, transparent)` }} />
+                  <div className="mb-4 h-px" style={{ background: isLegendary ? "linear-gradient(90deg, #3d2c0060, transparent)" : `linear-gradient(90deg, ${cert.categoryColor}40, transparent)` }} />
 
                   {/* footer */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
-                      <Calendar size={13} className="text-white" />
-                      <span className="font-body text-[13px] tracking-widest text-white">{cert.date}</span>
+                      <Calendar size={13} className={isLegendary ? "" : "text-white"} style={isLegendary ? { color: "#1a1200" } : undefined} />
+                      <span className={`font-body text-[13px] tracking-widest font-bold ${isLegendary ? "" : "text-white"}`} style={isLegendary ? { color: "#1a1200" } : undefined}>{cert.date}</span>
                     </div>
                     <motion.a
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group/btn relative flex items-center gap-2 overflow-hidden rounded-md px-5 py-2.5 font-display text-[13px] font-semibold tracking-[0.18em]"
-                      style={{
-                        background: `${cert.categoryColor}28`,
-                        color: cert.categoryColor,
-                        border: `1.5px solid ${cert.categoryColor}80`,
-                        boxShadow: `0 0 8px 1px ${cert.categoryColor}30`,
-                      }}
-                      whileHover={{ background: `${cert.categoryColor}45`, boxShadow: `0 0 20px 4px ${cert.categoryColor}60` }}
+                      style={
+                        isLegendary
+                          ? { background: "#1a1200", color: RANK_COLORS.SS, border: "1.5px solid #3d2c0090", boxShadow: `0 0 10px 1px ${RANK_COLORS.SS}40` }
+                          : { background: `${cert.categoryColor}28`, color: cert.categoryColor, border: `1.5px solid ${cert.categoryColor}80`, boxShadow: `0 0 8px 1px ${cert.categoryColor}30` }
+                      }
+                      whileHover={
+                        isLegendary
+                          ? { background: "#2a1e00", boxShadow: `0 0 20px 4px ${RANK_COLORS.SS}70` }
+                          : { background: `${cert.categoryColor}45`, boxShadow: `0 0 20px 4px ${cert.categoryColor}60` }
+                      }
                       whileTap={{ scale: 0.96 }}
                     >
                       <div className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-500 group-hover/btn:translate-x-full" />
