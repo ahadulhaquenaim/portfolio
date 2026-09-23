@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import { socials, identity } from "../data/content";
-import { useVideoInView } from "../lib/useVideoInView";
+import { posterFor, useVideoInView } from "../lib/useVideoInView";
 import { useTheme } from "../theme/ThemeContext";
 
 export default function Contact() {
@@ -37,6 +37,7 @@ export default function Contact() {
             playsInline
             // Below the fold — see CharacterLayer.
             preload="none"
+            poster={posterFor(palette.contactVideo)}
             className="h-full w-full object-cover"
           >
             <source src={palette.contactVideo} type="video/mp4" />
@@ -139,7 +140,7 @@ function SocialIcon({ s }: { s: { label: string; href: string; icon: React.Eleme
       aria-label={s.label}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative grid h-12 w-12 place-items-center rounded-lg bg-abyss/40 backdrop-blur-sm transition-all duration-300 hover:text-white"
+      className="relative grid h-12 w-12 place-items-center rounded-lg bg-abyss/60 transition-all duration-300 hover:text-white"
       style={{
         color: palette.cyan,
         borderWidth: "1px",

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
 import { X, Trophy, Shield, Swords, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "../components/SectionHeading";
 import CharacterLayer from "../components/CharacterLayer";
@@ -62,6 +62,14 @@ export default function Sports() {
   const [carouselPage, setCarouselPage] = useState(0);
   const [carouselDir, setCarouselDir] = useState<1 | -1>(1);
   const detailRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  // Only drive the parallax spring while the section is on screen — otherwise
+  // every mousemove anywhere on the page re-transforms the hidden video layer.
+  const inView = useInView(sectionRef, { margin: "200px 0px" });
+  const inViewRef = useRef(inView);
+  useEffect(() => {
+    inViewRef.current = inView;
+  }, [inView]);
   const { palette } = useTheme();
 
   // Mouse parallax — raw mouse position normalised to [-1, 1] (swapped in from
@@ -78,6 +86,7 @@ export default function Sports() {
     let lastX = 0;
     let lastY = 0;
     const handleMove = (e: MouseEvent) => {
+      if (!inViewRef.current) return;
       lastX = (e.clientX / window.innerWidth - 0.5) * 2;
       lastY = (e.clientY / window.innerHeight - 0.5) * 2;
       if (frame) return;
@@ -110,7 +119,7 @@ export default function Sports() {
   const cfg = activeDungeon ? dungeonConfig[activeDungeon] : null;
 
   return (
-    <section id="sports" className="relative z-10 w-full px-0 py-24 overflow-hidden">
+    <section id="sports" ref={sectionRef} className="relative z-10 w-full px-0 py-24 overflow-hidden">
       {/* Dungeon background — Hero-style parallax character layer (mouse
           parallax + aura pulses + lightning bolts), swapped in from Hero. */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -466,10 +475,9 @@ export default function Sports() {
                                   <div
                                     className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest"
                                     style={{
-                                      background: `rgba(0,0,0,0.75)`,
+                                      background: `rgba(0,0,0,0.8)`,
                                       border: `1px solid ${cfg.color}`,
                                       color: cfg.color,
-                                      backdropFilter: "blur(8px)",
                                       boxShadow: `0 0 10px ${cfg.glow}`,
                                     }}
                                   >

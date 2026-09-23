@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "../theme/ThemeContext";
 
@@ -21,11 +21,12 @@ export default function SystemNotification({
   const { palette } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-15% 0px" });
-  const [played, setPlayed] = useState(false);
+  // A ref, not state: flipping it must not trigger an extra render.
+  const played = useRef(false);
 
   useEffect(() => {
-    if (!inView || played || !sound) return;
-    setPlayed(true);
+    if (!inView || played.current || !sound) return;
+    played.current = true;
     try {
       const AudioCtx =
         window.AudioContext ||
@@ -43,10 +44,12 @@ export default function SystemNotification({
       osc.connect(gain).connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + 0.26);
+      // Release the audio thread once the ding has finished.
+      osc.onended = () => void ctx.close();
     } catch {
       /* autoplay blocked before user interaction — silently ignore */
     }
-  }, [inView, played, sound]);
+  }, [inView, sound]);
 
   return (
     <motion.div

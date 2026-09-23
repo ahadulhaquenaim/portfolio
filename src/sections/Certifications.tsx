@@ -119,29 +119,20 @@ function FloatingRunes() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {RUNES.map((r, i) => (
-        <motion.span
+        <span
           key={i}
-          className="absolute select-none font-display text-xs"
+          className="fx-rune absolute select-none font-display text-xs"
           style={{
             left: `${(i * 6.25) % 100}%`,
             top: `${(i * 17 + 5) % 90}%`,
             color: i % 3 === 0 ? `rgba(${SECTION_ACCENT_RGB},0.13)` : i % 3 === 1 ? `rgba(${palette.systemRGB},0.08)` : "#4ade8012",
-          }}
-          whileInView={{
-            y: [0, -18, 0],
-            opacity: [0.3, 0.7, 0.3],
-            rotate: [0, i % 2 === 0 ? 15 : -15, 0],
-          }}
-          viewport={{ margin: "120px" }}
-          transition={{
-            duration: 4 + (i % 4),
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.25,
-          }}
+            "--fx-dur": `${4 + (i % 4)}s`,
+            "--fx-delay": `${i * 0.25}s`,
+            "--fx-rot": i % 2 === 0 ? "15deg" : "-15deg",
+          } as React.CSSProperties}
         >
           {r}
-        </motion.span>
+        </span>
       ))}
     </div>
   );
@@ -162,15 +153,14 @@ function CredentialCounter() {
       className="mx-auto mb-1 flex w-fit flex-col items-center gap-5"
     >
       <div className="relative flex items-center justify-center">
-        <motion.div
-          className="absolute h-28 w-28 rounded-full"
+        <div
+          className="fx-spin absolute h-28 w-28 rounded-full"
           style={{
             background: "conic-gradient(from 0deg, #8b5cf6, #38bdf8, #4ade80, #f43f5e, #fbbf24, #8b5cf6)",
             filter: "blur(8px)",
             opacity: 0.4,
-          }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            "--fx-dur": "8s",
+          } as React.CSSProperties}
         />
         <div
           className="relative z-10 flex h-24 w-24 flex-col items-center justify-center rounded-full border-2"
@@ -179,14 +169,21 @@ function CredentialCounter() {
             borderColor: `${palette.gold}60`,
           }}
         >
-          <motion.span
-            className="font-display text-3xl font-black leading-none"
+          <span
+            className="relative font-display text-3xl font-black leading-none"
             style={{ color: palette.gold, textShadow: `0 0 20px ${palette.gold}80` }}
-            animate={{ textShadow: [`0 0 20px ${palette.gold}80`, `0 0 40px ${palette.gold}cc`, `0 0 20px ${palette.gold}80`] }}
-            transition={{ duration: 2, repeat: Infinity }}
           >
             {CERTIFICATIONS.length}
-          </motion.span>
+            {/* Stronger glow painted once on transparent glyphs; only its
+                opacity pulses, so text-shadow is never re-painted per frame. */}
+            <span
+              aria-hidden
+              className="fx-pulse absolute inset-0 text-transparent"
+              style={{ textShadow: `0 0 40px ${palette.gold}cc`, "--fx-o0": "0" } as React.CSSProperties}
+            >
+              {CERTIFICATIONS.length}
+            </span>
+          </span>
           <span className="font-display text-[8px] tracking-[0.2em] text-white/50">SCROLLS</span>
         </div>
       </div>
@@ -211,6 +208,10 @@ function CertCarousel() {
   const [paused, setPaused] = useState(false);
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  // Off-screen, auto-advance would keep springing all 7 cards every 4s for
+  // nobody — hold the carousel until it scrolls back into view.
+  const inView = useInView(rootRef, { margin: "100px 0px" });
   const total = CERTIFICATIONS.length;
 
   const go = useCallback(
@@ -222,10 +223,10 @@ function CertCarousel() {
   );
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || !inView) return;
     const id = setInterval(() => go(1), 4000);
     return () => clearInterval(id);
-  }, [paused, go]);
+  }, [paused, inView, go]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -339,6 +340,7 @@ function CertCarousel() {
 
   return (
     <div
+      ref={rootRef}
       className="relative w-full"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -368,21 +370,19 @@ function CertCarousel() {
             >
               {/* breathing glow — only on center */}
               {isCenter && (
-                <motion.div
-                  className="absolute -inset-4 rounded-2xl pointer-events-none"
-                  animate={
-                    isLegendary
-                      ? { opacity: [0.35, 0.75, 0.35], scale: [1, 1.08, 1] }
-                      : { opacity: [0.2, 0.5, 0.2], scale: [1, 1.05, 1] }
-                  }
-                  transition={{ duration: isLegendary ? 1.8 : 2.5, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                  className="fx-breathe absolute -inset-4 rounded-2xl pointer-events-none"
                   style={{
                     background: isLegendary
                       ? `radial-gradient(ellipse, ${RANK_COLORS.SS}70, transparent 70%)`
                       : `radial-gradient(ellipse, ${cert.categoryColor}55, transparent 70%)`,
                     filter: isLegendary ? "blur(24px)" : "blur(18px)",
                     zIndex: -1,
-                  }}
+                    "--fx-dur": isLegendary ? "1.8s" : "2.5s",
+                    "--fx-o0": isLegendary ? "0.35" : "0.2",
+                    "--fx-o1": isLegendary ? "0.75" : "0.5",
+                    "--fx-s1": isLegendary ? "1.08" : "1.05",
+                  } as React.CSSProperties}
                 />
               )}
 
@@ -390,9 +390,9 @@ function CertCarousel() {
               {isCenter && isLegendary && (
                 <div className="pointer-events-none absolute -inset-2 overflow-visible z-20">
                   {Array.from({ length: 14 }).map((_, i) => (
-                    <motion.span
+                    <span
                       key={i}
-                      className="absolute rounded-full"
+                      className="fx-twinkle absolute rounded-full"
                       style={{
                         left: `${(i * 37) % 100}%`,
                         top: `${(i * 53) % 100}%`,
@@ -400,17 +400,10 @@ function CertCarousel() {
                         height: i % 3 === 0 ? 3 : 2,
                         background: RANK_COLORS.SS,
                         boxShadow: `0 0 6px 1px ${RANK_COLORS.SS}`,
-                      }}
-                      animate={{
-                        opacity: [0, 1, 0],
-                        scale: [0.4, 1.3, 0.4],
-                      }}
-                      transition={{
-                        duration: 1.6 + (i % 5) * 0.3,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: (i % 7) * 0.25,
-                      }}
+                        "--fx-dur": `${1.6 + (i % 5) * 0.3}s`,
+                        "--fx-delay": `${(i % 7) * 0.25}s`,
+                        "--fx-s1": "1.3",
+                      } as React.CSSProperties}
                     />
                   ))}
                 </div>
@@ -418,7 +411,7 @@ function CertCarousel() {
 
               {/* trail streak on side cards */}
               {!isCenter && (
-                <motion.div
+                <div
                   className="absolute inset-0 rounded-xl pointer-events-none"
                   style={{
                     background: `linear-gradient(${slot === "left" || slot === "far-left" ? "90deg" : "270deg"}, ${cert.categoryColor}12, transparent)`,
@@ -491,32 +484,29 @@ function CertCarousel() {
                         {cert.rank}-RANK
                       </span>
                     </div>
-                    <motion.div
+                    <div
                       className="relative flex h-13 w-13 items-center justify-center rounded-lg"
                       style={
                         isLegendary
                           ? { background: "radial-gradient(circle, #3d2c0030, #3d2c0010)", border: "1px solid #3d2c0055" }
                           : { background: `radial-gradient(circle, ${cert.categoryColor}22, ${cert.categoryColor}08)`, border: `1px solid ${cert.categoryColor}35` }
                       }
-                      animate={isCenter ? {
-                        boxShadow: [
-                          `0 0 0px 0px ${cert.categoryColor}00`,
-                          `0 0 16px 4px ${cert.categoryColor}50`,
-                          `0 0 0px 0px ${cert.categoryColor}00`,
-                        ],
-                      } : {}}
-                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                     >
                       <cert.CategoryIcon size={22} style={{ color: isLegendary ? "#3d2c00" : cert.categoryColor }} />
                       {isCenter && (
-                        <motion.div
-                          className="absolute inset-0 rounded-lg"
-                          style={{ border: `1px solid ${isLegendary ? "#3d2c00" : cert.categoryColor}` }}
-                          animate={{ opacity: [0, 0.5, 0] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
+                        <>
+                          {/* glow halo: pre-painted shadow, opacity pulses */}
+                          <span
+                            className="fx-pulse pointer-events-none absolute inset-0 rounded-lg"
+                            style={{ boxShadow: `0 0 16px 4px ${cert.categoryColor}50`, "--fx-dur": "2.5s", "--fx-o0": "0" } as React.CSSProperties}
+                          />
+                          <span
+                            className="fx-pulse pointer-events-none absolute inset-0 rounded-lg"
+                            style={{ border: `1px solid ${isLegendary ? "#3d2c00" : cert.categoryColor}`, "--fx-o0": "0", "--fx-o1": "0.5" } as React.CSSProperties}
+                          />
+                        </>
                       )}
-                    </motion.div>
+                    </div>
                   </div>
 
                   {/* title */}
@@ -600,11 +590,9 @@ function CertCarousel() {
               boxShadow: `0 0 12px rgba(${ARROW_ACCENT_RGB},0.08)`,
             }}
           >
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{ border: `1px solid ${ARROW_ACCENT}` }}
-              animate={{ opacity: [0.1, 0.4, 0.1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+            <span
+              className="fx-pulse absolute inset-0 rounded-full"
+              style={{ border: `1px solid ${ARROW_ACCENT}`, "--fx-o0": "0.1", "--fx-o1": "0.4" } as React.CSSProperties}
             />
             <ChevronLeft size={16} className="text-white/70" />
           </motion.button>
@@ -632,11 +620,9 @@ function CertCarousel() {
               boxShadow: `0 0 12px rgba(${ARROW_ACCENT_RGB},0.08)`,
             }}
           >
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{ border: `1px solid ${ARROW_ACCENT}` }}
-              animate={{ opacity: [0.1, 0.4, 0.1] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+            <span
+              className="fx-pulse absolute inset-0 rounded-full"
+              style={{ border: `1px solid ${ARROW_ACCENT}`, "--fx-o0": "0.1", "--fx-o1": "0.4", "--fx-delay": "1s" } as React.CSSProperties}
             />
             <ChevronRight size={16} className="text-white/70" />
           </motion.button>
@@ -668,7 +654,7 @@ function CertCarousel() {
         </div>
 
         {/* auto-play progress bar */}
-        {!paused && (
+        {!paused && inView && (
           <div className="w-32 h-0.5 rounded-full overflow-hidden" style={{ background: "#ffffff10" }}>
             <motion.div
               className="h-full rounded-full"

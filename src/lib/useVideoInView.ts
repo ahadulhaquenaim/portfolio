@@ -1,5 +1,11 @@
 import { useEffect, useRef } from "react";
 
+/** First-frame WebP for a /videos/*.mp4 clip (public/videos/posters/), shown
+ *  while the clip buffers so the section never flashes an empty black box. */
+export function posterFor(videoSrc: string) {
+  return videoSrc.replace(/\/videos\/([^/]+)\.mp4$/, "/videos/posters/$1.webp");
+}
+
 /**
  * Pauses a looping background <video> whenever it scrolls out of view and
  * resumes it when it returns. Three autoplay-loop videos decoding at once

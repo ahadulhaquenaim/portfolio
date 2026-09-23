@@ -76,19 +76,17 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
       onMouseMove={handleMouseMove}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      // No backdrop-blur: at 95% opacity it was invisible, but it re-blurred
+      // the video + particle canvas under the bar on every frame.
+      className={`fixed top-0 inset-x-0 z-50 transition-[background-color,border-color] duration-500 ${
         scrolled
-          ? "bg-abyss/90 backdrop-blur-xl border-b border-mana/15"
-          : "bg-transparent"
+          ? "bg-abyss/95 border-b border-mana/15"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
       {/* Animated top border beam */}
       <div className="absolute top-0 inset-x-0 h-px overflow-hidden">
-        <motion.div
-          className="absolute top-0 h-px w-40 bg-linear-to-r from-transparent via-mana-bright to-transparent"
-          animate={{ x: ["-10rem", "100vw"] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
-        />
+        <div className="fx-beam absolute top-0 h-px w-40 bg-linear-to-r from-transparent via-mana-bright to-transparent" />
       </div>
 
       {/* Orb glow that follows cursor */}
@@ -132,38 +130,27 @@ export default function Navbar() {
             { top: "-4px",  left: "38%",  delay: 1.5,  dur: 2.3, size: "2px" },
             { top: "20%",   left: "96%",  delay: 1.0,  dur: 2.0, size: "3px" },
           ].map((p, i) => (
-            <motion.span
+            <span
               key={i}
-              className="pointer-events-none absolute rounded-full"
+              className="fx-spark pointer-events-none absolute rounded-full"
               style={{
                 width: p.size, height: p.size,
                 top: p.top, left: p.left,
-                translateY: p.top === "50%" ? "-50%" : undefined,
-                background: i % 3 === 0 ? palette.spark : i % 3 === 1 ? palette.primaryBright : palette.primaryBright,
+                translate: p.top === "50%" ? "0 -50%" : undefined,
+                background: i % 3 === 0 ? palette.spark : palette.primaryBright,
                 boxShadow: `0 0 6px 2px ${i % 2 === 0 ? `rgba(${palette.sparkRGB},0.9)` : `rgba(${palette.primaryRGB},0.9)`}`,
                 zIndex: 10,
-              }}
-              animate={{
-                opacity: [0, 1, 0.7, 1, 0],
-                scale: [0, 1.4, 0.7, 1.2, 0],
-                y: [0, -6, -12],
-              }}
-              transition={{
-                duration: p.dur,
-                repeat: Infinity,
-                delay: p.delay,
-                ease: "easeOut",
-              }}
+                "--fx-dur": `${p.dur}s`,
+                "--fx-delay": `${p.delay}s`,
+              } as React.CSSProperties}
             />
           ))}
 
           {/* Left sword */}
-          <motion.svg
+          <svg
             width="22" height="22" viewBox="0 0 24 24" fill="none"
-            className="relative shrink-0"
+            className="fx-sway relative shrink-0"
             style={{ filter: `drop-shadow(0 0 6px ${palette.primaryBright}) drop-shadow(0 0 14px rgba(${palette.primaryRGB},0.7))` }}
-            animate={{ rotate: [-8, 8, -8] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             {/* blade */}
             <line x1="5" y1="19" x2="19" y2="5" stroke={palette.primaryBright} strokeWidth="2" strokeLinecap="round"/>
@@ -174,7 +161,7 @@ export default function Navbar() {
             <line x1="10" y1="14" x2="8" y2="12" stroke={palette.primaryBright} strokeWidth="1.5" strokeLinecap="round"/>
             {/* handle */}
             <line x1="4" y1="20" x2="2" y2="22" stroke={palette.primaryDeep} strokeWidth="2.5" strokeLinecap="round"/>
-          </motion.svg>
+          </svg>
 
           {/* Name text */}
           <span
@@ -186,20 +173,21 @@ export default function Navbar() {
             {identity.name}
           </span>
 
-          {/* Right sword (mirrored) */}
-          <motion.svg
+          {/* Right sword (mirrored) — half a period out of phase with the left */}
+          <svg
             width="22" height="22" viewBox="0 0 24 24" fill="none"
-            className="relative shrink-0 scale-x-[-1]"
-            style={{ filter: `drop-shadow(0 0 6px ${palette.primaryBright}) drop-shadow(0 0 14px rgba(${palette.primaryRGB},0.7))` }}
-            animate={{ rotate: [8, -8, 8] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="fx-sway relative shrink-0 scale-x-[-1]"
+            style={{
+              filter: `drop-shadow(0 0 6px ${palette.primaryBright}) drop-shadow(0 0 14px rgba(${palette.primaryRGB},0.7))`,
+              "--fx-delay": "-1.5s",
+            } as React.CSSProperties}
           >
             <line x1="5" y1="19" x2="19" y2="5" stroke={palette.primaryBright} strokeWidth="2" strokeLinecap="round"/>
             <polygon points="19,5 21,3 22,5 20,7" fill={palette.spark} stroke={palette.primaryBright} strokeWidth="0.5"/>
             <line x1="8" y1="16" x2="6" y2="18" stroke={palette.primaryBright} strokeWidth="1.5" strokeLinecap="round"/>
             <line x1="10" y1="14" x2="8" y2="12" stroke={palette.primaryBright} strokeWidth="1.5" strokeLinecap="round"/>
             <line x1="4" y1="20" x2="2" y2="22" stroke={palette.primaryDeep} strokeWidth="2.5" strokeLinecap="round"/>
-          </motion.svg>
+          </svg>
         </button>
 
         {/* Desktop links */}
@@ -282,30 +270,23 @@ export default function Navbar() {
                         { top: "50%",  left: "-4px", delay: 0.2,  dur: 2.0, size: "3px", color: "#ffd700" },
                         { top: "50%",  left: "102%", delay: 0.9,  dur: 1.7, size: "3px", color: "#ffe44d" },
                       ].map((p, i) => (
-                        <motion.span
+                        <span
                           key={`gold-${i}`}
-                          className="pointer-events-none absolute rounded-full"
+                          className="fx-spark pointer-events-none absolute rounded-full"
                           style={{
                             width: p.size,
                             height: p.size,
                             top: p.top,
                             left: p.left,
-                            translateY: p.top === "50%" ? "-50%" : undefined,
+                            translate: p.top === "50%" ? "0 -50%" : undefined,
                             background: p.color,
                             boxShadow: `0 0 6px 2px ${p.color}, 0 0 12px 3px rgba(255,215,0,0.6)`,
                             zIndex: 10,
-                          }}
-                          animate={{
-                            opacity: [0, 1, 0.6, 1, 0],
-                            scale: [0, 1.5, 0.8, 1.3, 0],
-                            y: [0, -5, -10],
-                          }}
-                          transition={{
-                            duration: p.dur,
-                            repeat: Infinity,
-                            delay: p.delay,
-                            ease: "easeOut",
-                          }}
+                            "--fx-dur": `${p.dur}s`,
+                            "--fx-delay": `${p.delay}s`,
+                            "--fx-rise": "-10px",
+                            "--fx-s1": "1.5",
+                          } as React.CSSProperties}
                         />
                       ))}
 
@@ -315,9 +296,9 @@ export default function Navbar() {
                         { left: "50%", delay: 0.7 },
                         { left: "75%", delay: 1.3 },
                       ].map((s, i) => (
-                        <motion.span
+                        <span
                           key={`gold-rise-${i}`}
-                          className="absolute pointer-events-none rounded-full"
+                          className="fx-rise absolute pointer-events-none rounded-full"
                           style={{
                             width: "2px",
                             height: "4px",
@@ -325,31 +306,22 @@ export default function Navbar() {
                             bottom: "100%",
                             background: "linear-gradient(to top, #ffd700, #fff9c4)",
                             boxShadow: "0 0 4px 2px rgba(255,215,0,0.9)",
-                          }}
-                          animate={{
-                            y: [0, -16, -26],
-                            opacity: [0, 1, 0],
-                            scale: [0.5, 1.2, 0],
-                          }}
-                          transition={{
-                            duration: 1.3,
-                            repeat: Infinity,
-                            delay: s.delay,
-                            ease: "easeOut",
-                          }}
+                            "--fx-dur": "1.3s",
+                            "--fx-delay": `${s.delay}s`,
+                            "--fx-rise": "-26px",
+                            "--fx-s1": "1.2",
+                          } as React.CSSProperties}
                         />
                       ))}
 
                       {/* Subtle gold shimmer background */}
-                      <motion.span
-                        className="absolute inset-0 rounded-md pointer-events-none"
+                      <span
+                        className="fx-pulse absolute inset-0 rounded-md pointer-events-none"
                         style={{
                           background: "radial-gradient(ellipse at center, rgba(255,215,0,0.07) 0%, transparent 70%)",
-                        }}
-                        animate={{
-                          opacity: [0.4, 0.9, 0.4],
-                        }}
-                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                          "--fx-dur": "2.5s",
+                          "--fx-o1": "0.9",
+                        } as React.CSSProperties}
                       />
                     </>
                   )}
@@ -384,30 +356,21 @@ export default function Navbar() {
                         { top: "50%", left: "-4px", delay: 0.6, size: "3px" },
                         { top: "50%", right: "-4px", delay: 1.0, size: "3px" },
                       ].map((s, i) => (
-                        <motion.span
+                        <span
                           key={i}
-                          className="absolute rounded-full pointer-events-none"
+                          className="fx-flicker absolute rounded-full pointer-events-none"
                           style={{
                             width: s.size,
                             height: s.size,
                             top: s.top,
-                            bottom: (s as any).bottom,
+                            bottom: s.bottom,
                             left: s.left,
-                            right: (s as any).right,
-                            translateY: s.top === "50%" ? "-50%" : undefined,
+                            right: s.right,
+                            translate: s.top === "50%" ? "0 -50%" : undefined,
                             background: palette.primaryBright,
                             boxShadow: `0 0 6px 2px ${palette.primaryBright}, 0 0 12px 4px rgba(${palette.primaryRGB},0.6)`,
-                          }}
-                          animate={{
-                            opacity: [0, 1, 0.6, 1, 0],
-                            scale: [0, 1.2, 0.8, 1.1, 0],
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            delay: s.delay,
-                            ease: "easeInOut",
-                          }}
+                            "--fx-delay": `${s.delay}s`,
+                          } as React.CSSProperties}
                         />
                       ))}
 
@@ -417,9 +380,9 @@ export default function Navbar() {
                         { left: "50%", delay: 0.9 },
                         { left: "80%", delay: 0.5 },
                       ].map((s, i) => (
-                        <motion.span
+                        <span
                           key={`rise-${i}`}
-                          className="absolute pointer-events-none rounded-full"
+                          className="fx-rise absolute pointer-events-none rounded-full"
                           style={{
                             width: "3px",
                             height: "3px",
@@ -427,44 +390,24 @@ export default function Navbar() {
                             bottom: "100%",
                             background: palette.primaryBright,
                             boxShadow: `0 0 5px 2px rgba(${palette.primaryRGB},0.8)`,
-                          }}
-                          animate={{
-                            y: [0, -18, -28],
-                            opacity: [0, 1, 0],
-                            scale: [0.5, 1, 0],
-                          }}
-                          transition={{
-                            duration: 1.4,
-                            repeat: Infinity,
-                            delay: s.delay,
-                            ease: "easeOut",
-                          }}
+                            "--fx-delay": `${s.delay}s`,
+                          } as React.CSSProperties}
                         />
                       ))}
 
                       {/* Pulse ring */}
-                      <motion.span
-                        className="absolute inset-0 rounded-md pointer-events-none"
+                      <span
+                        className="fx-breathe absolute inset-0 rounded-md pointer-events-none"
                         style={{ border: `1px solid rgba(${palette.primaryRGB},0.6)` }}
-                        animate={{
-                          opacity: [0.6, 0, 0.6],
-                          scale: [1, 1.08, 1],
-                        }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                       />
                     </>
                   )}
 
                   {/* Gold active pulse ring for Sports */}
                   {isActive && l.id === "sports" && (
-                    <motion.span
-                      className="absolute inset-0 rounded-md pointer-events-none"
-                      style={{ border: "1px solid rgba(255,215,0,0.7)" }}
-                      animate={{
-                        opacity: [0.7, 0, 0.7],
-                        scale: [1, 1.08, 1],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    <span
+                      className="fx-breathe absolute inset-0 rounded-md pointer-events-none"
+                      style={{ border: "1px solid rgba(255,215,0,0.7)", "--fx-o0": "0.7" } as React.CSSProperties}
                     />
                   )}
                 </button>
@@ -496,10 +439,8 @@ export default function Navbar() {
           }}
         >
           {/* Shimmer sweep */}
-          <motion.span
-            className="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100"
-            animate={{ x: ["-100%", "200%"] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+          <span
+            className="fx-shimmer pointer-events-none absolute inset-0 opacity-0 hover:opacity-100"
             style={{
               background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)",
               width: "50%",
@@ -544,8 +485,7 @@ export default function Navbar() {
             className="overflow-hidden md:hidden"
             style={{
               borderTop: `1px solid rgba(${palette.primaryRGB},0.2)`,
-              background: "rgba(5,3,12,0.96)",
-              backdropFilter: "blur(20px)",
+              background: "rgba(5,3,12,0.97)",
             }}
           >
             {navLinks.map((l, i) => {
@@ -575,17 +515,18 @@ export default function Navbar() {
                     }}
                   >
                     {isActive && (
-                      <motion.span
-                        animate={{ opacity: [0.4, 1, 0.4] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        className="w-1.5 h-1.5 rounded-full shrink-0"
-                        style={l.id === "sports" ? {
-                          background: "#ffd700",
-                          boxShadow: "0 0 6px #ffd700, 0 0 12px rgba(255,215,0,0.7)",
-                        } : {
-                          background: palette.primaryBright,
-                          boxShadow: `0 0 6px ${palette.primaryBright}`,
-                        }}
+                      <span
+                        className="fx-pulse w-1.5 h-1.5 rounded-full shrink-0"
+                        style={{
+                          ...(l.id === "sports" ? {
+                            background: "#ffd700",
+                            boxShadow: "0 0 6px #ffd700, 0 0 12px rgba(255,215,0,0.7)",
+                          } : {
+                            background: palette.primaryBright,
+                            boxShadow: `0 0 6px ${palette.primaryBright}`,
+                          }),
+                          "--fx-dur": "1.5s",
+                        } as React.CSSProperties}
                       />
                     )}
                     {l.label}

@@ -121,8 +121,14 @@ export default function Projects() {
 
       {/* Click hint */}
       <div className="flex flex-col items-center gap-2 mt-6 select-none pointer-events-none">
-        {/* Glowing animated line + arrow */}
-        <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Glowing animated line + arrow. The pulse runs on the <svg> element
+            itself (composited HTML opacity) — animating opacity on the filtered
+            SVG children re-ran the double Gaussian blur every frame. */}
+        <svg
+          width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+          className="fx-pulse"
+          style={{ "--fx-dur": "1.4s" } as React.CSSProperties}
+        >
           <defs>
             <filter id="glow-line" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="3" result="blur1" />
@@ -135,7 +141,7 @@ export default function Projects() {
             </filter>
           </defs>
             {/* Arrowhead pointing up */}
-          <motion.polyline
+          <polyline
             points="12,14 20,4 28,14"
             stroke={palette.system}
             strokeWidth="2.5"
@@ -143,18 +149,14 @@ export default function Projects() {
             strokeLinejoin="round"
             fill="none"
             filter="url(#glow-line)"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
           />
           {/* Vertical line */}
-          <motion.line
+          <line
             x1="20" y1="14" x2="20" y2="32"
             stroke={palette.system}
             strokeWidth="2.5"
             strokeLinecap="round"
             filter="url(#glow-line)"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
           />
         </svg>
         <span
@@ -176,7 +178,9 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActive(null)}
-            className="fixed inset-0 z-200 flex items-center justify-center bg-abyss/80 px-3 pt-20 pb-4 sm:px-8 sm:pb-8 backdrop-blur-sm"
+            // No backdrop-blur: a full-viewport blur is recomputed on every
+            // particle-canvas frame while the modal is open, janking its scroll.
+            className="fixed inset-0 z-200 flex items-center justify-center bg-abyss/90 px-3 pt-20 pb-4 sm:px-8 sm:pb-8"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}

@@ -118,6 +118,165 @@ html {
   }
 }
 
+/* Freeze every CSS loop inside a section that is scrolled far off-screen.
+   App.tsx toggles [data-offscreen] via one IntersectionObserver. Only CSS
+   animations are affected — framer-motion entrance tweens run untouched. */
+[data-offscreen] *,
+[data-offscreen] *::before,
+[data-offscreen] *::after {
+  animation-play-state: paused !important;
+}
+
+/* ============================================================
+   FX LOOPS — compositor-only (transform/opacity) replacements for the
+   infinite framer-motion loops. framer drives scale/y/rotate/boxShadow on
+   the main thread every frame; these run on the GPU compositor, pause when
+   off-screen and respect prefers-reduced-motion. Tune per element with the
+   --fx-* custom properties.
+   ============================================================ */
+.fx-twinkle {
+  animation: fxTwinkle var(--fx-dur, 1.6s) ease-in-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxTwinkle {
+  0%, 100% { opacity: 0; transform: scale(var(--fx-s0, 0.4)); }
+  50%      { opacity: 1; transform: scale(var(--fx-s1, 1.4)); }
+}
+
+/* Sparkle that pops, flickers and drifts upward (navbar logo + sports tab) */
+.fx-spark {
+  animation: fxSpark var(--fx-dur, 2s) ease-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxSpark {
+  0%   { opacity: 0;   transform: translateY(0) scale(0); }
+  25%  { opacity: 1;   transform: translateY(calc(var(--fx-rise, -12px) * 0.25)) scale(var(--fx-s1, 1.4)); }
+  50%  { opacity: 0.7; transform: translateY(calc(var(--fx-rise, -12px) * 0.5)) scale(0.75); }
+  75%  { opacity: 1;   transform: translateY(calc(var(--fx-rise, -12px) * 0.75)) scale(1.2); }
+  100% { opacity: 0;   transform: translateY(var(--fx-rise, -12px)) scale(0); }
+}
+
+/* Sparkle that flickers in place (active nav item corners) */
+.fx-flicker {
+  animation: fxFlicker var(--fx-dur, 2s) ease-in-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxFlicker {
+  0%, 100% { opacity: 0;   transform: scale(0); }
+  25%      { opacity: 1;   transform: scale(1.2); }
+  50%      { opacity: 0.6; transform: scale(0.8); }
+  75%      { opacity: 1;   transform: scale(1.1); }
+}
+
+/* Ember that rises and burns out */
+.fx-rise {
+  animation: fxRise var(--fx-dur, 1.4s) ease-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxRise {
+  0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+  50%  { opacity: 1; transform: translateY(calc(var(--fx-rise, -28px) * 0.64)) scale(var(--fx-s1, 1)); }
+  100% { opacity: 0; transform: translateY(var(--fx-rise, -28px)) scale(0); }
+}
+
+/* Opacity breathe between --fx-o0 and --fx-o1 */
+.fx-pulse {
+  animation: fxPulse var(--fx-dur, 2s) ease-in-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxPulse {
+  0%, 100% { opacity: var(--fx-o0, 0.4); }
+  50%      { opacity: var(--fx-o1, 1); }
+}
+
+/* Opacity + scale breathe (glow halos, pulse rings) */
+.fx-breathe {
+  animation: fxBreathe var(--fx-dur, 2s) ease-in-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxBreathe {
+  0%, 100% { opacity: var(--fx-o0, 0.6); transform: scale(1); }
+  50%      { opacity: var(--fx-o1, 0); transform: scale(var(--fx-s1, 1.08)); }
+}
+
+/* Irregular aura flicker (CharacterLayer inner aura) */
+.fx-aura-flicker {
+  animation: fxAuraFlicker 3.2s ease-in-out infinite both;
+}
+@keyframes fxAuraFlicker {
+  0%, 100% { opacity: 0.4; }
+  25%      { opacity: 0.9; }
+  50%      { opacity: 0.5; }
+  75%      { opacity: 1; }
+}
+
+/* Lightning bolt strike — active for the first 60% then idle (repeat delay) */
+.fx-bolt {
+  transform-origin: 50% 50%;
+  animation: fxBolt var(--fx-dur, 4.5s) ease-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxBolt {
+  0%   { opacity: 0;   transform: scaleY(0.4); }
+  12%  { opacity: 0;   transform: scaleY(1); }
+  24%  { opacity: 1;   transform: scaleY(0.8); }
+  36%  { opacity: 0.6; transform: scaleY(1.1); }
+  48%  { opacity: 1;   transform: scaleY(0.6); }
+  60%, 100% { opacity: 0; transform: scaleY(0); }
+}
+
+/* Floating rune glyph */
+.fx-rune {
+  animation: fxRune var(--fx-dur, 4s) ease-in-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxRune {
+  0%, 100% { opacity: 0.3; transform: translateY(0) rotate(0deg); }
+  50%      { opacity: 0.7; transform: translateY(-18px) rotate(var(--fx-rot, 15deg)); }
+}
+
+.fx-sway {
+  animation: fxSway 3s ease-in-out var(--fx-delay, 0s) infinite both;
+}
+@keyframes fxSway {
+  0%, 100% { transform: rotate(-8deg); }
+  50%      { transform: rotate(8deg); }
+}
+
+.fx-spin {
+  animation: fxSpin var(--fx-dur, 3s) linear infinite;
+}
+@keyframes fxSpin {
+  to { transform: rotate(360deg); }
+}
+
+.fx-bob {
+  animation: fxBob 1.6s ease-in-out infinite;
+}
+@keyframes fxBob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+
+/* Full-height carrier whose top edge sweeps down then back (AI card scan) */
+.fx-scan-y {
+  animation: fxScanY 2.8s linear infinite;
+}
+@keyframes fxScanY {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(100%); }
+}
+
+/* Navbar top beam: travel for 4s, rest for 3s */
+.fx-beam {
+  animation: fxBeam 7s linear infinite;
+}
+@keyframes fxBeam {
+  0%            { transform: translateX(-10rem); }
+  57.14%, 100%  { transform: translateX(100vw); }
+}
+
+/* CTA shimmer: sweep for 1.8s, rest for 1s */
+.fx-shimmer {
+  animation: fxShimmer 2.8s linear infinite;
+}
+@keyframes fxShimmer {
+  0%           { transform: translateX(-100%); }
+  64.3%, 100%  { transform: translateX(200%); }
+}
+
 body {
   margin: 0;
   background: var(--color-abyss);
@@ -247,7 +406,8 @@ body::before {
     0 0 28px rgba(56, 189, 248, 0.55),
     0 0 60px rgba(56, 189, 248, 0.25),
     inset 0 0 32px rgba(12, 74, 110, 0.55);
-  backdrop-filter: blur(4px);
+  /* No backdrop-filter: the panel is ~98% opaque so the blur was invisible,
+     yet it re-blurred on every particle-canvas frame behind it. */
   transition: border-color 0.35s ease, box-shadow 0.35s ease;
   cursor: default;
 }
@@ -311,7 +471,6 @@ body::before {
   animation: shimmer-sweep 4s linear infinite;
   pointer-events: none;
   z-index: 0;
-  will-change: transform;
 }
 
 /* Corner sparkle orbs */
@@ -639,16 +798,16 @@ body::before {
   50%       { opacity: 1; transform: scale(1.4); }
 }
 
+/* No will-change here: ~40 cards × 6 animated children would pin ~240
+   permanent GPU layers. Running animations get promoted automatically. */
 .skill-scan {
   top: 0;
   animation: skillScan 2s ease-in-out infinite;
   animation-fill-mode: both;
-  will-change: transform;
 }
 .skill-sparkle {
   animation: skillSparkle ease-in-out infinite;
   animation-fill-mode: both;
-  will-change: transform, opacity;
 }
 
 /* ============================================================

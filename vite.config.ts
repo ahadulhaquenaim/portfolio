@@ -8,4 +8,18 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: "/portfolio/",
+  build: {
+    rollupOptions: {
+      output: {
+        // Split heavy vendors out of the app chunk: they download in parallel
+        // and stay cached across content-only redeploys.
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (/[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return "react";
+          if (/[\\/](framer-motion|motion-dom|motion-utils)[\\/]/.test(id)) return "motion";
+          if (id.includes("gsap")) return "gsap";
+        },
+      },
+    },
+  },
 });
