@@ -39,8 +39,8 @@ export const identity = {
   // Full-bleed hero background image (the cinematic monarch art) in /public.
   // Set to null to fall back to the plain particle/gradient background.
   heroBackground: null as string | null,
-  heroVideo: "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101679/hero-character_xacc6j.mp4" as string | null,
-  contactVideo: "https://res.cloudinary.com/dumsdgz85/video/upload/f_auto,q_auto/v1781101707/meet_exwzv8.mp4" as string | null,
+  heroVideo: `${import.meta.env.BASE_URL}videos/hero-character.mp4` as string | null,
+  contactVideo: `${import.meta.env.BASE_URL}videos/meet.mp4` as string | null,
   email: "ahadul.haque@cefalo.com",
   cvPath: "/cv/Md_Ahadul_Haque_CV.pdf",
 };
