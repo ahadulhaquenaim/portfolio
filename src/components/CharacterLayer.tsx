@@ -1,5 +1,5 @@
 import { motion, useSpring, useTransform } from "framer-motion";
-import { useVideoInView } from "../lib/useVideoInView";
+import { posterFor, useVideoInView } from "../lib/useVideoInView";
 import type { Palette } from "../theme/palette";
 
 function seededRandom(seed: number) {
@@ -59,6 +59,7 @@ export default function CharacterLayer({
             // "metadata" still opens a connection during the hero intro and
             // steals bandwidth from the animation.
             preload="none"
+            poster={posterFor(videoSrc)}
             style={
               fullWidth
                 ? {
@@ -100,48 +101,42 @@ export default function CharacterLayer({
       ) : null}
 
       {/* Aura pulse layer 1 — wide slow breathe.
-          Opacity-only (no scale) so the full-screen blurred gradient never
+          Opacity-only CSS loop (compositor) so the full-screen gradient never
           re-rasters; mix-blend stays but the layer just cross-fades. */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
+      <div
+        className="fx-pulse absolute inset-0 pointer-events-none"
         style={{
           background: `radial-gradient(ellipse 38% 62% at 57% 50%, rgba(${palette.primaryRGB},0.22) 0%, rgba(${palette.primaryRGB},0.1) 45%, transparent 70%)`,
           mixBlendMode: "screen",
-          willChange: "opacity",
-        }}
-        animate={{ opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          "--fx-dur": "5s",
+          "--fx-o0": "0.6",
+        } as React.CSSProperties}
       />
 
       {/* Aura pulse layer 2 — tighter faster flicker */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
+      <div
+        className="fx-aura-flicker absolute inset-0 pointer-events-none"
         style={{
           background: `radial-gradient(ellipse 22% 40% at 57% 48%, rgba(${palette.sparkRGB},0.28) 0%, rgba(${palette.primaryRGB},0.1) 50%, transparent 70%)`,
           mixBlendMode: "screen",
-          willChange: "opacity",
         }}
-        animate={{ opacity: [0.4, 0.9, 0.5, 1, 0.4] }}
-        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Lightning bolts around the silhouette */}
+      {/* Lightning bolts around the silhouette. Outer div holds the static
+          rotation; inner div runs the CSS strike loop, whose idle tail stands
+          in for framer's repeatDelay (strike = first 60% of the cycle). */}
       {LIGHTNING_BOLTS.map((bolt) => (
-        <motion.div
+        <div
           key={bolt.id}
           className="absolute pointer-events-none"
-          style={{ left: bolt.x, top: bolt.y, rotate: bolt.rotate }}
-          animate={{
-            opacity: [0, 0, 1, 0.6, 1, 0],
-            scaleY: [0.4, 1, 0.8, 1.1, 0.6, 0],
-          }}
-          transition={{
-            duration: bolt.dur,
-            delay: bolt.delay,
-            repeat: Infinity,
-            repeatDelay: seededRandom(bolt.id * 31) * 2.5 + 0.5,
-            ease: "easeOut",
-          }}
+          style={{ left: bolt.x, top: bolt.y, transform: `rotate(${bolt.rotate}deg)` }}
+        >
+        <div
+          className="fx-bolt"
+          style={{
+            "--fx-dur": `${(bolt.dur + seededRandom(bolt.id * 31) * 2.5 + 0.5).toFixed(2)}s`,
+            "--fx-delay": `${bolt.delay}s`,
+          } as React.CSSProperties}
         >
           <svg width="14" height="36" viewBox="0 0 14 36" fill="none">
             <path
@@ -160,7 +155,8 @@ export default function CharacterLayer({
               </filter>
             </defs>
           </svg>
-        </motion.div>
+        </div>
+        </div>
       ))}
     </motion.div>
   );

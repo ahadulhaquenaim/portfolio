@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { motion } from "framer-motion";
 import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Cpu, Sparkles } from "lucide-react";
 import { identity } from "../data/content";
-import { useVideoInView } from "../lib/useVideoInView";
+import { posterFor, useVideoInView } from "../lib/useVideoInView";
 import { useTheme } from "../theme/ThemeContext";
 import type { HeroVideoStyle } from "../theme/palette";
 
@@ -161,7 +161,7 @@ export default function Hero() {
             <a
               href={`${import.meta.env.BASE_URL}cv/Md_Ahadul_Haque_CV.pdf`}
               download="Md_Ahadul_Haque_CV.pdf"
-              className="flex items-center gap-2 rounded-md border-2 px-5 py-3 text-sm sm:px-7 sm:text-base font-bold tracking-wider text-[#22d3ee] backdrop-blur-sm transition-all duration-300 hover:bg-[#22d3ee22]"
+              className="flex items-center gap-2 rounded-md border-2 px-5 py-3 text-sm sm:px-7 sm:text-base font-bold tracking-wider text-[#22d3ee] transition-[background-color] duration-300 hover:bg-[#22d3ee22]"
               style={{ background: "#22d3ee18", borderColor: "#22d3ee90", boxShadow: "0 0 20px 4px #22d3ee40" }}
             >
               <Download size={14} />
@@ -187,12 +187,9 @@ export default function Hero() {
         className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center text-slate-400"
       >
         <span className="text-xs tracking-[0.3em]">SCROLL</span>
-        <motion.span
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.6 }}
-        >
+        <span className="fx-bob">
           <ChevronDown className="text-mana-bright" />
-        </motion.span>
+        </span>
       </motion.a>
     </section>
   );
@@ -221,6 +218,7 @@ function HeroVideoBg({
         muted
         playsInline
         preload="metadata"
+        poster={posterFor(videoSrc)}
         className="absolute inset-0 w-full h-full"
         style={{
           objectFit: videoStyle.objectFit,
@@ -337,7 +335,9 @@ function AchievementCard({
       initial={{ opacity: 0, x: 48, scale: 0.92 }}
       animate={go ? { opacity: 1, x: 0, scale: 1 } : {}}
       transition={{ duration: 0.5, delay: 0.15 * index, ease: "easeOut" }}
-      className="group relative flex items-center gap-4 overflow-hidden rounded-lg border px-5 py-4 backdrop-blur-sm"
+      // No backdrop-blur: re-blurring the playing hero video under 7 cards
+      // every frame was the hero's biggest GPU cost. A denser tint reads the same.
+      className="group relative flex items-center gap-4 overflow-hidden rounded-lg border px-5 py-4"
       style={
         isGold
           ? {
@@ -346,26 +346,27 @@ function AchievementCard({
               boxShadow: `0 0 24px 4px ${rarityColor}55, 0 0 60px 10px ${rarityColor}25, inset 0 0 20px 0px ${rarityColor}18`,
             }
           : {
-              background: "color-mix(in srgb, var(--t-abyss) 60%, transparent)",
+              background: "color-mix(in srgb, var(--t-abyss) 72%, transparent)",
               borderColor: `${rarityColor}${isAI ? "70" : "40"}`,
               boxShadow: isAI ? `0 0 18px 2px ${rarityColor}25, inset 0 0 24px 0px ${rarityColor}08` : undefined,
             }
       }
     >
-      {/* AI card: animated scan line */}
+      {/* AI card: animated scan line — a full-height carrier translated with
+          transform, instead of animating `top` (layout every frame) */}
       {isAI && !isGold && (
-        <motion.div
-          className="pointer-events-none absolute inset-x-0 h-[2px] opacity-40"
-          style={{ background: `linear-gradient(90deg, transparent, ${rarityColor}, transparent)` }}
-          animate={{ top: ["0%", "100%", "0%"] }}
-          transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
-        />
+        <div className="fx-scan-y pointer-events-none absolute inset-0">
+          <div
+            className="h-0.5 w-full opacity-40"
+            style={{ background: `linear-gradient(90deg, transparent, ${rarityColor}, transparent)` }}
+          />
+        </div>
       )}
 
       {/* legendary border sparkle — rotating light chasing the frame */}
       {isGold && (
-        <motion.div
-          className="pointer-events-none absolute inset-0 rounded-lg"
+        <div
+          className="fx-spin pointer-events-none absolute inset-0 rounded-lg"
           style={{
             padding: 1.5,
             background: "conic-gradient(from 0deg, transparent 0%, #fffbe6 8%, transparent 16%)",
@@ -373,8 +374,6 @@ function AchievementCard({
             WebkitMaskComposite: "xor",
             maskComposite: "exclude",
           }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
         />
       )}
 
@@ -382,9 +381,9 @@ function AchievementCard({
       {isGold && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           {Array.from({ length: 12 }).map((_, i) => (
-            <motion.span
+            <span
               key={i}
-              className="absolute rounded-full"
+              className="fx-twinkle absolute rounded-full"
               style={{
                 left: `${(i * 17 + 6) % 100}%`,
                 top: `${(i * 31 + 10) % 100}%`,
@@ -392,9 +391,9 @@ function AchievementCard({
                 height: i % 4 === 0 ? 3 : 2,
                 background: "#fffbe6",
                 boxShadow: "0 0 6px 1.5px #fff7cc",
-              }}
-              animate={{ opacity: [0, 1, 0], scale: [0.4, 1.4, 0.4] }}
-              transition={{ duration: 1.4 + (i % 4) * 0.35, repeat: Infinity, ease: "easeInOut", delay: i * 0.22 }}
+                "--fx-dur": `${1.4 + (i % 4) * 0.35}s`,
+                "--fx-delay": `${i * 0.22}s`,
+              } as React.CSSProperties}
             />
           ))}
           {[
@@ -405,9 +404,9 @@ function AchievementCard({
             { left: "78%", top: "0%" },
             { left: "0%", top: "82%" },
           ].map((pos, i) => (
-            <motion.span
+            <span
               key={`edge-${i}`}
-              className="absolute rounded-full"
+              className="fx-twinkle absolute rounded-full"
               style={{
                 left: pos.left,
                 top: pos.top,
@@ -415,31 +414,46 @@ function AchievementCard({
                 height: 3,
                 background: "#ffffff",
                 boxShadow: "0 0 8px 2px #fff7cc",
-              }}
-              animate={{ opacity: [0, 1, 0], scale: [0.3, 1.5, 0.3] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+                "--fx-dur": "1.8s",
+                "--fx-delay": `${i * 0.3}s`,
+                "--fx-s0": "0.3",
+                "--fx-s1": "1.5",
+              } as React.CSSProperties}
             />
           ))}
         </div>
       )}
 
-      {/* left accent bar */}
-      <motion.div
+      {/* left accent bar — the glow pulse is a pre-painted shadow layer whose
+          opacity breathes, instead of re-painting box-shadow every frame */}
+      <div
         className="absolute left-0 top-0 h-full w-1 rounded-l-lg"
-        style={{ background: isGold ? ink : rarityColor }}
-        animate={isAI || isGold ? { boxShadow: [`0 0 8px 2px ${rarityColor}50`, `0 0 20px 6px ${rarityColor}90`, `0 0 8px 2px ${rarityColor}50`] } : { boxShadow: `0 0 12px 3px ${rarityColor}70` }}
-        transition={isAI || isGold ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
-      />
+        style={{
+          background: isGold ? ink : rarityColor,
+          boxShadow: isAI || isGold ? `0 0 8px 2px ${rarityColor}50` : `0 0 12px 3px ${rarityColor}70`,
+        }}
+      >
+        {(isAI || isGold) && (
+          <span
+            className="fx-pulse absolute inset-0 rounded-l-lg"
+            style={{ boxShadow: `0 0 20px 6px ${rarityColor}90`, "--fx-dur": "1.8s", "--fx-o0": "0" } as React.CSSProperties}
+          />
+        )}
+      </div>
 
       {/* icon bubble */}
-      <motion.div
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md"
+      <div
+        className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-md"
         style={isGold ? { background: ink, color: "#ffe066" } : { background: `${rarityColor}22`, color: rarityColor }}
-        animate={isAI || isGold ? { boxShadow: [`0 0 0px 0px ${rarityColor}00`, `0 0 12px 4px ${rarityColor}50`, `0 0 0px 0px ${rarityColor}00`] } : {}}
-        transition={isAI || isGold ? { duration: 1.8, repeat: Infinity, ease: "easeInOut" } : {}}
       >
+        {(isAI || isGold) && (
+          <span
+            className="fx-pulse pointer-events-none absolute inset-0 rounded-md"
+            style={{ boxShadow: `0 0 12px 4px ${rarityColor}50`, "--fx-dur": "1.8s", "--fx-o0": "0" } as React.CSSProperties}
+          />
+        )}
         {achievement.icon}
-      </motion.div>
+      </div>
 
       {/* text */}
       <div className="min-w-0 flex-1">
