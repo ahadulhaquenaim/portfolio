@@ -131,6 +131,7 @@ export const projects = [
   {
     title: "AI Teaching Assistant",
     label: "Agentic RAG Study Platform",
+    ai: true,
     difficulty: "S" as Rank,
     blurb:
       "Built an AI study platform that turns static course material (PDF/DOCX) into an interactive tutor with cited, page-level answers and auto-graded quizzes — running entirely on free tiers. Designed a Corrective RAG workflow in LangGraph that grades retrieved chunks with an LLM, rephrases weak queries, and falls back to web search to reduce hallucinations. Engineered an async ingestion pipeline with scanned-PDF detection and Gemini embeddings stored in per-document Pinecone namespaces for user data isolation, with chat history and quizzes persisted in MongoDB Atlas. Developed a provider-agnostic LLM layer with automatic Gemini → OpenRouter fallback and retry logic, secured by ownership-checked document access, prompt-injection protection for web results, and per-user upload quotas.",
@@ -161,6 +162,7 @@ export const projects = [
   {
     title: "Team Task Summarizer",
     label: "AI-Driven Automation",
+    ai: true,
     difficulty: "S" as Rank,
     blurb:
       "Developed a secure automation system to aggregate and summarize team updates from GitHub, Slack, and ClickUp using OAuth 2.0 integrations. Built a data processing pipeline leveraging local LLMs (Llama 3.2 and Gemma) with structured prompt engineering to generate high-accuracy summaries. Delivered consolidated AI-generated reports to Gmail with zero external API cost through secure local model execution.",
@@ -170,6 +172,7 @@ export const projects = [
   {
     title: "Recruitment Portal",
     label: "Applicant Tracking System",
+    ai: true,
     difficulty: "S" as Rank,
     blurb:
       "Contributed as a team member to a large-scale, production-grade ATS featuring a public job portal and an internal HR/admin dashboard, supporting end-to-end recruitment workflows. Developed and extended RESTful APIs across multiple NestJS modules covering candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC. Integrated Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments. Implemented multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for HR/admin reporting. Developed an AI-powered candidate shortlisting and scoring feature that automatically evaluates applicants against job requirements, reducing manual screening effort for the HR team.",

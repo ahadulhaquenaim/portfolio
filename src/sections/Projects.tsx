@@ -61,7 +61,7 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="gate-card group flex flex-col rounded-xl p-7 text-left min-h-80 sm:h-80"
+                className={`gate-card ${"ai" in p && p.ai ? "gate-card-ai " : ""}group flex flex-col rounded-xl p-7 text-left min-h-80 sm:h-80`}
               >
                 <div className="mb-5 flex items-center justify-between">
                   <Swords className="text-mana-bright" size={28} />
