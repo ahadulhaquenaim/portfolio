@@ -170,7 +170,7 @@ export const projects = [
     slides: [copai1, copai2, copai3, copai4, copai5],
   },
   {
-    title: "Recruitment Portal",
+    title: "AI Application Tracking System",
     label: "Applicant Tracking System",
     ai: true,
     difficulty: "S" as Rank,
