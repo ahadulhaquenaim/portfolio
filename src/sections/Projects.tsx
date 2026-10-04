@@ -9,6 +9,35 @@ import { useTheme } from "../theme/ThemeContext";
 
 type Project = (typeof projects)[number];
 
+// Modal description: labeled bullet list when highlights exist, plain blurb otherwise.
+function ProjectDetails({ project }: { project: Project }) {
+  const { palette } = useTheme();
+  if (!("highlights" in project) || !project.highlights?.length) {
+    return <p className="leading-relaxed text-white text-lg font-semibold">{project.blurb}</p>;
+  }
+  return (
+    <ul className="flex flex-col gap-3">
+      {project.highlights.map((h) => (
+        <li key={h.label} className="flex gap-3 leading-relaxed text-white">
+          <span
+            className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45"
+            style={{ background: palette.system, boxShadow: `0 0 8px rgba(${palette.systemRGB},0.9)` }}
+          />
+          <span>
+            <span
+              className="mr-1.5 text-xs font-mono font-semibold uppercase tracking-[0.2em]"
+              style={{ color: palette.system, textShadow: `0 0 8px rgba(${palette.systemRGB},0.7)` }}
+            >
+              {h.label}
+            </span>
+            <span className="text-base">{h.text}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Projects() {
   const { palette } = useTheme();
   const [active, setActive] = useState<Project | null>(null);
@@ -214,7 +243,8 @@ export default function Projects() {
 
               {/* Body — two columns when preview/slides exists, single column otherwise */}
               {"slides" in active && active.slides && active.slides.length > 0 ? (
-                <div className="flex flex-col gap-6 px-8 pb-8 lg:flex-row lg:items-start">
+                <div className="px-8 pb-8">
+                  <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
                   <div className="lg:w-[63%] flex flex-col gap-4">
                     <div className="relative w-full group">
                       <img
@@ -254,25 +284,25 @@ export default function Projects() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col justify-between lg:w-[37%]">
-                    <div>
-                      <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {active.tech.map((t) => (
-                          <span
-                            key={t}
-                            className="rounded border px-2.5 py-1 text-sm font-semibold text-white"
-                            style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <div className="lg:w-[37%]">
+                    <ProjectDetails project={active} />
+                  </div>
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {active.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded border px-2.5 py-1 text-sm font-semibold text-white"
+                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </div>
               ) : "preview" in active && active.preview ? (
-                <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
+                <div className="px-8 pb-8">
+                  <div className="flex flex-col gap-8 lg:flex-row">
                   <div className="lg:w-[55%] flex flex-col gap-4">
                     <img
                       src={active.preview as string}
@@ -308,25 +338,24 @@ export default function Projects() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col justify-between lg:w-[45%]">
-                    <div>
-                      <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {active.tech.map((t) => (
-                          <span
-                            key={t}
-                            className="rounded border px-2.5 py-1 text-sm font-semibold text-white" style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <div className="lg:w-[45%]">
+                    <ProjectDetails project={active} />
+                  </div>
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {active.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded border px-2.5 py-1 text-sm font-semibold text-white" style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </div>
               ) : (
                 <div className="px-7 pb-7">
-                  <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
+                  <ProjectDetails project={active} />
                   <div className="mt-5 flex flex-wrap gap-2">
                     {active.tech.map((t) => (
                       <span

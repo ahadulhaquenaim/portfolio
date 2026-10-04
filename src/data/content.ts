@@ -137,6 +137,14 @@ export const projects = [
       "Built an AI study platform that turns static course material (PDF/DOCX) into an interactive tutor with cited, page-level answers and auto-graded quizzes — running entirely on free tiers. Designed a Corrective RAG workflow in LangGraph that grades retrieved chunks with an LLM, rephrases weak queries, and falls back to web search to reduce hallucinations. Engineered an async ingestion pipeline with scanned-PDF detection and Gemini embeddings stored in per-document Pinecone namespaces for user data isolation, with chat history and quizzes persisted in MongoDB Atlas. Developed a provider-agnostic LLM layer with automatic Gemini → OpenRouter fallback and retry logic, secured by ownership-checked document access, prompt-injection protection for web results, and per-user upload quotas.",
     tech: ["Python", "FastAPI", "LangGraph", "LangChain", "RAG", "Gemini", "OpenRouter", "Pinecone", "MongoDB Atlas", "Streamlit", "Pytest"],
     repoLink: "https://github.com/ahadulhaquenaim/ai-teaching-assistant",
+    highlights: [
+      { label: "Overview", text: "AI study platform that turns static course material (PDF/DOCX) into an interactive tutor with cited, page-level answers and auto-graded quizzes — running entirely on free tiers." },
+      { label: "Corrective RAG", text: "LangGraph workflow that grades retrieved chunks with an LLM, rephrases weak queries, and falls back to web search to reduce hallucinations." },
+      { label: "Ingestion", text: "Async pipeline with scanned-PDF detection and Gemini embeddings stored in per-document Pinecone namespaces for user data isolation." },
+      { label: "Persistence", text: "Chat history and quizzes persisted in MongoDB Atlas." },
+      { label: "LLM Layer", text: "Provider-agnostic design with automatic Gemini → OpenRouter fallback and retry logic." },
+      { label: "Security", text: "Ownership-checked document access, prompt-injection protection for web results, and per-user upload quotas." },
+    ],
     preview: aiTeachingAssistantPreview,
   },
   {
@@ -147,6 +155,12 @@ export const projects = [
       "Co-founded and architected a production-deployed e-commerce monorepo with a customer storefront, admin dashboard, and REST API. Features 20+ NestJS modules covering product variants, hierarchical categories, coupon/reward systems, push notifications, and custom invoice generation — deployed to Hostinger VPS via Coolify.",
     tech: ["Next.js 14", "NestJS", "TypeScript", "Prisma", "MySQL", "Tailwind CSS", "Docker", "Turborepo", "Coolify", "Hostinger"],
     link: "https://shikkhakosh.com",
+    highlights: [
+      { label: "Overview", text: "Co-founded and architected a production-deployed e-commerce monorepo with a customer storefront, admin dashboard, and REST API." },
+      { label: "Backend", text: "20+ NestJS modules covering product variants, hierarchical categories, coupon/reward systems, and push notifications." },
+      { label: "Invoicing", text: "Custom invoice generation built into the order flow." },
+      { label: "Deployment", text: "Deployed to Hostinger VPS via Coolify." },
+    ],
     preview: shikkhakoshPreview,
   },
   {
@@ -157,6 +171,12 @@ export const projects = [
       "Engineered ETL pipelines and data workflows for power market analytics at a leading Norwegian energy tech company. Collected and preprocessed high-resolution power market data from diverse sources, designed and maintained scalable pipelines supporting forecasting models, and ensured data integrity across high-volume transformation processes.",
     tech: ["Python", "Apache Airflow", "Pandas", "BeautifulSoup4", "Django", "REST APIs", "Docker", "GCP", "Grafana", "Prometheus"],
     link: "https://www.volue.com/",
+    highlights: [
+      { label: "Overview", text: "Engineered ETL pipelines and data workflows for power market analytics at a leading Norwegian energy tech company." },
+      { label: "Data Collection", text: "Collected and preprocessed high-resolution power market data from diverse sources." },
+      { label: "Pipelines", text: "Designed and maintained scalable pipelines supporting forecasting models." },
+      { label: "Data Integrity", text: "Ensured data integrity across high-volume transformation processes." },
+    ],
     preview: voluePreview,
   },
   {
@@ -168,6 +188,12 @@ export const projects = [
       "Developed a secure automation system to aggregate and summarize team updates from GitHub, Slack, and ClickUp using OAuth 2.0 integrations. Built a data processing pipeline leveraging local LLMs (Llama 3.2 and Gemma) with structured prompt engineering to generate high-accuracy summaries. Delivered consolidated AI-generated reports to Gmail with zero external API cost through secure local model execution.",
     tech: ["Python", "OAuth 2.0", "GitHub API", "Slack API", "ClickUp API", "Llama 3.2", "Gemma", "n8n", "Gmail API"],
     slides: [copai1, copai2, copai3, copai4, copai5],
+    highlights: [
+      { label: "Overview", text: "Secure automation system that aggregates and summarizes team updates from GitHub, Slack, and ClickUp." },
+      { label: "Integrations", text: "OAuth 2.0 integrations with each source platform." },
+      { label: "Local LLMs", text: "Data processing pipeline using Llama 3.2 and Gemma with structured prompt engineering for high-accuracy summaries." },
+      { label: "Delivery", text: "Consolidated AI-generated reports sent to Gmail with zero external API cost." },
+    ],
   },
   {
     title: "AI Application Tracking System",
@@ -179,6 +205,13 @@ export const projects = [
     tech: ["TypeScript", "NestJS", "Next.js", "Prisma", "MySQL", "Ant Design", "Zustand", "AWS S3", "Docker", "JWT"],
     preview: atsPreview,
     link: "https://career.cefalo.com/",
+    highlights: [
+      { label: "Overview", text: "Team member on a large-scale, production-grade ATS with a public job portal and an internal HR/admin dashboard for end-to-end recruitment." },
+      { label: "APIs", text: "Developed and extended RESTful APIs across NestJS modules: candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC." },
+      { label: "Integrations", text: "Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments." },
+      { label: "HR Tooling", text: "Multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for reporting." },
+      { label: "AI Shortlisting", text: "AI-powered candidate scoring against job requirements, reducing manual screening effort for HR." },
+    ],
   },
   {
     title: "Thai Craft Learning",
@@ -188,6 +221,13 @@ export const projects = [
       "A full-stack content management and learning platform for Thai arts and crafts. Supports user authentication, article creation with rich-text editing, revision/publication workflows, file/image uploads with processing, collections, tags, homepage management, reporting, and daily usage statistics — served through a React frontend with an Express/Node.js REST API.",
     tech: ["Node.js", "Express.js", "TypeScript", "React 18", "Material UI", "MariaDB", "Knex.js", "JWT", "Docker", "Nginx"],
     preview: thaiCraftPreview,
+    highlights: [
+      { label: "Overview", text: "Full-stack content management and learning platform for Thai arts and crafts." },
+      { label: "Content", text: "Article creation with rich-text editing and revision/publication workflows." },
+      { label: "Media", text: "File/image uploads with processing, collections, tags, and homepage management." },
+      { label: "Insights", text: "Reporting and daily usage statistics." },
+      { label: "Stack", text: "React frontend backed by an Express/Node.js REST API." },
+    ],
   },
 ];
 
