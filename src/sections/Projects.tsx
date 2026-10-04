@@ -279,19 +279,34 @@ export default function Projects() {
                       alt={active.title}
                       className="w-full rounded-lg border border-mana/20"
                     />
-                    {active.link && active.link !== "#" && (
-                      <a
-                        href={active.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 self-start rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
-                        onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
-                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                      >
-                        LIVE SERVER <ExternalLink size={16} />
-                      </a>
-                    )}
+                    <div className="flex flex-wrap gap-3">
+                      {active.link && active.link !== "#" && (
+                        <a
+                          href={active.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
+                          onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
+                          style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        >
+                          LIVE SERVER <ExternalLink size={16} />
+                        </a>
+                      )}
+                      {"repoLink" in active && active.repoLink && (
+                        <a
+                          href={active.repoLink as string}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
+                          onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
+                          style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        >
+                          REPO <ExternalLink size={16} />
+                        </a>
+                      )}
+                    </div>
                   </div>
                   <div className="flex flex-col justify-between lg:w-[45%]">
                     <div>
@@ -306,21 +321,6 @@ export default function Projects() {
                           </span>
                         ))}
                       </div>
-                    </div>
-                    <div className="mt-7 flex flex-wrap gap-3">
-                      {"repoLink" in active && active.repoLink && (
-                        <a
-                          href={active.repoLink as string}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
-                          onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
-                          onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
-                          style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                        >
-                          REPO <ExternalLink size={16} />
-                        </a>
-                      )}
                     </div>
                   </div>
                 </div>
