@@ -84,7 +84,7 @@ export default function Projects() {
                     <span
                       key={t}
                       className="rounded border px-2.5 py-0.5 text-[11px] tracking-wide font-medium"
-                      style={{ border: `1px solid rgba(${palette.primaryRGB},0.7)`, background: `rgba(${palette.primaryRGB},0.15)`, color: palette.primaryBright, boxShadow: `0 0 8px rgba(${palette.primaryRGB},0.5), inset 0 0 6px rgba(${palette.primaryRGB},0.1)`, textShadow: `0 0 8px rgba(${palette.sparkRGB},0.8)` }}
+                      style={{ border: `1px solid rgba(${palette.primaryRGB},0.9)`, background: `rgba(${palette.primaryRGB},0.22)`, color: `color-mix(in srgb, ${palette.primaryBright} 45%, white)`, boxShadow: `0 0 8px rgba(${palette.primaryRGB},0.55), inset 0 0 6px rgba(${palette.primaryRGB},0.15)`, textShadow: `0 0 8px rgba(${palette.sparkRGB},0.6)` }}
                     >
                       {t}
                     </span>
