@@ -11,7 +11,7 @@ import {
   LinkedinIcon,
   FacebookIcon,
 } from "../components/BrandIcons";
-const selftunePreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118408/selftune_mroosj.png";
+const aiTeachingAssistantPreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1791147249/ai-teaching-assistant_nabzbn.png";
 const shikkhakoshPreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118411/shikkhakosh_hpzngg.png";
 const voluePreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118410/volue_vq5m8j.png";
 const copai1 = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118406/copai1_uow8k6.png";
@@ -129,24 +129,41 @@ export const skills: { name: string; rank: Rank; value: number }[] = [
 // Each project is a "dungeon raid". difficulty maps to a rank badge.
 export const projects = [
   {
-    title: "Self Tune Desktop App",
-    label: "Linux Desktop App",
+    title: "AI Teaching Assistant",
+    label: "Agentic RAG Study Platform",
+    ai: true,
     difficulty: "S" as Rank,
     blurb:
-      "A native desktop productivity app with a Plan → Do → Review workflow, backlog management, and a 7-day weekly report dashboard — all stored locally for full privacy.",
-    tech: ["Electron.js", "React", "TypeScript", "Vite", "Node.js", "electron-builder", "CSS"],
-    link: "#",
-    repoLink: "https://github.com/ahadulhaquenaim/self-tune",
-    preview: selftunePreview,
+      "Built an AI study platform that turns static course material (PDF/DOCX) into an interactive tutor with cited, page-level answers and auto-graded quizzes — running entirely on free tiers. Designed a Corrective RAG workflow in LangGraph that grades retrieved chunks with an LLM, rephrases weak queries, and falls back to web search to reduce hallucinations. Engineered an async ingestion pipeline with scanned-PDF detection and Gemini embeddings stored in per-document Pinecone namespaces for user data isolation, with chat history and quizzes persisted in MongoDB Atlas. Developed a provider-agnostic LLM layer with automatic Gemini → OpenRouter fallback and retry logic, secured by ownership-checked document access, prompt-injection protection for web results, and per-user upload quotas.",
+    tech: ["Python", "FastAPI", "LangGraph", "LangChain", "RAG", "Gemini", "OpenRouter", "Pinecone", "MongoDB Atlas", "Streamlit", "Pytest"],
+    repoLink: "https://github.com/ahadulhaquenaim/ai-teaching-assistant",
+    highlights: [
+      { label: "Overview", text: "AI study platform that turns static course material (PDF/DOCX) into an interactive tutor with cited, page-level answers and auto-graded quizzes — running entirely on free tiers." },
+      { label: "Corrective RAG", text: "LangGraph workflow that grades retrieved chunks with an LLM, rephrases weak queries, and falls back to web search to reduce hallucinations." },
+      { label: "Ingestion", text: "Async pipeline with scanned-PDF detection and Gemini embeddings stored in per-document Pinecone namespaces for user data isolation." },
+      { label: "Persistence", text: "Chat history and quizzes persisted in MongoDB Atlas." },
+      { label: "LLM Layer", text: "Provider-agnostic design with automatic Gemini → OpenRouter fallback and retry logic." },
+      { label: "Security", text: "Ownership-checked document access, prompt-injection protection for web results, and per-user upload quotas." },
+    ],
+    preview: aiTeachingAssistantPreview,
   },
   {
     title: "Shikkhakosh",
     label: "Full-Stack E-Commerce",
     difficulty: "S" as Rank,
     blurb:
-      "Co-founded and architected a production-deployed e-commerce monorepo with a customer storefront, admin dashboard, and REST API. Features 20+ NestJS modules covering product variants, hierarchical categories, coupon/reward systems, push notifications, and custom invoice generation — deployed to Hostinger VPS via Coolify.",
-    tech: ["Next.js 14", "NestJS", "TypeScript", "Prisma", "MySQL", "Tailwind CSS", "Docker", "Turborepo", "Coolify", "Hostinger"],
+      "Co-founded and architected a production e-commerce platform serving real customers at shikkhakosh.com — a Turborepo monorepo with a customer storefront, admin dashboard, and REST API sharing UI components and TypeScript types. Engineered a NestJS backend of 20+ domain modules covering the full commerce lifecycle, integrated Steadfast Courier for bulk order dispatch, secured it with JWT refresh-token rotation and Google/Facebook OAuth, and shipped the containerized stack to a Hostinger VPS via Coolify with separate dev and production environments.",
+    tech: ["Next.js 14", "NestJS", "TypeScript", "Prisma", "MySQL", "Tailwind CSS", "Passport.js", "JWT", "Docker", "Turborepo", "Coolify", "Hostinger"],
     link: "https://shikkhakosh.com",
+    highlights: [
+      { label: "Overview", text: "Co-founded and architected a production e-commerce platform live at shikkhakosh.com, owning it from data model to deployment." },
+      { label: "Architecture", text: "A Turborepo monorepo where the storefront, admin dashboard and REST API share UI component and TypeScript type libraries, so types stay consistent across all apps." },
+      { label: "Backend", text: "20+ NestJS modules covering the full commerce lifecycle: product variants, nested categories, coupons and rewards, review moderation, and push notifications." },
+      { label: "Logistics", text: "Steadfast Courier integration for sending and cancelling orders in bulk from the admin panel." },
+      { label: "Invoicing", text: "Custom invoice generation built into the order flow." },
+      { label: "Auth & Security", text: "JWT login with refresh-token rotation, plus Google and Facebook sign-in through Passport.js." },
+      { label: "DevOps", text: "Docker for the whole stack, deployed to a Hostinger VPS via Coolify, with separate development and production environments." },
+    ],
     preview: shikkhakoshPreview,
   },
   {
@@ -154,29 +171,57 @@ export const projects = [
     label: "Data Engineering",
     difficulty: "A" as Rank,
     blurb:
-      "Engineered ETL pipelines and data workflows for power market analytics at a leading Norwegian energy tech company. Collected and preprocessed high-resolution power market data from diverse sources, designed and maintained scalable pipelines supporting forecasting models, and ensured data integrity across high-volume transformation processes.",
+      "Engineered ETL pipelines and data workflows for power market analytics at a leading Norwegian energy tech company. Collected, preprocessed, and structured high-resolution power market data from diverse sources, and designed, maintained, and enhanced pipelines supporting forecasting models. Orchestrated complex workflows with Apache Airflow across thousands of data sources, containerized services with Docker on GCP, and set up Prometheus and Grafana monitoring to track pipeline health and detect data anomalies in real time.",
     tech: ["Python", "Apache Airflow", "Pandas", "BeautifulSoup4", "Django", "REST APIs", "Docker", "GCP", "Grafana", "Prometheus"],
     link: "https://www.volue.com/",
+    highlights: [
+      { label: "Overview", text: "Engineered ETL pipelines and data workflows for power market analytics at a leading Norwegian energy tech company." },
+      { label: "Data Collection", text: "Collected, preprocessed, and structured high-resolution power market data from diverse sources into standardized formats." },
+      { label: "Pipelines", text: "Designed, maintained, and enhanced ETL pipelines for forecasting models and energy market analytics, adding features that improved reliability, scalability, and performance." },
+      { label: "Orchestration", text: "Orchestrated and scheduled complex workflows with Apache Airflow across thousands of data sources, improving observability and reducing manual intervention." },
+      { label: "Data Integrity", text: "Ensured data integrity and consistency across high-volume transformation processes." },
+      { label: "DevOps", text: "Containerized data services with Docker for consistent deployment across development and production on Google Cloud Platform (GCP)." },
+      { label: "Monitoring", text: "Prometheus and Grafana monitoring and alerting to track pipeline health and detect data anomalies in real time." },
+      { label: "Collaboration", text: "Worked with cross-functional teams to turn energy market forecasting requirements into robust data engineering solutions." },
+    ],
     preview: voluePreview,
   },
   {
     title: "Team Task Summarizer",
     label: "AI-Driven Automation",
+    ai: true,
     difficulty: "S" as Rank,
     blurb:
       "Developed a secure automation system to aggregate and summarize team updates from GitHub, Slack, and ClickUp using OAuth 2.0 integrations. Built a data processing pipeline leveraging local LLMs (Llama 3.2 and Gemma) with structured prompt engineering to generate high-accuracy summaries. Delivered consolidated AI-generated reports to Gmail with zero external API cost through secure local model execution.",
     tech: ["Python", "OAuth 2.0", "GitHub API", "Slack API", "ClickUp API", "Llama 3.2", "Gemma", "n8n", "Gmail API"],
     slides: [copai1, copai2, copai3, copai4, copai5],
+    highlights: [
+      { label: "Overview", text: "Developed a secure automation system that aggregates and summarizes team updates from GitHub, Slack, and ClickUp, so no one misses what their team shipped." },
+      { label: "Integrations", text: "Secure OAuth 2.0 integrations with GitHub, Slack, and ClickUp APIs to pull commits, messages, and task updates from each platform." },
+      { label: "Workflow", text: "Built the end-to-end automation pipeline in n8n, from data collection through summarization to delivery." },
+      { label: "Local LLMs", text: "Data processing pipeline leveraging local LLMs (Llama 3.2 and Gemma) with structured prompt engineering to generate high-accuracy summaries." },
+      { label: "Privacy & Cost", text: "Secure local model execution keeps team data in-house and runs with zero external API cost." },
+      { label: "Delivery", text: "Consolidated AI-generated reports delivered straight to Gmail." },
+    ],
   },
   {
-    title: "Recruitment Portal",
+    title: "AI Application Tracking System",
     label: "Applicant Tracking System",
+    ai: true,
     difficulty: "S" as Rank,
     blurb:
-      "Contributed as a team member to a large-scale, production-grade ATS featuring a public job portal and an internal HR/admin dashboard, supporting end-to-end recruitment workflows. Developed and extended RESTful APIs across multiple NestJS modules covering candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC. Integrated Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments. Implemented multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for HR/admin reporting. Developed an AI-powered candidate shortlisting and scoring feature that automatically evaluates applicants against job requirements, reducing manual screening effort for the HR team.",
-    tech: ["TypeScript", "NestJS", "Next.js", "Prisma", "MySQL", "Ant Design", "Zustand", "AWS S3", "Docker", "JWT"],
+      "Contributed as a team member to a large-scale, production-grade ATS featuring a public job portal and an internal HR/admin dashboard, supporting end-to-end recruitment workflows. Developed and extended RESTful APIs across multiple NestJS modules covering candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC. Integrated Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments. Implemented multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for HR/admin reporting. Developed an AI-powered candidate shortlisting and scoring feature that automatically evaluates applicants against job requirements, reducing manual screening effort for the HR team. Integrated ElevenLabs to build an AI-powered voice interview feature that conducts automated screening interviews with candidates, enabling HR to assess applicants at scale without scheduling live interviewers for early-stage rounds.",
+    tech: ["TypeScript", "NestJS", "Next.js", "Prisma", "MySQL", "Ant Design", "Zustand", "AWS S3", "Docker", "JWT", "ElevenLabs"],
     preview: atsPreview,
     link: "https://career.cefalo.com/",
+    highlights: [
+      { label: "Overview", text: "Team member on a large-scale, production-grade ATS with a public job portal and an internal HR/admin dashboard for end-to-end recruitment." },
+      { label: "APIs", text: "Developed and extended RESTful APIs across NestJS modules: candidate management, job postings, interview scheduling, evaluations, RBAC, and ABAC." },
+      { label: "Integrations", text: "Google Calendar API for automated interview scheduling and HackerRank API for in-platform coding assessments." },
+      { label: "HR Tooling", text: "Multi-stage candidate tracking, dynamic application forms, and bulk Excel/PDF export for reporting." },
+      { label: "AI Shortlisting", text: "AI-powered candidate scoring against job requirements, reducing manual screening effort for HR." },
+      { label: "AI Voice Interviews", text: "ElevenLabs-powered voice agent that runs automated screening interviews, letting HR assess applicants at scale without live interviewers for early-stage rounds." },
+    ],
   },
   {
     title: "Thai Craft Learning",
@@ -186,6 +231,13 @@ export const projects = [
       "A full-stack content management and learning platform for Thai arts and crafts. Supports user authentication, article creation with rich-text editing, revision/publication workflows, file/image uploads with processing, collections, tags, homepage management, reporting, and daily usage statistics — served through a React frontend with an Express/Node.js REST API.",
     tech: ["Node.js", "Express.js", "TypeScript", "React 18", "Material UI", "MariaDB", "Knex.js", "JWT", "Docker", "Nginx"],
     preview: thaiCraftPreview,
+    highlights: [
+      { label: "Overview", text: "Full-stack content management and learning platform for Thai arts and crafts." },
+      { label: "Content", text: "Article creation with rich-text editing and revision/publication workflows." },
+      { label: "Media", text: "File/image uploads with processing, collections, tags, and homepage management." },
+      { label: "Insights", text: "Reporting and daily usage statistics." },
+      { label: "Stack", text: "React frontend backed by an Express/Node.js REST API." },
+    ],
   },
 ];
 

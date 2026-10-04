@@ -9,6 +9,35 @@ import { useTheme } from "../theme/ThemeContext";
 
 type Project = (typeof projects)[number];
 
+// Modal description: labeled bullet list when highlights exist, plain blurb otherwise.
+function ProjectDetails({ project }: { project: Project }) {
+  const { palette } = useTheme();
+  if (!("highlights" in project) || !project.highlights?.length) {
+    return <p className="leading-relaxed text-white text-lg font-semibold">{project.blurb}</p>;
+  }
+  return (
+    <ul className="flex flex-col gap-3">
+      {project.highlights.map((h) => (
+        <li key={h.label} className="flex gap-3 leading-relaxed text-white">
+          <span
+            className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45"
+            style={{ background: palette.system, boxShadow: `0 0 8px rgba(${palette.systemRGB},0.9)` }}
+          />
+          <span>
+            <span
+              className="mr-1.5 text-xs font-mono font-semibold uppercase tracking-[0.2em]"
+              style={{ color: palette.system, textShadow: `0 0 8px rgba(${palette.systemRGB},0.7)` }}
+            >
+              {h.label}
+            </span>
+            <span className="text-base">{h.text}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Projects() {
   const { palette } = useTheme();
   const [active, setActive] = useState<Project | null>(null);
@@ -61,7 +90,7 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8%" }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className="gate-card group flex flex-col rounded-xl p-7 text-left min-h-80 sm:h-80"
+                className={`gate-card ${"ai" in p && p.ai ? "gate-card-ai " : ""}group flex flex-col rounded-xl p-7 text-left min-h-80 sm:h-80`}
               >
                 <div className="mb-5 flex items-center justify-between">
                   <Swords className="text-mana-bright" size={28} />
@@ -84,7 +113,7 @@ export default function Projects() {
                     <span
                       key={t}
                       className="rounded border px-2.5 py-0.5 text-[11px] tracking-wide font-medium"
-                      style={{ border: `1px solid rgba(${palette.primaryRGB},0.7)`, background: `rgba(${palette.primaryRGB},0.15)`, color: palette.primaryBright, boxShadow: `0 0 8px rgba(${palette.primaryRGB},0.5), inset 0 0 6px rgba(${palette.primaryRGB},0.1)`, textShadow: `0 0 8px rgba(${palette.sparkRGB},0.8)` }}
+                      style={{ border: `1px solid rgba(${palette.primaryRGB},0.9)`, background: `rgba(${palette.primaryRGB},0.22)`, color: `color-mix(in srgb, ${palette.primaryBright} 45%, white)`, boxShadow: `0 0 8px rgba(${palette.primaryRGB},0.55), inset 0 0 6px rgba(${palette.primaryRGB},0.15)`, textShadow: `0 0 8px rgba(${palette.sparkRGB},0.6)` }}
                     >
                       {t}
                     </span>
@@ -214,7 +243,8 @@ export default function Projects() {
 
               {/* Body — two columns when preview/slides exists, single column otherwise */}
               {"slides" in active && active.slides && active.slides.length > 0 ? (
-                <div className="flex flex-col gap-6 px-8 pb-8 lg:flex-row lg:items-start">
+                <div className="px-8 pb-8">
+                  <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
                   <div className="lg:w-[63%] flex flex-col gap-4">
                     <div className="relative w-full group">
                       <img
@@ -254,60 +284,45 @@ export default function Projects() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col justify-between lg:w-[37%]">
-                    <div>
-                      <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {active.tech.map((t) => (
-                          <span
-                            key={t}
-                            className="rounded border px-2.5 py-1 text-sm font-semibold text-white"
-                            style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <div className="lg:w-[37%]">
+                    <ProjectDetails project={active} />
+                  </div>
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {active.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded border px-2.5 py-1 text-sm font-semibold text-white"
+                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </div>
               ) : "preview" in active && active.preview ? (
-                <div className="flex flex-col gap-8 px-8 pb-8 lg:flex-row">
+                <div className="px-8 pb-8">
+                  <div className="flex flex-col gap-8 lg:flex-row">
                   <div className="lg:w-[55%] flex flex-col gap-4">
                     <img
                       src={active.preview as string}
                       alt={active.title}
                       className="w-full rounded-lg border border-mana/20"
                     />
-                    {active.link && active.link !== "#" && (
-                      <a
-                        href={active.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 self-start rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
-                        onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
-                        style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                      >
-                        LIVE SERVER <ExternalLink size={16} />
-                      </a>
-                    )}
-                  </div>
-                  <div className="flex flex-col justify-between lg:w-[45%]">
-                    <div>
-                      <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {active.tech.map((t) => (
-                          <span
-                            key={t}
-                            className="rounded border px-2.5 py-1 text-sm font-semibold text-white" style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="mt-7 flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3">
+                      {active.link && active.link !== "#" && (
+                        <a
+                          href={active.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-md border px-6 py-2.5 text-sm font-semibold tracking-wider text-white transition-colors"
+                          onMouseEnter={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.3)`)}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = `rgba(${palette.primaryRGB},0.2)`)}
+                          style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                        >
+                          LIVE SERVER <ExternalLink size={16} />
+                        </a>
+                      )}
                       {"repoLink" in active && active.repoLink && (
                         <a
                           href={active.repoLink as string}
@@ -323,10 +338,24 @@ export default function Projects() {
                       )}
                     </div>
                   </div>
+                  <div className="lg:w-[45%]">
+                    <ProjectDetails project={active} />
+                  </div>
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {active.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded border px-2.5 py-1 text-sm font-semibold text-white" style={{ border: `1px solid ${palette.primary}`, background: `rgba(${palette.primaryRGB},0.2)`, boxShadow: `0 0 10px rgba(${palette.primaryRGB},0.8), 0 0 20px rgba(${palette.primaryRGB},0.4)`, textShadow: "0 0 8px rgba(255,255,255,0.8)" }}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               ) : (
                 <div className="px-7 pb-7">
-                  <p className="leading-relaxed text-white text-lg font-semibold">{active.blurb}</p>
+                  <ProjectDetails project={active} />
                   <div className="mt-5 flex flex-wrap gap-2">
                     {active.tech.map((t) => (
                       <span

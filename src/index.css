@@ -453,6 +453,38 @@ body::before {
   box-shadow: 0 0 28px rgba(var(--glow-mana), 0.45), inset 0 0 22px rgba(var(--glow-rune), 0.3);
 }
 
+/* AI projects — soft static outer glow plus an inner aura that breathes via
+   opacity only (compositor), so no box-shadow is animated per frame. */
+.gate-card-ai {
+  --gold: 250, 204, 21; /* #facc15 */
+  --gold-deep: 245, 158, 11; /* #f59e0b */
+  border-color: rgba(var(--gold), 0.9);
+  box-shadow:
+    0 0 10px rgba(var(--gold), 0.6),
+    0 0 26px rgba(var(--gold-deep), 0.45),
+    0 0 52px rgba(var(--gold-deep), 0.25);
+}
+.gate-card-ai:hover {
+  border-color: rgba(var(--gold), 1);
+  box-shadow:
+    0 0 14px rgba(var(--gold), 0.8),
+    0 0 36px rgba(var(--gold-deep), 0.6),
+    0 0 70px rgba(var(--gold-deep), 0.35),
+    inset 0 0 22px rgba(var(--gold-deep), 0.2);
+}
+.gate-card-ai::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 40px rgba(var(--gold), 0.3);
+  pointer-events: none;
+  z-index: 0;
+  animation: fxPulse 3.2s ease-in-out infinite both;
+  --fx-o0: 0.25;
+  --fx-o1: 1;
+}
+
 /* Magic shimmer sweep — translateX a wide gradient strip (compositor-only)
    instead of animating background-position (which repaints each frame). */
 .gate-card::before {

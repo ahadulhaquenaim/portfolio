@@ -14,6 +14,8 @@ type Certification = {
   categoryColor: string;
   CategoryIcon: React.ElementType;
   rank: string;
+  /** golden aura on a dark card — flagship AI certs (SS cards have their own gold treatment) */
+  glow?: boolean;
 };
 
 const CERTIFICATIONS: Certification[] = [
@@ -27,6 +29,30 @@ const CERTIFICATIONS: Certification[] = [
     categoryColor: "#c084fc",
     CategoryIcon: Sparkles,
     rank: "SS",
+  },
+  {
+    title: "LangChain - Agentic AI Engineering with LangChain & LangGraph",
+    issuer: "Udemy",
+    issuerColor: "#f97316",
+    date: "03/10/2026",
+    credentialUrl: "https://www.udemy.com/certificate/UC-c1ef9e37-311f-4718-8259-b554b103bcd3/",
+    category: "AI",
+    categoryColor: "#c084fc",
+    CategoryIcon: Sparkles,
+    rank: "S",
+    glow: true,
+  },
+  {
+    title: "FastAPI with GenAI and AgenticAI Project - From Basic to AI",
+    issuer: "Udemy",
+    issuerColor: "#f97316",
+    date: "26/09/2026",
+    credentialUrl: "https://www.udemy.com/certificate/UC-4f33e5b9-94c3-4e07-8596-aee591dd3441/",
+    category: "AI",
+    categoryColor: "#c084fc",
+    CategoryIcon: Sparkles,
+    rank: "S",
+    glow: true,
   },
   {
     title: "NestJS Mastery: Build & Deploy a Production-Ready API",
@@ -359,6 +385,8 @@ function CertCarousel() {
           const isCenter = slot === "center";
           const rankColor = RANK_COLORS[cert.rank] ?? palette.primary;
           const isLegendary = cert.rank === "SS";
+          const isGolden = !isLegendary && !!cert.glow;
+          const GOLD = RANK_COLORS.S;
 
           return (
             <motion.div
@@ -375,6 +403,8 @@ function CertCarousel() {
                   style={{
                     background: isLegendary
                       ? `radial-gradient(ellipse, ${RANK_COLORS.SS}70, transparent 70%)`
+                      : isGolden
+                      ? `radial-gradient(ellipse, ${GOLD}60, transparent 70%)`
                       : `radial-gradient(ellipse, ${cert.categoryColor}55, transparent 70%)`,
                     filter: isLegendary ? "blur(24px)" : "blur(18px)",
                     zIndex: -1,
@@ -428,11 +458,17 @@ function CertCarousel() {
                     : "linear-gradient(135deg, var(--t-void) 0%, var(--t-shadow) 100%)",
                   border: isLegendary
                     ? `1.5px solid ${RANK_COLORS.SS}${isCenter ? "c0" : "60"}`
+                    : isGolden
+                    ? `1.5px solid ${GOLD}${isCenter ? "b0" : "55"}`
                     : `1px solid ${isCenter ? cert.categoryColor + "70" : cert.categoryColor + "35"}`,
                   boxShadow: isLegendary
                     ? isCenter
                       ? `0 0 40px 6px ${RANK_COLORS.SS}55, 0 0 100px 14px ${RANK_COLORS.SS}25, inset 0 0 28px 0px ${RANK_COLORS.SS}18`
                       : `0 0 20px 3px ${RANK_COLORS.SS}30`
+                    : isGolden
+                    ? isCenter
+                      ? `0 0 32px 4px ${GOLD}55, 0 0 80px 10px ${GOLD}20, inset 0 0 24px 0px ${GOLD}12`
+                      : `0 0 16px 2px ${GOLD}28`
                     : isCenter
                     ? `0 0 32px 4px ${cert.categoryColor}45, 0 0 80px 8px ${cert.categoryColor}18, inset 0 0 24px 0px ${cert.categoryColor}10`
                     : `0 0 16px 2px ${cert.categoryColor}20`,
