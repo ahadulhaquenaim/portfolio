@@ -11,7 +11,7 @@ import {
   LinkedinIcon,
   FacebookIcon,
 } from "../components/BrandIcons";
-const selftunePreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118408/selftune_mroosj.png";
+const aiTeachingAssistantPreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1791147249/ai-teaching-assistant_nabzbn.png";
 const shikkhakoshPreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118411/shikkhakosh_hpzngg.png";
 const voluePreview = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118410/volue_vq5m8j.png";
 const copai1 = "https://res.cloudinary.com/dumsdgz85/image/upload/v1781118406/copai1_uow8k6.png";
@@ -129,15 +129,14 @@ export const skills: { name: string; rank: Rank; value: number }[] = [
 // Each project is a "dungeon raid". difficulty maps to a rank badge.
 export const projects = [
   {
-    title: "Self Tune Desktop App",
-    label: "Linux Desktop App",
+    title: "AI Teaching Assistant",
+    label: "Agentic RAG Study Platform",
     difficulty: "S" as Rank,
     blurb:
-      "A native desktop productivity app with a Plan → Do → Review workflow, backlog management, and a 7-day weekly report dashboard — all stored locally for full privacy.",
-    tech: ["Electron.js", "React", "TypeScript", "Vite", "Node.js", "electron-builder", "CSS"],
-    link: "#",
-    repoLink: "https://github.com/ahadulhaquenaim/self-tune",
-    preview: selftunePreview,
+      "Built an AI study platform that turns static course material (PDF/DOCX) into an interactive tutor with cited, page-level answers and auto-graded quizzes — running entirely on free tiers. Designed a Corrective RAG workflow in LangGraph that grades retrieved chunks with an LLM, rephrases weak queries, and falls back to web search to reduce hallucinations. Engineered an async ingestion pipeline with scanned-PDF detection and Gemini embeddings stored in per-document Pinecone namespaces for user data isolation, with chat history and quizzes persisted in MongoDB Atlas. Developed a provider-agnostic LLM layer with automatic Gemini → OpenRouter fallback and retry logic, secured by ownership-checked document access, prompt-injection protection for web results, and per-user upload quotas.",
+    tech: ["Python", "FastAPI", "LangGraph", "LangChain", "RAG", "Gemini", "OpenRouter", "Pinecone", "MongoDB Atlas", "Streamlit", "Pytest"],
+    repoLink: "https://github.com/ahadulhaquenaim/ai-teaching-assistant",
+    preview: aiTeachingAssistantPreview,
   },
   {
     title: "Shikkhakosh",
