@@ -7,8 +7,10 @@ import { useTheme } from "../theme/ThemeContext";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
-  const videoRef = useVideoInView<HTMLVideoElement>();
   const { palette, theme } = useTheme();
+  const videoRef = useVideoInView<HTMLVideoElement>(
+    palette.contactVideo ? posterFor(palette.contactVideo) : undefined
+  );
   const accent = theme === "solo" ? "#ffffff" : palette.primary;
   const accentRGB = theme === "solo" ? "255,255,255" : palette.primaryRGB;
 
@@ -37,7 +39,7 @@ export default function Contact() {
             playsInline
             // Below the fold — see CharacterLayer.
             preload="none"
-            poster={posterFor(palette.contactVideo)}
+            // poster is attached lazily by useVideoInView
             className="h-full w-full object-cover"
           >
             <source src={palette.contactVideo} type="video/mp4" />

@@ -42,7 +42,7 @@ export default function CharacterLayer({
 }) {
   const x = useTransform(springX, [-1, 1], [-8, 8]);
   const y = useTransform(springY, [-1, 1], [-5, 5]);
-  const videoRef = useVideoInView<HTMLVideoElement>();
+  const videoRef = useVideoInView<HTMLVideoElement>(videoSrc ? posterFor(videoSrc) : undefined);
 
   return (
     <motion.div className="absolute inset-0 z-0" style={{ x, y }}>
@@ -59,7 +59,7 @@ export default function CharacterLayer({
             // "metadata" still opens a connection during the hero intro and
             // steals bandwidth from the animation.
             preload="none"
-            poster={posterFor(videoSrc)}
+            // poster is attached lazily by useVideoInView
             style={
               fullWidth
                 ? {

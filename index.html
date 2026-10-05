@@ -10,6 +10,27 @@
     />
     <title>Ahad · The Monarch's Awakening</title>
 
+    <!-- Start the hero poster download before the JS bundle boots, so the
+         gate intro reveals real art on a cold first visit. Mirrors
+         heroVideo in src/theme/palette.ts — keep the two in sync. -->
+    <script>
+      (function () {
+        var theme = "solo";
+        try {
+          if (localStorage.getItem("portfolio-theme") === "dbz") theme = "dbz";
+        } catch (e) {}
+        var link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.fetchPriority = "high";
+        link.href =
+          "%BASE_URL%videos/posters/" +
+          (theme === "dbz" ? "turning-goku" : "hero-character") +
+          ".webp";
+        document.head.appendChild(link);
+      })();
+    </script>
+
     <!-- RPG fonts: Cinzel (headings) + Rajdhani (HUD/body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
