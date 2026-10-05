@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { motion } from "framer-motion";
 import { ChevronDown, Download, Zap, Code2, Trophy, Layers, Brain, Cpu, Sparkles } from "lucide-react";
 import { identity } from "../data/content";
-import { posterFor, useVideoInView } from "../lib/useVideoInView";
+import { posterFor, useVideoInView, whenVideoPaintable } from "../lib/useVideoInView";
 import { useTheme } from "../theme/ThemeContext";
 import type { HeroVideoStyle } from "../theme/palette";
 
@@ -32,9 +32,12 @@ export default function Hero() {
     }
 
     // Safety net: if the timeline stalls (throttled rAF, error), clear anyway.
-    const safety = window.setTimeout(finish, 6000);
+    // Budget = media wait cap (2.5s) + timeline (~3.5s).
+    const safety = window.setTimeout(finish, 8500);
+    let cancelled = false;
+    let ctx: gsap.Context | undefined;
 
-    const ctx = gsap.context(() => {
+    const playIntro = () => gsap.context(() => {
       const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
         onComplete: () => {
@@ -80,9 +83,18 @@ export default function Hero() {
         );
     }, root);
 
+    // Hold the gate shut until the hero art can paint. On a cold first visit
+    // the poster/video is still downloading when JS boots, and the reveal
+    // would otherwise fade in an empty black box.
+    const video = root.current?.querySelector("video") ?? null;
+    void whenVideoPaintable(video, 2500).then(() => {
+      if (!cancelled) ctx = playIntro();
+    });
+
     return () => {
+      cancelled = true;
       window.clearTimeout(safety);
-      ctx.revert();
+      ctx?.revert();
     };
   }, []);
 
@@ -96,7 +108,8 @@ export default function Hero() {
       {showGate && (
         <div className="gate-overlay fixed inset-0 z-[60] flex">
           <div className="gate-half-l h-full w-1/2 bg-abyss border-r border-mana/30" />
-          <div className="gate-crack absolute left-1/2 top-0 h-full w-[3px] -translate-x-1/2 bg-mana-bright shadow-[0_0_40px_18px_#a855f7]" />
+          {/* starts hidden — the timeline grows it in once the hero art is ready */}
+          <div className="gate-crack opacity-0 absolute left-1/2 top-0 h-full w-[3px] -translate-x-1/2 bg-mana-bright shadow-[0_0_40px_18px_#a855f7]" />
           <div className="gate-half-r h-full w-1/2 bg-abyss border-l border-mana/30" />
         </div>
       )}
@@ -106,7 +119,7 @@ export default function Hero() {
           it sits BELOW the headline + CTA buttons instead of behind them.
           On lg+ it returns to a full-bleed background (inset-0). */}
       <div className="hero-character absolute inset-x-0 bottom-0 top-[30%] z-0 overflow-hidden lg:inset-0 lg:top-0">
-        <HeroVideoBg videoSrc={palette.heroVideo ?? null} imageSrc={identity.heroBackground ?? null} videoStyle={palette.heroVideoStyle} />
+        <HeroVideoBg key={palette.heroVideo} videoSrc={palette.heroVideo ?? null} imageSrc={identity.heroBackground ?? null} videoStyle={palette.heroVideoStyle} />
         {/* Dark scrim so the headline stays readable */}
         <div className="absolute inset-0" style={{ background: "rgba(4,2,18,0.25)" }} />
         {/* Edge vignette */}
@@ -211,7 +224,6 @@ function HeroVideoBg({
   if (videoSrc) {
     return (
       <video
-        key={videoSrc}
         ref={videoRef}
         autoPlay
         loop
