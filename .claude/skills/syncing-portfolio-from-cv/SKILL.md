@@ -1,13 +1,13 @@
 ---
 name: syncing-portfolio-from-cv
-description: Use when docs/ahad_cv.html changed and the portfolio website must reflect it, when the user asks to sync/update the site or portfolio from the CV, or right after the updating-cv skill finishes
+description: Use when docs/ahad_cv_main.html changed and the portfolio website must reflect it, when the user asks to sync/update the site or portfolio from the CV, or right after the updating-cv skill finishes
 ---
 
 # Syncing the Portfolio from the CV
 
 ## Overview
 
-`docs/ahad_cv.html` is the source of truth. The site must show the same facts, in the site's own format. Sync = compare the **whole** CV against the site (not only the last commit), apply missing items, regenerate the downloadable PDF, build.
+`docs/ahad_cv_main.html` is the source of truth. The site must show the same facts, in the site's own format. Sync = compare the **whole** CV against the site (not only the last commit), apply missing items, regenerate the downloadable PDF, build.
 
 ## Where things live
 
@@ -48,7 +48,7 @@ New issuer/category → choose a color + lucide icon (add to the import), and li
    - *different*/*site-only* items: keep site version, or take the CV version?
    If the user already said "just do it":
    - **Certs, project facts (metrics, bullets, tech):** apply every *missing* item, using the proposed values. List each one as "proposed — change?".
-   - **Skills:** the site grid is a curated subset, so most CV-only skills stay off it. Auto-add only skills that are **new in the CV since the last sync**: `git log -1 --format=%H -- public/cv/Md_Ahadul_Haque_CV.pdf` gives the last sync commit, then `git diff <that>..HEAD -- docs/ahad_cv.html` plus any uncommitted CV diff. List other CV-only skills under "not on site — add any?".
+   - **Skills:** the site grid is a curated subset, so most CV-only skills stay off it. Auto-add only skills that are **new in the CV since the last sync**: `git log -1 --format=%H -- public/cv/Md_Ahadul_Haque_CV.pdf` gives the last sync commit, then `git diff <that>..HEAD -- docs/ahad_cv_main.html` plus any uncommitted CV diff. List other CV-only skills under "not on site — add any?".
    - **Different / site-only items:** leave unchanged and list them.
    - **CV items with no site home** (e.g. experience bullets that aren't a site project): skip them and name them once in the report.
 3. **Edit** with targeted edits. Keep site wording style: `highlights` are short `{ label, text }`; site-only content (sports, hero stats, about) is untouched.
