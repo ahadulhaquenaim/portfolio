@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Render docs/ahad_cv_main.html -> public/cv/Md_Ahadul_Haque_CV.pdf (A4).
+# Render the AI/ML CV (site's default download) -> public/cv/Md_Ahadul_Haque_CV.pdf (A4).
 # Picks the largest zoom (1.00 down to 0.80) that fits MAX_PAGES (default 2).
-# Usage (from repo root): bash .claude/skills/syncing-portfolio-from-cv/build-cv-pdf.sh [repo_root] [max_pages]
+# Usage (from repo root): bash .claude/skills/syncing-portfolio-from-cv/build-cv-pdf.sh [repo_root] [max_pages] [src_html]
 set -euo pipefail
 ROOT="${1:-$PWD}"
 MAX_PAGES="${2:-2}"
-SRC="$ROOT/docs/ahad_cv_main.html"
+SRC="${3:-$ROOT/docs/cv-variants/ai-ml/ahad_cv_ai_ml.html}"
 OUT="$ROOT/public/cv/Md_Ahadul_Haque_CV.pdf"
 CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
 [ -n "$CHROME" ] || { echo "ERROR: no Chrome/Chromium found" >&2; exit 1; }

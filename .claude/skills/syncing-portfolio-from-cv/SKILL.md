@@ -1,13 +1,29 @@
 ---
 name: syncing-portfolio-from-cv
-description: Use when docs/ahad_cv_main.html changed and the portfolio website must reflect it, when the user asks to sync/update the site or portfolio from the CV, or right after the updating-cv skill finishes
+description: Use when the AI/ML CV or fullstack CV changed and the portfolio website must reflect it, when the user asks to sync/update the site or portfolio from a CV, when the site's downloadable CV PDF needs regenerating, or right after updating-ai-ml-cv or updating-fullstack-cv finishes
 ---
 
 # Syncing the Portfolio from the CV
 
 ## Overview
 
-`docs/ahad_cv_main.html` is the source of truth. The site must show the same facts, in the site's own format. Sync = compare the **whole** CV against the site (not only the last commit), apply missing items, regenerate the downloadable PDF, build.
+Two local-only CVs (`docs/` is gitignored — no `git diff` on them):
+
+| CV | Path | Role on site |
+|---|---|---|
+| **AI/ML (primary)** | `docs/cv-variants/ai-ml/ahad_cv_ai_ml.html` | Default source. Whole-CV sync. Builds the download PDF. |
+| Fullstack (secondary) | `docs/cv-variants/fullstack/ahad_cv_fullstack.html` | **Only items the user names.** Never whole-CV sync, never builds the PDF. |
+
+The site must show the same facts, in the site's own format. Sync = compare the **whole AI/ML CV** against the site (not only latest changes), plus any fullstack items the user explicitly named, apply missing items, regenerate the PDF from AI/ML, build.
+
+## Which CV to read
+
+- "Sync the portfolio" / after `updating-ai-ml-cv` → AI/ML only.
+- User names fullstack items ("from fullstack CV add X", "take the Volue bullets from fullstack") → AI/ML sync **plus** exactly those named items from fullstack.
+- After `updating-fullstack-cv`, with no item named → take the change list from that skill's report in this conversation and ask: "Push any of these fullstack changes to the site? <list>". Default: none. No report in context → ask the user which items. This path edits only the chosen items: no AI/ML sync, no PDF rebuild, no snapshot (unless the user also asks to sync).
+- Named fullstack item already on site with same facts → report "already on site", change nothing.
+- Same item differs between CVs → AI/ML version wins, unless the user named the fullstack version for it. Ambiguous → ask.
+- Site has fullstack-sourced content not in AI/ML CV → it was put there on purpose. Keep it; never remove as "site-only".
 
 ## Where things live
 
@@ -17,7 +33,7 @@ description: Use when docs/ahad_cv_main.html changed and the portfolio website m
 | Certifications | `src/sections/Certifications.tsx` → `CERTIFICATIONS[]` | Ordering rule below. |
 | Projects + Experience feature bullets | `src/data/content.ts` → `projects[]` (`blurb`, `highlights[]`, `tech[]`) | ATS / Team Task Summarizer / Volue are site *projects* sourced from CV *experience* bullets. Update both `blurb` and the matching `highlights` entry. |
 | Experience roles | `content.ts` → `experience[]` (role, org, `period` with em dash `—`) | Site has extra roles (Trainee) and different dates than CV. **Never overwrite** a mismatch; report it and ask. |
-| Whole CV | `public/cv/Md_Ahadul_Haque_CV.pdf` | Regenerate with the script below on every sync. |
+| Whole AI/ML CV | `public/cv/Md_Ahadul_Haque_CV.pdf` | Hero "Download CV" button (`Hero.tsx`, `content.ts` `cvPath`). Regenerate from AI/ML on every sync. Keep filename. |
 
 ## Certification ordering (user-set rule)
 
@@ -41,26 +57,31 @@ New issuer/category → choose a color + lucide icon (add to the import), and li
 
 ## Workflow
 
-1. **Diff the whole CV against the site**, section by section, using the table above. Build a list: *missing on site*, *different on site*, *site-only*. Match fuzzily (combined names, `&` vs `and`, `–` vs `-`).
+1. **Diff the whole AI/ML CV (+ named fullstack items) against the site**, section by section, using the table above. Build a list: *missing on site*, *different on site*, *site-only*. Match fuzzily (combined names, `&` vs `and`, `–` vs `-`).
 2. **Show the list and ask** in one message:
    - which *missing* items to add (default: all);
    - values the CV doesn't have: skill `rank`/`value`, cert `rank`/category. Give a proposed value for each.
    - *different*/*site-only* items: keep site version, or take the CV version?
    If the user already said "just do it":
    - **Certs, project facts (metrics, bullets, tech):** apply every *missing* item, using the proposed values. List each one as "proposed — change?".
-   - **Skills:** the site grid is a curated subset, so most CV-only skills stay off it. Auto-add only skills that are **new in the CV since the last sync**: `git log -1 --format=%H -- public/cv/Md_Ahadul_Haque_CV.pdf` gives the last sync commit, then `git diff <that>..HEAD -- docs/ahad_cv_main.html` plus any uncommitted CV diff. List other CV-only skills under "not on site — add any?".
+   - **Skills:** the site grid is a curated subset, so most CV-only skills stay off it. Auto-add only skills that are **new in the AI/ML CV since the last sync**: `diff -u docs/cv-variants/.last-sync/ahad_cv_ai_ml.html docs/cv-variants/ai-ml/ahad_cv_ai_ml.html` (no snapshot yet → treat none as new). List other CV-only skills under "not on site — add any?".
    - **Different / site-only items:** leave unchanged and list them.
    - **CV items with no site home** (e.g. experience bullets that aren't a site project): skip them and name them once in the report.
 3. **Edit** with targeted edits. Keep site wording style: `highlights` are short `{ label, text }`; site-only content (sports, hero stats, about) is untouched.
-4. **PDF:** `bash .claude/skills/syncing-portfolio-from-cv/build-cv-pdf.sh` (A4, largest zoom that fits 2 pages). Exit 2 means it can't fit 2 pages; tell the user, don't trim the CV.
+4. **PDF:** `bash .claude/skills/syncing-portfolio-from-cv/build-cv-pdf.sh` — always from AI/ML (script default; never pass the fullstack file). A4, largest zoom that fits 2 pages. Exit 2 means it can't fit 2 pages; tell the user, don't trim the CV.
 5. **Verify:** `npm run build` and `npx eslint <changed files>` both pass, then `graphify update .`.
-6. **Report:** changes per file, proposed values, skipped mismatches, PDF zoom/pages. Don't commit unless asked.
+6. **Snapshot** after a successful sync: `mkdir -p docs/cv-variants/.last-sync && cp docs/cv-variants/ai-ml/ahad_cv_ai_ml.html docs/cv-variants/.last-sync/`.
+7. **Report:** changes per file, labeled by source CV (AI/ML / fullstack), proposed values, skipped mismatches, PDF zoom/pages. Don't commit unless asked.
 
 ## Common Mistakes
 
 | Mistake | Fix |
 |---|---|
-| Syncing only the latest CV commit | Diff the whole CV; older gaps count too |
+| Syncing only the latest CV change | Diff the whole AI/ML CV; older gaps count too |
+| Whole-CV sync from fullstack | Fullstack = only items the user names |
+| Building PDF from fullstack CV | Download PDF is always AI/ML |
+| Removing fullstack-sourced site content as "site-only" | Keep it; user put it there |
+| `git diff` on a CV file | `docs/` is gitignored; diff against `.last-sync/` snapshot |
 | Skill added to `skills[]` only | Also add it to `Skills.tsx` `CATEGORIES` |
 | Newest cert placed at index 0 | Claude Architect stays at 0; others by date |
 | "Fixing" site experience dates to match the CV | Report the mismatch; the user decides |
