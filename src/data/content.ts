@@ -56,7 +56,7 @@ export const hudStats = [
 
 export const headlineStats = [
   { value: "15+", label: "PROJECTS COMPLETED" },
-  { value: "2+", label: "YEARS OF EXPERIENCE" },
+  { value: "3+", label: "YEARS OF EXPERIENCE" },
   { value: "100%", label: "DEDICATION" },
 ];
 
@@ -66,6 +66,7 @@ export const about = {
   paragraphs: [
     "I am a dedicated Software Engineer with a strong passion for building reliable, scalable, and user-friendly applications.",
     "I enjoy solving complex problems and turning ideas into efficient digital solutions through clean and maintainable code. Passionate about creating innovative solutions and continuous learning.",
+    "I am certified by Anthropic as a Claude Certified Architect – Foundations, validating my expertise in designing solutions on Claude and large language models (LLMs).",
   ],
   panel: [
     { k: "Class", v: "Full-Stack Engineer" },
