@@ -15,13 +15,8 @@ dist-ssr
 # Local-only documentation (not pushed to GitHub)
 docs/
 
-# Graphify — generated knowledge graph (regenerable via `graphify update .`)
-graphify-out/
-
-# Graphify — local-only skill + docs (not pushed)
-.claude/skills/graphify/
-.claude/CLAUDE.md
-.claude/.graphify_version
+# Claude Code — local-only config, skills, docs (not pushed)
+.claude/
 /CLAUDE.md
 
 # Editor directories and files

@@ -33,7 +33,7 @@ export const identity = {
   name: "AHAD",
   fullName: "Ahadul Haque Naim",
   tagline: "ARISE — THE MONARCH'S AWAKENING",
-  roles: ["FULLSTACK DEVELOPER", "PROBLEM SOLVER"],
+  roles: ["AI/ML ENGINEER", "PROBLEM SOLVER"],
   intro:
     "I craft digital experiences with clean code and creative design. Turning ideas into reality, one project at a time.",
   // Full-bleed hero background image (the cinematic monarch art) in /public.
@@ -56,22 +56,24 @@ export const hudStats = [
 
 export const headlineStats = [
   { value: "15+", label: "PROJECTS COMPLETED" },
-  { value: "2+", label: "YEARS OF EXPERIENCE" },
+  { value: "3+", label: "YEARS OF EXPERIENCE" },
   { value: "100%", label: "DEDICATION" },
 ];
 
 /* ---------------------------------- ABOUT -------------------------------- */
 export const about = {
   title: "THE HUNTER'S ORIGIN",
+  // Phrase inside paragraphs rendered with a pulsing gold glow.
+  highlight: "Claude Certified Architect – Foundations (Anthropic)",
   paragraphs: [
-    "I am a dedicated Software Engineer with a strong passion for building reliable, scalable, and user-friendly applications.",
-    "I enjoy solving complex problems and turning ideas into efficient digital solutions through clean and maintainable code. Passionate about creating innovative solutions and continuous learning.",
+    "Full-stack Software Engineer focused on building AI-powered products — agentic RAG systems, LLM integrations, and intelligent automation that ship to production.",
+    "Claude Certified Architect – Foundations (Anthropic), turning LLMs into reliable, scalable, user-friendly applications.",
   ],
   panel: [
-    { k: "Class", v: "Full-Stack Engineer" },
+    { k: "Class", v: "AI/ML Engineer" },
     { k: "Rank", v: "S-Class Developer" },
     { k: "Guild", v: "Cefalo Bangladesh Ltd." },
-    { k: "Specialty", v: "Web · App" },
+    { k: "Specialty", v: "AI · ML · LLMs" },
   ],
 };
 
