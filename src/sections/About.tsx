@@ -26,7 +26,18 @@ export default function About() {
           <div className="sparkle-wrap relative">
             {about.paragraphs.map((p, i) => (
               <p key={i} className="text-lg sm:text-2xl leading-relaxed text-glow-blue mb-6">
-                {p}
+                {p.includes(about.highlight)
+                  ? p.split(about.highlight).flatMap((part, j) =>
+                      j === 0
+                        ? [part]
+                        : [
+                            <span key={j} className="cert-glow">
+                              {about.highlight}
+                            </span>,
+                            part,
+                          ],
+                    )
+                  : p}
               </p>
             ))}
             <span className="sparkle sparkle-1" />
@@ -86,7 +97,7 @@ export default function About() {
                   <p className="sl-job-line">
                     <span className="sl-job-key">TITLE:</span>
                     <span className="sl-job-val sl-job-val--sm">
-                      Software Engineer
+                      AI/ML Engineer
                     </span>
                   </p>
                 </div>

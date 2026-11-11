@@ -894,3 +894,14 @@ body::before {
     white-space: normal;
   }
 }
+
+/* Certification callout in About: warm gold gradient fill, contrasting the
+   blue gradient text of the parent .text-glow-blue paragraph. */
+.cert-glow {
+  font-weight: 700;
+  background: linear-gradient(90deg, #d4a24c 0%, #ecd9a8 45%, #dcb565 75%, #d09a62 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--color-gold);
+}
